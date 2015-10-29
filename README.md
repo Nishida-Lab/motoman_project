@@ -5,25 +5,25 @@
    やり方は、ROSの公式サイトとか見てね。
 
 1. `clone`してちょ
-```bash
-cd <catkin_ws>/src
-git clone https://github.com/RyodoTanaka/motoman.git
-```
+   ```bash
+   cd <catkin_ws>/src
+   git clone https://github.com/RyodoTanaka/motoman.git
+   ```
 
 2. `wstool`してちょ
-```bash
-cd <catkin_ws>
-wstool init src src/motoman/.rosinstall
-```
+   ```bash
+   cd <catkin_ws>
+   wstool init src src/motoman/.rosinstall
+   ```
 
 3. `rosdep`してちょ
-```bash
-cd <catkin_ws>
-rosdep install -i --from-paths src
-```
+   ```bash
+   cd <catkin_ws>
+   rosdep install -i --from-paths src
+   ```
 
 4. `catkin_make`してちょ
-```bash
-cd <catkin_ws>
-catkin_make
-```
+   ```bash
+   cd <catkin_ws>
+   catkin_make
+   ```
