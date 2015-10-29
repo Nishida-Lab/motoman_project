@@ -1,0 +1,4 @@
+- git:
+    local-name: motoman/
+    uri: https://github.com/RyodoTanaka/motoman.git
+    version: indigo-devel
