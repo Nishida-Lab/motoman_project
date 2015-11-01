@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package>
+  <name>motoman_description</name>
+  <version>1.0.0</version>
+  <description>The motoman_description package</description>
+
+  <maintainer email="groadpg@gmail.com">RyodoTanaka</maintainer>
+  <license>BSD</license>
+  <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

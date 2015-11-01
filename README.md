@@ -1,4 +1,6 @@
 # Motoman Project
+Motoman(特に SIA5)のためのリポジトリです。
+![SIA5](.image/sia5.png)
 
 # Installation
 0. `catkin_ws`作ってちょ
