@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot>
+  <property name="M_PI" value="3.14159274"/>
+  <property name="base" value="8.0" />
+  <property name="s" value="7.0" />
+  <property name="l" value="6.0" />
+  <property name="e" value="5.0" />
+  <property name="u" value="4.0" />
+  <property name="r" value="3.0" />
+  <property name="b" value="2.0" />
+  <property name="t" value="1.0" />
+  <property name="sum" value="36.0" />
+</robot>
