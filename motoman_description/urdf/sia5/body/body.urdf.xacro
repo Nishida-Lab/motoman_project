@@ -59,7 +59,7 @@
       <child link="link_s"/>
       <axis xyz="${ax} ${ay} ${az}"/>
       <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="0" soft_upper_limit="${lv}"/>
+      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
 	</joint>
   </xacro:macro>
   
@@ -71,7 +71,7 @@
       <child link="link_${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>
       <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="0" soft_upper_limit="${lv}"/>
+      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
 	</joint>
   </xacro:macro>
 z</robot>
