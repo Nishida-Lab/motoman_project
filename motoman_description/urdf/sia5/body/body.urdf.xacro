@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
-<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find motoman_description)/urdf/sia5/common.xacro" />
-  <xacro:include filename="$(find motoman_description)/urdf/sia5/materials.xacro"/>
-  
-  <xacro:macro name="base_link_v0">
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:macro name="base_link_v0" params="color mass
+										   ixx ixy ixz
+										   iyy iyz izz">
 	<link name="base_link">
 	  <visual>
 		<origin rpy="0 0 0" xyz="0 0 0"/>
 		<geometry>
           <mesh filename="package://motoman_description/meshes/sia5/visual/stl/base.stl"/>
 		</geometry>
-		<material name="blue"/>
+		<material name="${color}"/>
       </visual>
       <collision>
 		<origin rpy="0 0 0" xyz="0 0 0"/>
@@ -19,10 +18,10 @@
 		</geometry>
       </collision>
 	  <inertial>
-		<mass value="${120.0/sum/base}"/>
+		<mass value="${mass}"/>
 		<origin xyz="0 0 0"/>
-		<inertia ixx="0.006046" ixy="0.000006" ixz="-0.000237"
-				 iyy="0.006272" iyz="0.000011" izz="0.006950" />
+		<inertia  ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
+				  iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
 	  </inertial>
 	</link>
   </xacro:macro>
@@ -53,26 +52,27 @@
 	</link>
   </xacro:macro>
 
-  <xacro:macro name="base_joint_v0">
+  <xacro:macro name="base_joint_v0" params="ox oy oz ax ay az ll lu lv">
 	<joint name="joint_s" type="revolute">
-      <origin rpy="0 0 0" xyz="0 0 0.31"/>
+      <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="base_link"/>
       <child link="link_s"/>
-      <axis xyz="0 0 1"/>
-      <limit effort="0" lower="-3.14159274" upper="3.14159274" velocity="3.4906586"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="0" soft_upper_limit="0"/>
+      <axis xyz="${ax} ${ay} ${az}"/>
+      <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
+      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
 	</joint>
   </xacro:macro>
   
-  <xacro:macro name="joint_v0" params="parent_name child_name ox oy oz ax ay az ll lu lv">
+  <xacro:macro name="joint_v0" params="parent_name child_name
+									   ox oy oz ax ay az ll lu lv">
 	<joint name="joint_${child_name}" type="revolute">
       <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="link_${parent_name}"/>
       <child link="link_${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>
       <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="0" soft_upper_limit="0"/>
+      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
 	</joint>
   </xacro:macro>
-</robot>
+z</robot>
 
