@@ -15,7 +15,7 @@ Motoman(特に SIA5)のためのリポジトリです。
 2. `wstool`してちょ
    ```bash
    cd <catkin_ws>
-   wstool init src src/motoman/.rosinstall
+   wstool init src src/motoman_project/.rosinstall
    ```
 
 3. `rosdep`してちょ
