@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find motoman_description)/urdf/sia5/link/link.urdf.xacro" />
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/common.xacro" />
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/materials.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.urdf.xacro" />
 
-  <xacro:property name="limit_1" value="1.91986223" />
-  <xacro:property name="limit_2" value="3.4906586" />
+  <xacro:property name="limit_1" value="1.91986223"/>
+  <xacro:property name="limit_2" value="3.4906586"/>
   <xacro:property name="limit_3" value="2.96705981"/>
   <xacro:property name="limit_4" value="1.57079637"/>
   <xacro:property name="limit_5" value="2.007128695"/>
@@ -11,7 +13,9 @@
   <xacro:property name="limit_7" value="6.10865255"/>
   
   <!-- link -->
-  <xacro:base_link_v0/>
+  <xacro:base_link_v0 color="blue" mass="${120.0/sum/base}"
+					  ixx="0.006046" ixy="0.000006" ixz="-0.000237"
+					  iyy="0.006272" iyz="0.000011" izz="0.006950"/>
   <xacro:link_v0 name="s" color="white" mass="${120.0/sum/s}"
 				 ixx="0.005277" ixy="-0.000002" ixz="-0.000002"
 				 iyy="0.005321" iyz="-0.000384" izz="0.003218"/>
@@ -36,7 +40,9 @@
   <link name="tool0"/>
 
   <!-- joint -->
-  <xacro:base_joint_v0/>
+  <xacro:base_joint_v0 ox="0" oy="0" oz="0.31"
+					   ax="0" ay="0" az="1"
+					   ll="-${M_PI}" lu="${M_PI}" lv="${limit_2}"/>
   <xacro:joint_v0 parent_name="s" child_name="l"
 				  ox="0" oy="0" oz="0"
 				  ax="0" ay="1" az="0"
