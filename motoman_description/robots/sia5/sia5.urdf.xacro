@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/link/link.urdf.xacro" />
+
+  <xacro:property name="limit_1" value="1.91986223" />
+  <xacro:property name="limit_2" value="3.4906586" />
+  <xacro:property name="limit_3" value="2.96705981"/>
+  <xacro:property name="limit_4" value="1.57079637"/>
+  <xacro:property name="limit_5" value="2.007128695"/>
+  <xacro:property name="limit_6" value="4.01425739"/>
+  <xacro:property name="limit_7" value="6.10865255"/>
+  
+  <!-- link -->
+  <xacro:base_link_v0/>
+  <xacro:link_v0 name="s" color="white" mass="${120.0/sum/s}"
+				 ixx="0.005277" ixy="-0.000002" ixz="-0.000002"
+				 iyy="0.005321" iyz="-0.000384" izz="0.003218"/>
+  <xacro:link_v0 name="l" color="blue" mass="${120.0/sum/l}"
+				 ixx="0.004612" ixy="0.000001" ixz="-0.000003"
+				 iyy="0.004681" iyz="-0.000652" izz="0.001990"/>
+  <xacro:link_v0 name="e" color="white" mass="${120.0/sum/e}"
+				 ixx="0.002892" ixy="-0.000172" ixz="-0.001110"
+				 iyy="0.004050" iyz="-0.000261" izz="0.003426"/>
+  <xacro:link_v0 name="u" color="blue" mass="${120.0/sum/u}"
+				 ixx="0.002100" ixy="-0.000490" ixz="-0.000856"
+				 iyy="0.003544" iyz="-0.000268" izz="0.002971" />
+  <xacro:link_v0 name="r" color="white" mass="${120.0/sum/r}"
+				 ixx="0.002848" ixy="0.000271" ixz="0.000000"
+				 iyy="0.005945" iyz="0.000000" izz="0.006357"/>
+  <xacro:link_v0 name="b" color="blue" mass="${120.0/sum/b}"
+				 ixx="0.001710" ixy="0.000714" ixz="-0.000007"
+				 iyy="0.004150" iyz="0.000002" izz="0.004303"/>
+  <xacro:link_v0 name="t" color="white" mass="${120.0/sum/t}"
+				 ixx="0.002411" ixy="-0.000001" ixz="0.000002"
+				 iyy="0.001266" iyz="0.000035" izz="0.001206"/>
+  <link name="tool0"/>
+
+  <!-- joint -->
+  <xacro:base_joint_v0/>
+  <xacro:joint_v0 parent_name="s" child_name="l"
+				  ox="0" oy="0" oz="0"
+				  ax="0" ay="1" az="0"
+				  ll="-${limit_1}" lu="${limit_1}" lv="${limit_2}"/>
+  <xacro:joint_v0 parent_name="l" child_name="e"
+				  ox="0" oy="0" oz="0.27"
+				  ax="0" ay="0" az="1"
+				  ll="-${limit_3}" lu="${limit_3}" lv="${limit_2}"/>
+  <xacro:joint_v0 parent_name="e" child_name="u"
+				  ox="0.085" oy="0" oz="0"
+				  ax="0" ay="1" az="0"
+				  ll="-${limit_4}" lu="${limit_5}" lv="${limit_2}"/>
+  <xacro:joint_v0 parent_name="u" child_name="r"
+				  ox="0.27" oy="0" oz="0.06"
+				  ax="-1" ay="0" az="0"
+				  ll="-${limit_4}" lu="${limit_4}" lv="${limit_2}"/>
+  <xacro:joint_v0 parent_name="r" child_name="b"
+				  ox="0" oy="0" oz="0"
+				  ax="0" ay="1" az="0"
+				  ll="-${limit_1}" lu="${limit_1}" lv="${limit_6}"/>
+  <xacro:joint_v0 parent_name="b" child_name="t"
+				  ox="0.134" oy="0" oz="0"
+				  ax="-1" ay="0" az="0"
+				  ll="-${limit_4}" lu="${limit_4}" lv="${limit_7}"/>
+  <joint name="link_t-tool0" type="fixed">
+    <origin rpy="0 0 0" xyz="0.011 0 0"/>
+    <parent link="link_t"/>
+    <child link="tool0"/>
+  </joint>
+</robot>
