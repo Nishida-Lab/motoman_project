@@ -13,7 +13,7 @@ rosserver() {
 			unset ROS_IP
 			echo ""
 			echo "            !!CAUTION!! "
-			echo "  There're no Internet connection."
+			echo "  There're no Ethernet connection."
 			echo "  We CAN NOT set this PC to ROS server."
 			echo ""
 		else
@@ -31,7 +31,9 @@ rosserver() {
 		export PS1="\[\033[44;1;37m\]<ROS_server>\[\033[0m\]\w$ "
 	fi
 
-	env | grep "ROS_"
+	env | grep "ROS_MASTER_URI"
+	env | grep "ROS_HOST_NAME"
+	env | grep "ROS_IP"
 }
 
 rosclient() {
@@ -51,7 +53,7 @@ rosclient() {
 				unset ROS_IP
 				echo ""
 				echo "            !!CAUTION!! "
-				echo "  There're no Internet connection."
+				echo "  There're no Ethernet connection."
 				echo "  We CAN NOT set this PC to ROS client."
 				echo ""
 			else
@@ -68,16 +70,19 @@ rosclient() {
 			export ROS_IP=${eth0_addr}
 			export PS1="\[\033[44;1;37m\]<ROS_client>\[\033[0m\]\w$ "
 		fi
-		env | grep "ROS_"
+		env | grep "ROS_MASTER_URI"
+		env | grep "ROS_HOST_NAME"
+		env | grep "ROS_IP"
 	fi
-
 }
 
 roslocal() {
 	export ROS_MASTER_URI=http://localhost:11311
 	unset ROS_HOST_NAME
 	unset ROS_IP
-	env | grep "ROS_"
+	env | grep "ROS_MASTER_URI"
+	env | grep "ROS_HOST_NAME"
+	env | grep "ROS_IP"
 }
 
 alias rosserver=rosserver
