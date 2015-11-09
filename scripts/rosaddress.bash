@@ -73,5 +73,13 @@ rosclient() {
 
 }
 
+roslocal() {
+	export ROS_MASTER_URI=http://localhost:11311
+	unset ROS_HOST_NAME
+	unset ROS_IP
+	env | grep "ROS_"
+}
+
 alias rosserver=rosserver
 alias rosclient=rosclient
+alias roslocal=roslocal
