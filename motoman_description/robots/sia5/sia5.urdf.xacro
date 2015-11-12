@@ -3,70 +3,115 @@
   <xacro:include filename="$(find motoman_description)/urdf/sia5/common.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/sia5/materials.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.urdf.xacro" />
-
-  <xacro:property name="limit_1" value="1.91986223"/>
-  <xacro:property name="limit_2" value="3.4906586"/>
-  <xacro:property name="limit_3" value="2.96705981"/>
-  <xacro:property name="limit_4" value="1.57079637"/>
-  <xacro:property name="limit_5" value="2.007128695"/>
-  <xacro:property name="limit_6" value="4.01425739"/>
-  <xacro:property name="limit_7" value="6.10865255"/>
+  
+  <xacro:property name="s_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="s_axis_lower_limit" value="-${s_axis_upper_limit}"/>
+  <xacro:property name="l_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
+  <xacro:property name="l_axis_lower_limit" value="-${l_axis_upper_limit}"/>
+  <xacro:property name="e_axis_upper_limit" value="${170.0*M_PI/180.0}"/>
+  <xacro:property name="e_axis_lower_limit" value="-${e_axis_upper_limit}"/>
+  <xacro:property name="u_axis_upper_limit" value="${115.0*M_PI/180.0}"/>
+  <xacro:property name="u_axis_lower_limit" value="${-90.0*M_PI/180.0}"/>
+  <xacro:property name="r_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="r_axis_lower_limit" value="-${r_axis_upper_limit}"/>
+  <xacro:property name="b_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
+  <xacro:property name="b_axis_lower_limit" value="-${b_axis_upper_limit}"/>  
+  <xacro:property name="t_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="t_axis_lower_limit" value="-${t_axis_upper_limit}"/>
+  
+  <xacro:property name="s_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
+  <xacro:property name="l_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
+  <xacro:property name="e_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
+  <xacro:property name="u_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
+  <xacro:property name="r_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
+  <xacro:property name="b_axis_velocity_limit" value="${230.0*M_PI/180.0}"/>
+  <xacro:property name="t_axis_velocity_limit" value="${350.0*M_PI/180.0}"/>
   
   <!-- link -->
-  <xacro:base_link_v0 color="blue" mass="${120.0/sum/base}"
+  <xacro:base_link_v0 color="blue" mass="${30.0/sum*base}"
 					  ixx="0.006046" ixy="0.000006" ixz="-0.000237"
 					  iyy="0.006272" iyz="0.000011" izz="0.006950"/>
-  <xacro:link_v0 name="s" color="white" mass="${120.0/sum/s}"
+  <xacro:link_v0 name="s" color="white" mass="${30.0/sum*s}"
 				 ixx="0.005277" ixy="-0.000002" ixz="-0.000002"
 				 iyy="0.005321" iyz="-0.000384" izz="0.003218"/>
-  <xacro:link_v0 name="l" color="blue" mass="${120.0/sum/l}"
+  <xacro:link_v0 name="l" color="blue" mass="${30.0/sum*l}"
 				 ixx="0.004612" ixy="0.000001" ixz="-0.000003"
 				 iyy="0.004681" iyz="-0.000652" izz="0.001990"/>
-  <xacro:link_v0 name="e" color="white" mass="${120.0/sum/e}"
+  <xacro:link_v0 name="e" color="white" mass="${30.0/sum*e}"
 				 ixx="0.002892" ixy="-0.000172" ixz="-0.001110"
 				 iyy="0.004050" iyz="-0.000261" izz="0.003426"/>
-  <xacro:link_v0 name="u" color="blue" mass="${120.0/sum/u}"
+  <xacro:link_v0 name="u" color="blue" mass="${30.0/sum*u}"
 				 ixx="0.002100" ixy="-0.000490" ixz="-0.000856"
 				 iyy="0.003544" iyz="-0.000268" izz="0.002971" />
-  <xacro:link_v0 name="r" color="white" mass="${120.0/sum/r}"
+  <xacro:link_v0 name="r" color="white" mass="${30.0/sum*r}"
 				 ixx="0.002848" ixy="0.000271" ixz="0.000000"
 				 iyy="0.005945" iyz="0.000000" izz="0.006357"/>
-  <xacro:link_v0 name="b" color="blue" mass="${120.0/sum/b}"
+  <xacro:link_v0 name="b" color="blue" mass="${30.0/sum*b}"
 				 ixx="0.001710" ixy="0.000714" ixz="-0.000007"
 				 iyy="0.004150" iyz="0.000002" izz="0.004303"/>
-  <xacro:link_v0 name="t" color="white" mass="${120.0/sum/t}"
+  <xacro:link_v0 name="t" color="white" mass="${30.0/sum*t}"
 				 ixx="0.002411" ixy="-0.000001" ixz="0.000002"
 				 iyy="0.001266" iyz="0.000035" izz="0.001206"/>
   <link name="tool0"/>
 
   <!-- joint -->
   <xacro:base_joint_v0 ox="0" oy="0" oz="0.31"
-					   ax="0" ay="0" az="1"
-					   ll="-${M_PI}" lu="${M_PI}" lv="${limit_2}"/>
+  					   ax="0" ay="0" az="1"
+  					   el="30.0"
+  					   ll="${s_axis_lower_limit}" ul="${s_axis_upper_limit}"
+  					   vl="${s_axis_velocity_limit}"
+  					   skp="0" skv="0"
+  					   sll="${s_axis_lower_limit}" sul="${s_axis_upper_limit}"/>
   <xacro:joint_v0 parent_name="s" child_name="l"
-				  ox="0" oy="0" oz="0"
-				  ax="0" ay="1" az="0"
-				  ll="-${limit_1}" lu="${limit_1}" lv="${limit_2}"/>
+  				  ox="0" oy="0" oz="0"
+  				  ax="0" ay="1" az="0"
+  				  el="30.0"
+  				  ll="${l_axis_lower_limit}" ul="${l_axis_upper_limit}"
+  				  vl="${l_axis_velocity_limit}"
+  				  skp="0" skv="0"
+  				  sll="${l_axis_lower_limit}" sul="${l_axis_upper_limit}"/>
   <xacro:joint_v0 parent_name="l" child_name="e"
-				  ox="0" oy="0" oz="0.27"
-				  ax="0" ay="0" az="1"
-				  ll="-${limit_3}" lu="${limit_3}" lv="${limit_2}"/>
+  				  ox="0" oy="0" oz="0.27"
+  				  ax="0" ay="0" az="1"
+  				  el="30.0"
+  				  ll="${e_axis_lower_limit}" ul="${e_axis_upper_limit}"
+  				  vl="${e_axis_velocity_limit}"
+  				  skp="0" skv="0"
+  				  sll="${e_axis_lower_limit}" sul="${e_axis_upper_limit}"/>
   <xacro:joint_v0 parent_name="e" child_name="u"
-				  ox="0.085" oy="0" oz="0"
-				  ax="0" ay="1" az="0"
-				  ll="-${limit_4}" lu="${limit_4}" lv="${limit_2}"/>
+  				  ox="0.085" oy="0" oz="0"
+  				  ax="0" ay="1" az="0"
+  				  el="30.0"
+  				  ll="${u_axis_lower_limit}" ul="${u_axis_upper_limit}"
+  				  vl="${u_axis_velocity_limit}"
+  				  skp="0" skv="0"
+  				  sll="${u_axis_lower_limit}" sul="${u_axis_upper_limit}"/>
   <xacro:joint_v0 parent_name="u" child_name="r"
-				  ox="0.27" oy="0" oz="0.06"
-				  ax="-1" ay="0" az="0"
-				  ll="-${limit_4}" lu="${limit_4}" lv="${limit_2}"/>
+  				  ox="0.27" oy="0" oz="0.06"
+  				  ax="-1" ay="0" az="0"
+  				  el="14.7"
+  				  ll="${r_axis_lower_limit}" ul="${r_axis_upper_limit}"
+				  vl="${r_axis_velocity_limit}"
+  				  skp="0" skv="0"
+  				  sll="${r_axis_lower_limit}" sul="${r_axis_upper_limit}"/>
+
   <xacro:joint_v0 parent_name="r" child_name="b"
-				  ox="0" oy="0" oz="0"
-				  ax="0" ay="1" az="0"
-				  ll="-${limit_1}" lu="${limit_1}" lv="${limit_6}"/>
+  				  ox="0" oy="0" oz="0"
+  				  ax="0" ay="1" az="0"
+  				  el="14.7"
+				  ll="${b_axis_lower_limit}" ul="${b_axis_upper_limit}"
+				  vl="${b_axis_velocity_limit}"				  
+  				  skp="0" skv="0"
+				  sll="${b_axis_lower_limit}" sul="${b_axis_upper_limit}"/>
+
   <xacro:joint_v0 parent_name="b" child_name="t"
-				  ox="0.134" oy="0" oz="0"
-				  ax="-1" ay="0" az="0"
-				  ll="-${limit_4}" lu="${limit_4}" lv="${limit_7}"/>
+  				  ox="0.134" oy="0" oz="0"
+  				  ax="-1" ay="0" az="0"
+  				  el="7.35"
+  				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
+  				  vl="${t_axis_velocity_limit}"
+  				  skp="0" skv="0"
+  				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="link_t-tool0" type="fixed">
     <origin rpy="0 0 0" xyz="0.011 0 0"/>
     <parent link="link_t"/>
