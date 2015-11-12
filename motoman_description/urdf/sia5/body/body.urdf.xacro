@@ -1,78 +1,80 @@
 <?xml version="1.0"?>
-<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">  
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="base_link_v0" params="color mass
-										   ixx ixy ixz
-										   iyy iyz izz">
-	<link name="base_link">
-	  <visual>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<geometry>
+                                           ixx ixy ixz
+                                           iyy iyz izz">
+    <link name="base_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/visual/stl/base.stl"/>
-		</geometry>
-		<material name="${color}"/>
+        </geometry>
+        <material name="${color}"/>
       </visual>
       <collision>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/collision/stl/base.stl"/>
-		</geometry>
+        </geometry>
       </collision>
-	  <inertial>
-		<mass value="${mass}"/>
-		<origin xyz="0 0 0"/>
-		<inertia  ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
-				  iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
-	  </inertial>
-	</link>
-  </xacro:macro>
-  
-  <xacro:macro name="link_v0" params="name color mass
-									  ixx ixy ixz
-									  iyy iyz izz">
-	<link name="link_${name}">
-	  <visual>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<geometry>
-          <mesh filename="package://motoman_description/meshes/sia5/visual/stl/link_${name}.stl"/>
-		</geometry>
-		<material name="${color}"/>
-	  </visual>
-      <collision>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<geometry>
-          <mesh filename="package://motoman_description/meshes/sia5/collision/stl/link_${name}.stl"/>
-		</geometry>
-      </collision>
-	  <inertial>
-		<mass value="${mass}"/>
-		<origin xyz="0 0 0"/>
-		<inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
-				 iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
-	  </inertial>
-	</link>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0 0 0"/>
+        <inertia  ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+      </inertial>
+    </link>
   </xacro:macro>
 
-  <xacro:macro name="base_joint_v0" params="ox oy oz ax ay az ll lu lv">
-	<joint name="joint_s" type="revolute">
+  <xacro:macro name="link_v0" params="name color mass
+                                      ixx ixy ixz
+                                      iyy iyz izz">
+    <link name="link_${name}">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/stl/link_${name}.stl"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/collision/stl/link_${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="base_joint_v0" params="ox oy oz ax ay az
+											el ll ul vl
+											skp skv sll sul">
+    <joint name="joint_s" type="revolute">
       <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="base_link"/>
       <child link="link_s"/>
       <axis xyz="${ax} ${ay} ${az}"/>
-      <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
-	</joint>
+      <limit effort="${el}" lower="${ll}" upper="${ul}" velocity="${vl}"/>
+      <safety_controller k_position="${skp}" k_velocity="${skv}" soft_lower_limit="${sll}" soft_upper_limit="${sul}"/>
+    </joint>
   </xacro:macro>
-  
+
   <xacro:macro name="joint_v0" params="parent_name child_name
-									   ox oy oz ax ay az ll lu lv">
-	<joint name="joint_${child_name}" type="revolute">
+                                       ox oy oz ax ay az
+									   el ll ul vl
+									   skp skv sll sul">
+    <joint name="joint_${child_name}" type="revolute">
       <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="link_${parent_name}"/>
       <child link="link_${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>
-      <limit effort="0" lower="${ll}" upper="${lu}" velocity="${lv}"/>
-      <safety_controller k_position="0" k_velocity="0" soft_lower_limit="${ll}" soft_upper_limit="${lu}"/>
-	</joint>
+      <limit effort="{el}" lower="${ll}" upper="${ul}" velocity="${vl}"/>
+      <safety_controller k_position="${skp}" k_velocity="${skv}" soft_lower_limit="${sll}" soft_upper_limit="${sul}"/>
+    </joint>
   </xacro:macro>
-z</robot>
+</robot>
 
