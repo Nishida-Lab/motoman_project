@@ -28,28 +28,28 @@
   <xacro:property name="t_axis_velocity_limit" value="${350.0*M_PI/180.0}"/>
   
   <!-- link -->
-  <xacro:base_link_v0 color="blue" mass="${30.0/sum/base}"
+  <xacro:base_link_v0 color="blue" mass="${30.0/sum*base}"
 					  ixx="0.006046" ixy="0.000006" ixz="-0.000237"
 					  iyy="0.006272" iyz="0.000011" izz="0.006950"/>
-  <xacro:link_v0 name="s" color="white" mass="${30.0/sum/s}"
+  <xacro:link_v0 name="s" color="white" mass="${30.0/sum*s}"
 				 ixx="0.005277" ixy="-0.000002" ixz="-0.000002"
 				 iyy="0.005321" iyz="-0.000384" izz="0.003218"/>
-  <xacro:link_v0 name="l" color="blue" mass="${30.0/sum/l}"
+  <xacro:link_v0 name="l" color="blue" mass="${30.0/sum*l}"
 				 ixx="0.004612" ixy="0.000001" ixz="-0.000003"
 				 iyy="0.004681" iyz="-0.000652" izz="0.001990"/>
-  <xacro:link_v0 name="e" color="white" mass="${30.0/sum/e}"
+  <xacro:link_v0 name="e" color="white" mass="${30.0/sum*e}"
 				 ixx="0.002892" ixy="-0.000172" ixz="-0.001110"
 				 iyy="0.004050" iyz="-0.000261" izz="0.003426"/>
-  <xacro:link_v0 name="u" color="blue" mass="${30.0/sum/u}"
+  <xacro:link_v0 name="u" color="blue" mass="${30.0/sum*u}"
 				 ixx="0.002100" ixy="-0.000490" ixz="-0.000856"
 				 iyy="0.003544" iyz="-0.000268" izz="0.002971" />
-  <xacro:link_v0 name="r" color="white" mass="${30.0/sum/r}"
+  <xacro:link_v0 name="r" color="white" mass="${30.0/sum*r}"
 				 ixx="0.002848" ixy="0.000271" ixz="0.000000"
 				 iyy="0.005945" iyz="0.000000" izz="0.006357"/>
-  <xacro:link_v0 name="b" color="blue" mass="${30.0/sum/b}"
+  <xacro:link_v0 name="b" color="blue" mass="${30.0/sum*b}"
 				 ixx="0.001710" ixy="0.000714" ixz="-0.000007"
 				 iyy="0.004150" iyz="0.000002" izz="0.004303"/>
-  <xacro:link_v0 name="t" color="white" mass="${30.0/sum/t}"
+  <xacro:link_v0 name="t" color="white" mass="${30.0/sum*t}"
 				 ixx="0.002411" ixy="-0.000001" ixz="0.000002"
 				 iyy="0.001266" iyz="0.000035" izz="0.001206"/>
   <link name="tool0"/>
