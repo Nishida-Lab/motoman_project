@@ -72,7 +72,7 @@
       <parent link="link_${parent_name}"/>
       <child link="link_${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>
-      <limit effort="{el}" lower="${ll}" upper="${ul}" velocity="${vl}"/>
+      <limit effort="${el}" lower="${ll}" upper="${ul}" velocity="${vl}"/>
       <safety_controller k_position="${skp}" k_velocity="${skv}" soft_lower_limit="${sll}" soft_upper_limit="${sul}"/>
     </joint>
   </xacro:macro>
