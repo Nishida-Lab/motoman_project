@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="simple_joint_position_trans_v0" params="name
+  <xacro:macro name="simple_jp_trans_v0" params="name
 															 joint_name actuator_name
 															 reduction">
 	<transmission name="${name}">
