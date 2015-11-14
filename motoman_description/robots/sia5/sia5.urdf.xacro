@@ -141,10 +141,4 @@
   <xacro:simple_jp_trans_v0 name="transmission_t"
 							joint_name="joint_t" actuator_name="motor_t"
 							reduction="1"/>
-
-
-
-
-							
-  
 </robot>
