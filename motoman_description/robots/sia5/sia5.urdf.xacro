@@ -4,6 +4,7 @@
   <xacro:include filename="$(find motoman_description)/urdf/sia5/materials.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.urdf.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.transmission.xacro"/>
+    <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.gazebo.xacro"/>
   
   <xacro:property name="s_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
   <xacro:property name="s_axis_lower_limit" value="-${s_axis_upper_limit}"/>
