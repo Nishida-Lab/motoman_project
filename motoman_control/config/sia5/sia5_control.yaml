@@ -1,0 +1,40 @@
+sia5:
+# Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 100  
+# Position Controllers ---------------------------------------
+  joint_s_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_s
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_l_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_l
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_e_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_e
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_u_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_u
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_r_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_r
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_b_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_b
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
+  joint_t_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_t
+    pid: {p: 100.0, i: 0.01, d: 10.0}
