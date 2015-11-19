@@ -39,9 +39,10 @@
 				 x="0" y="0" z="0" roll="${-M_PI/2.0}" pitch="0" yaw="0"
   				 ixx="0.000011" ixy="0.000000" ixz="0.000000"
   				 iyy="0.000005" iyz="-0.000002" izz="0.000012"/>
-  <!-- <xacro:link_v1 name="link_e" color="white" mass="${30.0/sum*e}" -->
-  <!-- 				 ixx="0.002892" ixy="-0.000172" ixz="-0.001110" -->
-  <!-- 				 iyy="0.004050" iyz="-0.000261" izz="0.003426"/> -->
+  <xacro:link_v1 name="link_e"  mass="${e_rate/sum_rate*sum_mass}"
+				 x="0" y="0" z="0" roll="0" pitch="0" yaw="0"
+  				 ixx="0.000005" ixy="-0.000001" ixz="-0.000002"
+  				 iyy="0.000008" iyz="-0.000001" izz="0.000006"/>
   <!-- <xacro:link_v1 name="link_u" color="blue" mass="${30.0/sum*u}" -->
   <!-- 				 ixx="0.002100" ixy="-0.000490" ixz="-0.000856" -->
   <!-- 				 iyy="0.003544" iyz="-0.000268" izz="0.002971" /> -->
@@ -74,15 +75,15 @@
   				  vl="${l_axis_velocity_limit}"
   				  skp="1" skv="1"
   				  sll="${l_axis_lower_limit}" sul="${l_axis_upper_limit}"/>
-  <!-- <xacro:joint_v1 joint_name="joint_e" -->
-  <!-- 				  parent_name="link_l" child_name="link_e" -->
-  <!-- 				  ox="0" oy="0" oz="0.27" -->
-  <!-- 				  ax="0" ay="0" az="1" -->
-  <!-- 				  el="30.0" -->
-  <!-- 				  ll="${e_axis_lower_limit}" ul="${e_axis_upper_limit}" -->
-  <!-- 				  vl="${e_axis_velocity_limit}" -->
-  <!-- 				  skp="1" skv="1" -->
-  <!-- 				  sll="${e_axis_lower_limit}" sul="${e_axis_upper_limit}"/> -->
+  <xacro:joint_v1 joint_name="joint_e"
+  				  parent_name="link_l" child_name="link_e"
+  				  ox="0" oy="-0.006" oz="0.15"
+  				  ax="0" ay="0" az="1"
+  				  el="30.0"
+  				  ll="${e_axis_lower_limit}" ul="${e_axis_upper_limit}"
+  				  vl="${e_axis_velocity_limit}"
+  				  skp="1" skv="1"
+  				  sll="${e_axis_lower_limit}" sul="${e_axis_upper_limit}"/>
   <!-- <xacro:joint_v1 joint_name="joint_u" -->
   <!-- 				  parent_name="link_e" child_name="link_u" -->
   <!-- 				  ox="0.085" oy="0" oz="0" -->
