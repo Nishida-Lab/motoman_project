@@ -30,7 +30,7 @@
                                        ox oy oz ax ay az
 									   el ll ul vl
 									   skp skv sll sul">
-    <joint name="${joint_name}" type="revolute">
+    <joint name="${joint_name}" type="continuous"><!-- revolute"> -->
       <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="${parent_name}"/>
       <child link="${child_name}"/>
