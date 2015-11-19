@@ -10,6 +10,7 @@
 		<hardwareInterface>EffortJointInterface</hardwareInterface>
 	  </joint>
 	  <actuator name="${actuator_name}">
+		<hardwareInterface>EffortJointInterface</hardwareInterface>
 		<mechanicalReduction>${reduction}</mechanicalReduction>
 	  </actuator>
 	</transmission>
