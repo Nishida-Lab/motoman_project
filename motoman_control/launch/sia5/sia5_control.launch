@@ -7,10 +7,11 @@
   <node name="controller_spawner" pkg="controller_manager"
 		type="spawner" respawn="false"
 		output="screen" ns="/sia5"
-		args="joint_s_controller joint_l_controller
-			  joint_e_controller joint_u_controller
-			  joint_r_controller joint_b_controller
-			  joint_t_controller joint_state_controller"/>
+		args="joint_state_controller
+			  joint_s_position_controller joint_l_position_controller
+			  joint_e_position_controller joint_u_position_controller
+			  joint_r_position_controller joint_b_position_controller
+			  joint_t_position_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
