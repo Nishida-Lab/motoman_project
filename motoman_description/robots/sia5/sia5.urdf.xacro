@@ -60,7 +60,7 @@
   				  el="30.0"
   				  ll="${s_axis_lower_limit}" ul="${s_axis_upper_limit}"
   				  vl="${s_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${s_axis_lower_limit}" sul="${s_axis_upper_limit}"/>
   
   <xacro:joint_v1 joint_name="joint_l"
@@ -70,7 +70,7 @@
   				  el="30.0"
   				  ll="${l_axis_lower_limit}" ul="${l_axis_upper_limit}"
   				  vl="${l_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${l_axis_lower_limit}" sul="${l_axis_upper_limit}"/>
   <xacro:joint_v1 joint_name="joint_e"
 				  parent_name="link_l" child_name="link_e"
@@ -79,7 +79,7 @@
   				  el="30.0"
   				  ll="${e_axis_lower_limit}" ul="${e_axis_upper_limit}"
   				  vl="${e_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${e_axis_lower_limit}" sul="${e_axis_upper_limit}"/>
   <xacro:joint_v1 joint_name="joint_u"
 				  parent_name="link_e" child_name="link_u"
@@ -88,7 +88,7 @@
   				  el="30.0"
   				  ll="${u_axis_lower_limit}" ul="${u_axis_upper_limit}"
   				  vl="${u_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${u_axis_lower_limit}" sul="${u_axis_upper_limit}"/>
   <xacro:joint_v1 joint_name="joint_r"
 				  parent_name="link_u" child_name="link_r"
@@ -97,7 +97,7 @@
   				  el="14.7"
   				  ll="${r_axis_lower_limit}" ul="${r_axis_upper_limit}"
 				  vl="${r_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${r_axis_lower_limit}" sul="${r_axis_upper_limit}"/>
 
   <xacro:joint_v1 joint_name="joint_b"
@@ -107,7 +107,7 @@
   				  el="14.7"
 				  ll="${b_axis_lower_limit}" ul="${b_axis_upper_limit}"
 				  vl="${b_axis_velocity_limit}"				  
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
 				  sll="${b_axis_lower_limit}" sul="${b_axis_upper_limit}"/>
 
   <xacro:joint_v1 joint_name="joint_t"
@@ -117,7 +117,7 @@
   				  el="7.35"
   				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
   				  vl="${t_axis_velocity_limit}"
-  				  skp="0" skv="0"
+  				  skp="1" skv="1"
   				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="joint_tool0" type="fixed">
     <origin rpy="0 0 0" xyz="0.011 0 0"/>
