@@ -1,20 +1,34 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="link_v1" params="name color mass
+  <!-- about mass rate -->
+  <property name="base_rate" value="1.2" />
+  <property name="s_rate" value="1.0" />
+  <property name="l_rate" value="1.0" />
+  <property name="e_rate" value="1.0" />
+  <property name="u_rate" value="0.7" />
+  <property name="r_rate" value="0.7" />
+  <property name="b_rate" value="0.6" />
+  <property name="t_rate" value="0.2" />
+  <property name="sum_rate" value="${base_rate + s_rate
+								   + l_rate + e_rate
+								   + u_rate + r_rate
+								   + b_rate + t_rate}" />
+  <property name="sum_mass" value="30.0" />
+  
+  <xacro:macro name="link_v1" params="name mass
                                       ixx ixy ixz
                                       iyy iyz izz">
     <link name="${name}">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://motoman_description/meshes/sia5/visual/stl/${name}.stl"/>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
         </geometry>
-        <material name="${color}"/>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://motoman_description/meshes/sia5/collision/stl/${name}.stl"/>
+          <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
         </geometry>
       </collision>
       <inertial>
@@ -30,7 +44,7 @@
                                        ox oy oz ax ay az
 									   el ll ul vl
 									   skp skv sll sul">
-    <joint name="${joint_name}" type="continuous"><!-- revolute"> -->
+    <joint name="${joint_name}" type="revolute">
       <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
       <parent link="${parent_name}"/>
       <child link="${child_name}"/>
@@ -40,4 +54,3 @@
     </joint>
   </xacro:macro>
 </robot>
-

@@ -6,11 +6,10 @@
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
-
-  <xacro:macro name="gazebo_link_v0" params="name color">
+  
+  <xacro:macro name="gazebo_link_color_v0" params="name color">
 	<gazebo reference="${name}">
-      <material>Gazebo/${color}</material>
-	</gazebo>
+		<material>Gazebo/${color}</material>
+	  </gazebo>
   </xacro:macro>
-
 </robot>

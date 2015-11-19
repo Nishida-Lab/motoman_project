@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<robot>
+  <property name="M_PI" value="3.14159274"/>
+</robot>
