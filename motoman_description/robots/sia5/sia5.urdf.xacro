@@ -43,13 +43,14 @@
 				 x="0" y="0" z="0" roll="0" pitch="0" yaw="0"
   				 ixx="0.000005" ixy="-0.000001" ixz="-0.000002"
   				 iyy="0.000008" iyz="-0.000001" izz="0.000006"/>
-  <xacro:link_v1 name="link_u"  mass="${u_rate/sum_rate*sum_mass}"
+  <xacro:link_v1 name="link_u" mass="${u_rate/sum_rate*sum_mass}"
 				 x="0" y="0" z="0" roll="${M_PI/2.0}" pitch="0" yaw="0"
   				 ixx="0.000004" ixy="-0.000002" ixz="0.000001"
   				 iyy="0.000006" iyz="0.000001" izz="0.000007" />
-  <!-- <xacro:link_v1 name="link_r" color="white" mass="${30.0/sum*r}" -->
-  <!-- 				 ixx="0.002848" ixy="0.000271" ixz="0.000000" -->
-  <!-- 				 iyy="0.005945" iyz="0.000000" izz="0.006357"/> -->
+  <xacro:link_v1 name="link_r" mass="${r_rate/sum_rate*sum_mass}"
+				 x="0" y="0" z="0" roll="${M_PI/2.0}" pitch="0" yaw="${M_PI/2.0}"
+  				 ixx="0.000003" ixy="0.000000" ixz="0.000001"
+  				 iyy="0.000004" iyz="0.000000" izz="0.000002"/>
   <!-- <xacro:link_v1 name="link_b" color="blue" mass="${30.0/sum*b}" -->
   <!-- 				 ixx="0.001710" ixy="0.000714" ixz="-0.000007" -->
   <!-- 				 iyy="0.004150" iyz="0.000002" izz="0.004303"/> -->
@@ -94,15 +95,15 @@
   				  vl="${u_axis_velocity_limit}"
   				  skp="1" skv="1"
   				  sll="${u_axis_lower_limit}" sul="${u_axis_upper_limit}"/>
-  <!-- <xacro:joint_v1 joint_name="joint_r" -->
-  <!-- 				  parent_name="link_u" child_name="link_r" -->
-  <!-- 				  ox="0.27" oy="0" oz="0.06" -->
-  <!-- 				  ax="-1" ay="0" az="0" -->
-  <!-- 				  el="14.7" -->
-  <!-- 				  ll="${r_axis_lower_limit}" ul="${r_axis_upper_limit}" -->
-  <!-- 				  vl="${r_axis_velocity_limit}" -->
-  <!-- 				  skp="1" skv="1" -->
-  <!-- 				  sll="${r_axis_lower_limit}" sul="${r_axis_upper_limit}"/> -->
+  <xacro:joint_v1 joint_name="joint_r"
+  				  parent_name="link_u" child_name="link_r"
+  				  ox="0.131" oy="0.008" oz="0.06"
+  				  ax="-1" ay="0" az="0"
+  				  el="14.7"
+  				  ll="${r_axis_lower_limit}" ul="${r_axis_upper_limit}"
+  				  vl="${r_axis_velocity_limit}"
+  				  skp="1" skv="1"
+  				  sll="${r_axis_lower_limit}" sul="${r_axis_upper_limit}"/>
 
   <!-- <xacro:joint_v1 joint_name="joint_b" -->
   <!-- 				  parent_name="link_r" child_name="link_b" -->
