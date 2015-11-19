@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
-  <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.transmission.xacro"/>
-  <xacro:include filename="$(find motoman_description)/urdf/sia5/body/body.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sia5/body.gazebo.xacro"/>
 
   <!-- fix base_link to world -->
   <!-- Used for fixing robot to Gazebo 'base_link' -->
@@ -11,16 +11,6 @@
     <parent link="world"/>
     <child link="base_link"/>
   </joint>
-
-  <!-- color -->
-  <xacro:gazebo_link_v0 name="base_link" color="Blue"/>
-  <xacro:gazebo_link_v0 name="link_s" color="White"/>
-  <xacro:gazebo_link_v0 name="link_l" color="Blue"/>
-  <xacro:gazebo_link_v0 name="link_e" color="White"/>
-  <xacro:gazebo_link_v0 name="link_u" color="Blue"/>
-  <xacro:gazebo_link_v0 name="link_r" color="White"/>
-  <xacro:gazebo_link_v0 name="link_b" color="Blue"/>
-  <xacro:gazebo_link_v0 name="link_t" color="White"/>
   
   <!-- transmission -->
   <xacro:simple_jp_trans_v0 name="transmission_s"
