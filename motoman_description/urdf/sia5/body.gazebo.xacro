@@ -7,9 +7,11 @@
     </plugin>
   </gazebo>
   
-  <xacro:macro name="gazebo_link_color_v0" params="name color">
+  <xacro:macro name="gazebo_link_v1" params="name">
 	<gazebo reference="${name}">
-		<material>Gazebo/${color}</material>
-	  </gazebo>
+	  <mu1>0.2</mu1>
+	  <mu2>0.2</mu2>
+	  <selfCollide>true</selfCollide>
+	</gazebo>
   </xacro:macro>
 </robot>
