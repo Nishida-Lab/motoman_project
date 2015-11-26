@@ -20,20 +20,17 @@
                                       iyy iyz izz">
     <link name="${name}">
       <visual>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
         </geometry>
       </visual>
       <collision>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
         </geometry>
       </collision>
       <inertial>
         <mass value="${mass}"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
         <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
       </inertial>
     </link>
