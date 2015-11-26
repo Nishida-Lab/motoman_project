@@ -5,11 +5,15 @@
   <xacro:gazebo_link_v1 name="base_link"/>
   <xacro:gazebo_link_v1 name="link_s"/>
   <xacro:gazebo_link_v1 name="link_l"/>
+  <xacro:gazebo_link_v1 name="link_e"/>
+  <xacro:gazebo_link_v1 name="link_u"/>
+  <xacro:gazebo_link_v1 name="link_r"/>
+  <xacro:gazebo_link_v1 name="link_b"/>
+  <xacro:gazebo_link_v1 name="link_t"/>
 
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
 
-  
   <!-- transmission -->
   <xacro:simple_jp_trans_v0 name="transmission_s"
   							joint_name="joint_s" actuator_name="motor_s"
