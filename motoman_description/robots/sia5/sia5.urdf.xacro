@@ -122,8 +122,9 @@
   				  sll="${b_axis_lower_limit}" sul="${b_axis_upper_limit}"/>
   <xacro:joint_v1 joint_name="joint_t"
   				  parent_name="link_b" child_name="link_t"
-  				  ox="0.1365" oy="0.0045" oz="0"
+  				  ox="0.1365" oy="0" oz="-0.0045"
 				  roll="0" pitch="0" yaw="0"
+
   				  ax="-1" ay="0" az="0"
   				  el="7.35"
   				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
