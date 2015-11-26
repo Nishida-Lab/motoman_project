@@ -4,11 +4,10 @@
   <!-- gazebo -->
   <xacro:gazebo_link_v1 name="base_link"/>
   <xacro:gazebo_link_v1 name="link_s"/>
+  <xacro:gazebo_link_v1 name="link_l"/>
 
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
-
-
 
   
   <!-- transmission -->
