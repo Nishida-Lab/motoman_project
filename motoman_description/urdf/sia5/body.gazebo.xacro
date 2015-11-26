@@ -11,6 +11,7 @@
 	<gazebo reference="${name}">
 	  <mu1>0.2</mu1>
 	  <mu2>0.2</mu2>
-	  </gazebo>
+	  <selfCollide>true</selfCollide>
+	</gazebo>
   </xacro:macro>
 </robot>

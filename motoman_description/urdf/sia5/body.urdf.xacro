@@ -16,25 +16,24 @@
   <property name="sum_mass" value="30.0" />
   
   <xacro:macro name="link_v1" params="name mass
-									  x y z roll pitch yaw
                                       ixx ixy ixz
                                       iyy iyz izz">
     <link name="${name}">
       <visual>
-        <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
         </geometry>
       </visual>
       <collision>
-		<origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
           <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
         </geometry>
       </collision>
       <inertial>
         <mass value="${mass}"/>
-        <origin xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
       </inertial>
     </link>
@@ -42,11 +41,11 @@
 
   <xacro:macro name="joint_v1" params="joint_name
 									   parent_name child_name
-                                       ox oy oz ax ay az
+                                       ox oy oz roll pitch yaw ax ay az
 									   el ll ul vl
 									   skp skv sll sul">
     <joint name="${joint_name}" type="revolute">
-      <origin rpy="0 0 0" xyz="${ox} ${oy} ${oz}"/>
+      <origin xyz="${ox} ${oy} ${oz}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent_name}"/>
       <child link="${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>

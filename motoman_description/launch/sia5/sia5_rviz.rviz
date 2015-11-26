@@ -63,22 +63,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        link_b:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        link_e:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         link_l:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        link_r:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -88,17 +73,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        link_t:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        link_u:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        tool0:
+        world:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -115,21 +90,11 @@ Visualization Manager:
         All Enabled: true
         base_link:
           Value: true
-        link_b:
-          Value: true
-        link_e:
-          Value: true
         link_l:
-          Value: true
-        link_r:
           Value: true
         link_s:
           Value: true
-        link_t:
-          Value: true
-        link_u:
-          Value: true
-        tool0:
+        world:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -137,16 +102,11 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          link_s:
-            link_l:
-              link_e:
-                link_u:
-                  link_r:
-                    link_b:
-                      link_t:
-                        tool0:
-                          {}
+        world:
+          base_link:
+            link_s:
+              link_l:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -173,7 +133,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.6224
+      Distance: 1.25639
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -185,10 +145,10 @@ Visualization Manager:
         Z: 0.372948
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.335398
+      Pitch: -0.00960209
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.04858
+      Yaw: 4.11358
     Saved: ~
 Window Geometry:
   Displays:
@@ -206,5 +166,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1216
-  X: 43
+  X: 39
   Y: 14
