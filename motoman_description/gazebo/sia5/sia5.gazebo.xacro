@@ -4,12 +4,12 @@
   <!-- gazebo -->
   <xacro:gazebo_link_v1 name="base_link"/>
   <xacro:gazebo_link_v1 name="link_s"/>
-  <xacro:gazebo_link_v1 name="link_l"/>
-  <xacro:gazebo_link_v1 name="link_e"/>
-  <xacro:gazebo_link_v1 name="link_u"/>
-  <xacro:gazebo_link_v1 name="link_r"/>
-  <xacro:gazebo_link_v1 name="link_b"/>
-  <xacro:gazebo_link_v1 name="link_t"/>
+  <!-- <xacro:gazebo_link_v1 name="link_l"/> -->
+  <!-- <xacro:gazebo_link_v1 name="link_e"/> -->
+  <!-- <xacro:gazebo_link_v1 name="link_u"/> -->
+  <!-- <xacro:gazebo_link_v1 name="link_r"/> -->
+  <!-- <xacro:gazebo_link_v1 name="link_b"/> -->
+  <!-- <xacro:gazebo_link_v1 name="link_t"/> -->
 
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
@@ -18,22 +18,22 @@
   <xacro:simple_jp_trans_v0 name="transmission_s"
   							joint_name="joint_s" actuator_name="motor_s"
   							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_l"
-  							joint_name="joint_l" actuator_name="motor_l"
-  							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_e"
-  							joint_name="joint_e" actuator_name="motor_e"
-  							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_u"
-  							joint_name="joint_u" actuator_name="motor_u"
-  							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_r"
-  							joint_name="joint_r" actuator_name="motor_r"
-  							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_b"
-  							joint_name="joint_b" actuator_name="motor_b"
-  							reduction="1"/>
-  <xacro:simple_jp_trans_v0 name="transmission_t"
-  							joint_name="joint_t" actuator_name="motor_t"
-  							reduction="1"/>
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_l" -->
+  <!-- 							joint_name="joint_l" actuator_name="motor_l" -->
+  <!-- 							reduction="1"/> -->
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_e" -->
+  <!-- 							joint_name="joint_e" actuator_name="motor_e" -->
+  <!-- 							reduction="1"/> -->
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_u" -->
+  <!-- 							joint_name="joint_u" actuator_name="motor_u" -->
+  <!-- 							reduction="1"/> -->
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_r" -->
+  <!-- 							joint_name="joint_r" actuator_name="motor_r" -->
+  <!-- 							reduction="1"/> -->
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_b" -->
+  <!-- 							joint_name="joint_b" actuator_name="motor_b" -->
+  <!-- 							reduction="1"/> -->
+  <!-- <xacro:simple_jp_trans_v0 name="transmission_t" -->
+  <!-- 							joint_name="joint_t" actuator_name="motor_t" -->
+  <!-- 							reduction="1"/> -->
 </robot>

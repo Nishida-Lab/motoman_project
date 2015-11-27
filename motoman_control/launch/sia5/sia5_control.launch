@@ -8,10 +8,10 @@
 		type="spawner" respawn="false"
 		output="screen" ns="/sia5"
 		args="joint_state_controller
-			  joint_s_position_controller joint_l_position_controller
-			  joint_e_position_controller joint_u_position_controller
-			  joint_r_position_controller joint_b_position_controller
-			  joint_t_position_controller "/>
+			  joint_s_position_controller"/> <!-- joint_l_position_controller -->
+			  <!-- joint_e_position_controller joint_u_position_controller -->
+			  <!-- joint_r_position_controller joint_b_position_controller -->
+			  <!-- joint_t_position_controller "/> -->
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
