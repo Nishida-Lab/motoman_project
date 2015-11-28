@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:macro name="simple_jp_trans_v0" params="name
-															 joint_name actuator_name
-															 reduction">
+												 joint_name actuator_name
+												 reduction">
 	<transmission name="${name}">
-	  <type>transmission_interface/SimpleTransmission</type>
-	  <joint name="${joint_name}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
 		<hardwareInterface>EffortJointInterface</hardwareInterface>
-	  </joint>
-	  <actuator name="${actuator_name}">
+      </joint>
+      <actuator name="${actuator_name}">
 		<hardwareInterface>EffortJointInterface</hardwareInterface>
-		<mechanicalReduction>${reduction}</mechanicalReduction>
-	  </actuator>
+		<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
 	</transmission>
   </xacro:macro>
   
