@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- about mass rate -->
-  <property name="base_rate" value="1.2" />
-  <property name="s_rate" value="1.0" />
+  <property name="base_rate" value="5.0" />
+  <property name="s_rate" value="1.2" />
   <property name="l_rate" value="1.0" />
-  <property name="e_rate" value="1.0" />
-  <property name="u_rate" value="0.7" />
-  <property name="r_rate" value="0.7" />
-  <property name="b_rate" value="0.6" />
-  <property name="t_rate" value="0.2" />
+  <property name="e_rate" value="0.15" />
+  <property name="u_rate" value="0.05" />
+  <property name="r_rate" value="0.02" />
+  <property name="b_rate" value="0.02" />
+  <property name="t_rate" value="0.005" />
   <property name="sum_rate" value="${base_rate + s_rate
 								   + l_rate + e_rate
 								   + u_rate + r_rate
 								   + b_rate + t_rate}" />
-  <property name="sum_mass" value="30.0" />
   
   <xacro:macro name="link_v1" params="name mass
                                       ixx ixy ixz
@@ -41,7 +40,7 @@
                                        ox oy oz roll pitch yaw ax ay az
 									   el ll ul vl
 									   skp skv sll sul">
-    <joint name="${joint_name}" type="revolute">
+    <joint name="${joint_name}" type="continuous">
       <origin xyz="${ox} ${oy} ${oz}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent_name}"/>
       <child link="${child_name}"/>

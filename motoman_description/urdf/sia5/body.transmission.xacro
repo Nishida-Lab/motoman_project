@@ -11,7 +11,7 @@
       </joint>
       <actuator name="${actuator_name}">
 		<hardwareInterface>EffortJointInterface</hardwareInterface>
-		<mechanicalReduction>1</mechanicalReduction>
+		<mechanicalReduction>${reduction}</mechanicalReduction>
       </actuator>
 	</transmission>
   </xacro:macro>

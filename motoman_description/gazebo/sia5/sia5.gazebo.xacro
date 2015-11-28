@@ -10,10 +10,10 @@
   </gazebo>
   <xacro:gazebo_link_v1 name="base_link"/>
   <xacro:gazebo_link_v1 name="link_s"/>
-  <!-- <xacro:gazebo_link_v1 name="link_l"/> -->
-  <!-- <xacro:gazebo_link_v1 name="link_e"/> -->
-  <!-- <xacro:gazebo_link_v1 name="link_u"/> -->
-  <!-- <xacro:gazebo_link_v1 name="link_r"/> -->
-  <!-- <xacro:gazebo_link_v1 name="link_b"/> -->
-  <!-- <xacro:gazebo_link_v1 name="link_t"/> -->
+  <xacro:gazebo_link_v1 name="link_l"/>
+  <xacro:gazebo_link_v1 name="link_e"/>
+  <xacro:gazebo_link_v1 name="link_u"/>
+  <xacro:gazebo_link_v1 name="link_r"/>
+  <xacro:gazebo_link_v1 name="link_b"/>
+  <xacro:gazebo_link_v1 name="link_t"/>
 </robot>
