@@ -8,7 +8,7 @@
 
   <property name="sum_mass" value="30.0" />
   
-  <xacro:property name="s_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="s_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="s_axis_lower_limit" value="-${s_axis_upper_limit}"/>
   <xacro:property name="l_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
   <xacro:property name="l_axis_lower_limit" value="-${l_axis_upper_limit}"/>
@@ -16,11 +16,11 @@
   <xacro:property name="e_axis_lower_limit" value="-${e_axis_upper_limit}"/>
   <xacro:property name="u_axis_upper_limit" value="${115.0*M_PI/180.0}"/>
   <xacro:property name="u_axis_lower_limit" value="${-90.0*M_PI/180.0}"/>
-  <xacro:property name="r_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="r_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="r_axis_lower_limit" value="-${r_axis_upper_limit}"/>
   <xacro:property name="b_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
   <xacro:property name="b_axis_lower_limit" value="-${b_axis_upper_limit}"/>  
-  <xacro:property name="t_axis_upper_limit" value="${180.0*M_PI/180.0}"/>
+  <xacro:property name="t_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="t_axis_lower_limit" value="-${t_axis_upper_limit}"/>
   
   <xacro:property name="s_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
