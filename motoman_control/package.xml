@@ -9,7 +9,10 @@
   <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>ros_controller</run_depend>
+  <run_depend>ros_control</run_depend>
   <run_depend>controller_manager</run_depend>
+
   
   <export>
   </export>
