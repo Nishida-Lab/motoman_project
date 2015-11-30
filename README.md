@@ -1,7 +1,6 @@
 # Motoman Project
 ![SIA5](.image/sia5.png)
-[![SIA5_gazebo](http://img.youtube.com/vi/FJFXUtZzpJA/0.jpg)](http://www.youtube.com/watch?v=FJFXUtZzpJA)  
-↑ Youtube Link
+[![SIA5_gazebo](.image/gazebo_youtube.png)](http://www.youtube.com/watch?v=FJFXUtZzpJA)  
 ## Installation
 ##### [Japanese](https://github.com/Nishida-Lab/motoman_project/wiki/Installation-%5BJapanese%5D)
 ##### [English](https://github.com/Nishida-Lab/motoman_project/wiki/Installation-%5BEnglish%5D)
