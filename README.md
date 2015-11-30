@@ -1,5 +1,7 @@
 # Motoman Project
 ![SIA5](.image/sia5.png)
+Gazebo Simulator
+![Gazebo_sim](https://www.youtube.com/watch?v=FJFXUtZzpJA)
 
 ## Installation
 ##### [Japanese](https://github.com/Nishida-Lab/motoman_project/wiki/Installation-%5BJapanese%5D)
