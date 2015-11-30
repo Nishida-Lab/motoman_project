@@ -34,29 +34,37 @@
   <!-- link -->
   <link name="world"/>
   <xacro:link_v1 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
-				 ixx="1.0" ixy="0.0" ixz="0.0"
-				 iyy="1.0" iyz="0.0" izz="1.0"/>
+				 ixx="0.001322" ixy="0.0" ixz="0.0"
+				 iyy="0.001281" iyz="0.0"
+				 izz="0.001341"/>
   <xacro:link_v1 name="link_s" mass="${s_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0012143" ixy="0.0" ixz="0.0"
+				 iyy="0.0009784" iyz="0.0"
+				 izz="0.0010342"/>
   <xacro:link_v1 name="link_l" mass="${l_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0008890" ixy="0.0" ixz="0.0"
+  				 iyy="0.0009864" iyz="0.0"
+				 izz="0.0008971"/>
   <xacro:link_v1 name="link_e"  mass="${e_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0007581" ixy="0.0" ixz="0.0"
+  				 iyy="0.0007672" iyz="0.0"
+				 izz="0.0008762"/>
   <xacro:link_v1 name="link_u" mass="${u_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0007594" ixy="0.0" ixz="0.0"
+  				 iyy="0.0007247" iyz="0.0"
+				 izz="0.0005782"/>
   <xacro:link_v1 name="link_r" mass="${r_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0005783" ixy="0.0" ixz="0.0"
+  				 iyy="0.0005986" iyz="0.0"
+				 izz="0.0006781"/>
   <xacro:link_v1 name="link_b" mass="${b_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0005374" ixy="0.0" ixz="0.0"
+  				 iyy="0.0004653" iyz="0.0"
+				 izz="0.0004592"/>
   <xacro:link_v1 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.0004568" ixy="0.0" ixz="0.0"
+  				 iyy="0.0006562" iyz="0.0"
+				 izz="0.0005343"/>
   <link name="tool0"/>
 
   <!-- joint -->
