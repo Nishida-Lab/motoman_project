@@ -1,13 +1,26 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/urdf/common.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/materials.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.urdf.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
   <xacro:include filename="$(find motoman_description)/gazebo/sia5/sia5.gazebo.xacro"/>
 
+  <!-- Mass -->
   <property name="sum_mass" value="30.0" />
-  
+  <!-- about mass rate -->
+  <property name="base_rate" value="6.9" />
+  <property name="s_rate" value="6.6" />
+  <property name="l_rate" value="6.0" />
+  <property name="e_rate" value="4.3" />
+  <property name="u_rate" value="3.7"/>
+  <property name="r_rate" value="1.5" />
+  <property name="b_rate" value="1.0" />
+  <property name="t_rate" value="0.3" />
+
+  <!-- Hard ware limits -->
+  <!-- Range limits -->
   <xacro:property name="s_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="s_axis_lower_limit" value="-${s_axis_upper_limit}"/>
   <xacro:property name="l_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
@@ -22,7 +35,7 @@
   <xacro:property name="b_axis_lower_limit" value="-${b_axis_upper_limit}"/>  
   <xacro:property name="t_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="t_axis_lower_limit" value="-${t_axis_upper_limit}"/>
-  
+  <!-- Velocity limits -->
   <xacro:property name="s_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
   <xacro:property name="l_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
   <xacro:property name="e_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
@@ -144,7 +157,7 @@
   				  skp="1" skv="1"
   				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="joint_tool0" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0115 0 0"/>
+    <origin rpy="0 0 0" xyz="0.0115 0 -0.040"/>
     <parent link="link_t"/>
     <child link="tool0"/>
   </joint>

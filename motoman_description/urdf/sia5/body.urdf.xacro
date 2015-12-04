@@ -1,14 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- about mass rate -->
-  <property name="base_rate" value="6.9" />
-  <property name="s_rate" value="6.6" />
-  <property name="l_rate" value="6.0" />
-  <property name="e_rate" value="4.3" />
-  <property name="u_rate" value="3.7"/>
-  <property name="r_rate" value="1.5" />
-  <property name="b_rate" value="1.0" />
-  <property name="t_rate" value="0.3" />
   <property name="sum_rate" value="${base_rate + s_rate
 								   + l_rate + e_rate
 								   + u_rate + r_rate
