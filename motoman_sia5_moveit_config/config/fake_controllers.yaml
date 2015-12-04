@@ -1,7 +1,7 @@
 controller_list:
   - name: fake_gripper_controller
     joints:
-      - joint_t
+      []
   - name: fake_arm_controller
     joints:
       - joint_s
@@ -10,3 +10,4 @@ controller_list:
       - joint_u
       - joint_r
       - joint_b
+      - joint_t
