@@ -27,7 +27,7 @@
   </xacro:macro>
 
   <xacro:macro name="link_cylinder_v0" params="name mass radius height
-											ox oy oz oroll opitch oyaw">
+											   ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
         <geometry>
@@ -50,7 +50,7 @@
   </xacro:macro>
 
   <xacro:macro name="link_box_v0" params="name mass width depth  height
-											ox oy oz oroll opitch oyaw">
+										  ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
         <geometry>
@@ -68,6 +68,31 @@
         <inertia ixx="${(mass*((width/2)*(width/2)+(height/2)*(height/2)))/3}" ixy="0" ixz="0"
 				 iyy="${(mass*((depth/2)*(depth/2)+(height/2)*(height/2)))/3}" iyz="0"
 				 izz="${(mass*((depth/2)*(depth/2)+(width/2)*(width/2)))/3}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="link_cylinder_plus_box_v0" params="name
+														ox oy oz oroll opitch oyaw
+														mass_cyl radius_cyl height_cyl
+														mass_box width_box depth_box height_box">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <mass value="${mass_cyl+mass_box}"/>
+        <inertia ixx="${mass_cyl*((radius_cyl*radius_cyl)/4+(height_cyl*height_cyl)/3)+mass_box/3*(width_box*width_box+height_box*height_box)+mass_box*(radius_cyl*radius_cyl-radius_cyl*width_box+height_cyl*height_cyl+height_cyl*height_box)}" ixy="0" ixz="0"
+				 iyy="${mass_cyl*((radius_cyl*radius_cyl)/4+(height_cyl*height_cyl)/12)+mass_box/3*(depth_box*depth_box+height_box*height_box)+mass_box*(radius_cyl*radius_cyl-radius_cyl*depth_box+height_cyl*height_cyl+height_cyl*height_box)}" iyz="0"
+				 izz="${(mass_cyl*radius_cyl*radius_cyl)/2+mass_box/3*(depth_box*depth_box+width_box*width_box)+mass_box*(2*radius_cyl*radius_cyl-radius_cyl*depth_box-radius_cyl*width_box)}" />
       </inertial>
     </link>
   </xacro:macro>
