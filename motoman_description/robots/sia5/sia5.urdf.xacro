@@ -10,14 +10,14 @@
   <!-- Mass -->
   <property name="sum_mass" value="30.0" />
   <!-- about mass rate -->
-  <property name="base_rate" value="6.9" />
-  <property name="s_rate" value="6.6" />
-  <property name="l_rate" value="6.0" />
-  <property name="e_rate" value="4.3" />
-  <property name="u_rate" value="3.7"/>
-  <property name="r_rate" value="1.5" />
-  <property name="b_rate" value="1.0" />
-  <property name="t_rate" value="0.3" />
+  <property name="base_rate" value="6.4" />
+  <property name="s_rate" value="6.1" />
+  <property name="l_rate" value="5.5" />
+  <property name="e_rate" value="4.0" />
+  <property name="u_rate" value="3.5"/>
+  <property name="r_rate" value="2.0" />
+  <property name="b_rate" value="1.5" />
+  <property name="t_rate" value="1.0" />
 
   <!-- Hard ware limits -->
   <!-- Range limits -->
@@ -46,10 +46,9 @@
 
   <!-- link -->
   <link name="world"/>
-  <xacro:link_v1 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
-				 ixx="0.001322" ixy="0.0" ixz="0.0"
-				 iyy="0.001281" iyz="0.0"
-				 izz="0.001341"/>
+  <xacro:link_box_v0 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
+					 width="0.08325" depth="0.0988" height="0.07325"
+					 ox="-0.025918" oy="-0.000376" oz="0.076105" oroll="0" opitch="0" oyaw="0"/>
   <xacro:link_v1 name="link_s" mass="${s_rate/sum_rate*sum_mass}"
   				 ixx="0.0012143" ixy="0.0" ixz="0.0"
 				 iyy="0.0009784" iyz="0.0"
@@ -74,11 +73,10 @@
   				 ixx="0.0005374" ixy="0.0" ixz="0.0"
   				 iyy="0.0004653" iyz="0.0"
 				 izz="0.0004592"/>
-  <xacro:link_v1 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
-  				 ixx="0.0004568" ixy="0.0" ixz="0.0"
-  				 iyy="0.0006562" iyz="0.0"
-				 izz="0.0005343"/>
-  <link name="tool0"/>
+  <xacro:link_cylinder_v0 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
+					   radius="0.045" height="0.0115"
+					   ox="0.005406" oy="0.0" oz="-0.000191" oroll="0" opitch="0" oyaw="0"/>
+ <link name="tool0"/>
 
   <!-- joint -->
   <joint name="world" type="fixed">

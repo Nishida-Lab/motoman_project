@@ -26,6 +26,53 @@
     </link>
   </xacro:macro>
 
+  <xacro:macro name="link_cylinder_v0" params="name mass radius height
+											ox oy oz oroll opitch oyaw">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${mass*((radius*radius)/4+(height*height)/12)}" ixy="0" ixz="0"
+				 iyy="${mass*((radius*radius)/4+(height*height)/12)}" iyz="0"
+				 izz="${(mass*radius*radius)/2}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="link_box_v0" params="name mass width depth  height
+											ox oy oz oroll opitch oyaw">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${(mass*(width*width+height*height))/3}" ixy="0" ixz="0"
+				 iyy="${(mass*(depth*depth+height*height))/3}" iyz="0"
+				 izz="${(mass*(depth*depth+width*width))/3}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  
   <xacro:macro name="joint_v1" params="joint_name
 									   parent_name child_name
                                        ox oy oz roll pitch yaw ax ay az
