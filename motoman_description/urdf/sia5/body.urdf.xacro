@@ -65,9 +65,9 @@
       <inertial>
 		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
         <mass value="${mass}"/>
-        <inertia ixx="${(mass*(width*width+height*height))/3}" ixy="0" ixz="0"
-				 iyy="${(mass*(depth*depth+height*height))/3}" iyz="0"
-				 izz="${(mass*(depth*depth+width*width))/3}" />
+        <inertia ixx="${(mass*((width/2)*(width/2)+(height/2)*(height/2)))/3}" ixy="0" ixz="0"
+				 iyy="${(mass*((depth/2)*(depth/2)+(height/2)*(height/2)))/3}" iyz="0"
+				 izz="${(mass*((depth/2)*(depth/2)+(width/2)*(width/2)))/3}" />
       </inertial>
     </link>
   </xacro:macro>
