@@ -27,32 +27,35 @@ def build_traj(start, end, duration):
   # assume the start-position joint-ordering
   joint_names = start.name
 
+  # 始点定義
   start_pt = JointTrajectoryPoint()
   start_pt.positions = start.position
-  start_pt.velocities = [0]*len(start.position)
-  start_pt.time_from_start = rospy.Duration(0.0)
-
-  end_pt = JointTrajectoryPoint()
-  for j in joint_names:
-    idx = end.name.index(j)
-    end_pt.positions.append(end.position[idx])  # reorder to match start-pos joint ordering
-    end_pt.velocities.append(0.0)
-  end_pt.time_from_start = rospy.Duration(duration)
+  # start_pt.velocities = [0]*len(start.position) # こっちより、
+  start_pt.velocities.append(0)                   # こっちのほうがわかり易くない？
+  start_pt.time_from_start = rospy.Duration(0.0)  # 始点なので、待ち時間 = 0 [sec]
 
   # 中間地点定義
   middle_pt = JointTrajectoryPoint()
   for j in joint_names:
     idx = end.name.index(j)
     middle_pt.positions.append((start.position[idx] + end.position[idx])/2.0)
-    middle_pt.velocities.append(middle_pt.positions[idx]/duration)
-  middle_pt.time_from_start = rospy.Duration(duration)
+    middle_pt.velocities.append(0)
+  middle_pt.time_from_start = rospy.Duration(duration) # 中間地点までの到達時間 = duration [sec]
 
-  return JointTrajectory(joint_names=joint_names, points=[start_pt, middle_pt,  end_pt])
+  # 執着地点
+  end_pt = JointTrajectoryPoint()
+  for j in joint_names:
+    idx = end.name.index(j)
+    end_pt.positions.append(end.position[idx])
+    end_pt.velocities.append(0.0)
+  end_pt.time_from_start = rospy.Duration(duration*2) # 終点までの到達時間 = duration*2 [sec]
+  
+  return JointTrajectory(joint_names=joint_names, points=[start_pt, middle_pt, end_pt])
 
 # read the current robot position from the "joint_states" topic
 def get_cur_pos():
   try:
-    return rospy.wait_for_message("joint_states", JointState, 5.0)
+    return rospy.wait_for_message("joint_states", JointState, 0.1)
   except (rospy.ROSException, rospy.ROSInterruptException):
     rospy.logerr('Unable to read current position')
     raise
@@ -77,7 +80,7 @@ def move_to_joint(end_pos, duration):
   traj = build_traj(get_cur_pos(), end_pos, duration)
 
   # wait for subscribers to connect
-  pub = rospy.Publisher('joint_path_command', JointTrajectory)
+  pub = rospy.Publisher('joint_path_command', JointTrajectory, queue_size=1) # queue_sizeがないと、indigoでは怒られるお
   if not wait_for_subs(pub, 1, 0.5, 2.0):
     rospy.logwarn('Timeout while waiting for subscribers.  Publishing trajectory anyway.')
 
