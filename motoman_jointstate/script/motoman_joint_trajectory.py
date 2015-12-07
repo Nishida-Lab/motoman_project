@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 import sys, yaml
 import roslib; roslib.load_manifest('motoman_driver')
 import rospy, rosbag
@@ -26,7 +26,7 @@ def build_traj(start, end, duration):
 
   # assume the start-position joint-ordering
   joint_names = start.name
- 
+
   start_pt = JointTrajectoryPoint()
   start_pt.positions = start.position
   start_pt.velocities = [0]*len(start.position)
@@ -36,11 +36,19 @@ def build_traj(start, end, duration):
   for j in joint_names:
     idx = end.name.index(j)
     end_pt.positions.append(end.position[idx])  # reorder to match start-pos joint ordering
-    end_pt.velocities.append(0.5)
+    end_pt.velocities.append(0.0)
   end_pt.time_from_start = rospy.Duration(duration)
 
-  return JointTrajectory(joint_names=joint_names, points=[start_pt, end_pt])
-  
+  # 中間地点定義
+  middle_pt = JointTrajectoryPoint()
+  for j in joint_names:
+    idx = end.name.index(j)
+    middle_pt.positions.append((start.position[idx] + end.position[idx])/2.0)
+    middle_pt.velocities.append(middle_pt.positions[idx]/duration)
+  middle_pt.time_from_start = rospy.Duration(duration)
+
+  return JointTrajectory(joint_names=joint_names, points=[start_pt, middle_pt,  end_pt])
+
 # read the current robot position from the "joint_states" topic
 def get_cur_pos():
   try:
