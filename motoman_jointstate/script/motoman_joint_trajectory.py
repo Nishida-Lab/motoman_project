@@ -30,8 +30,7 @@ def build_traj(start, end, duration):
   # 始点定義
   start_pt = JointTrajectoryPoint()
   start_pt.positions = start.position
-  # start_pt.velocities = [0]*len(start.position) # こっちより、
-  start_pt.velocities.append(0)                   # こっちのほうがわかり易くない？
+  start_pt.velocities = [0]*len(start.position)
   start_pt.time_from_start = rospy.Duration(0.0)  # 始点なので、待ち時間 = 0 [sec]
 
   # 中間地点定義
