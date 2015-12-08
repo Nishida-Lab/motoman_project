@@ -10,15 +10,14 @@
   <!-- Mass -->
   <property name="sum_mass" value="30.0" />
   <!-- about mass rate -->
-  <property name="base_rate" value="5" />
-  <property name="s_rate" value="1.6" />
-  <property name="l_rate" value="1.5" />
-  <property name="e_rate" value="0.07" />
-  <property name="u_rate" value="0.07" />
-  <property name="r_rate" value="0.05" />
-  <property name="b_rate" value="0.05" />
-  <property name="t_rate" value="0.01" />
-
+  <property name="base_rate" value="8.5" />
+  <property name="s_rate" value="7.7" />
+  <property name="l_rate" value="7.0" />
+  <property name="e_rate" value="1.2" />
+  <property name="u_rate" value="1.0" />
+  <property name="r_rate" value="0.9" />
+  <property name="b_rate" value="0.8" />
+  <property name="t_rate" value="0.5" />
   <!-- Hard ware limits -->
   <!-- Range limits -->
   <xacro:property name="s_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
@@ -86,12 +85,9 @@
   								   mass_box="${b_rate/sum_rate*sum_mass*0.45}"
   								   width_box="0.0676" depth_box="0.076" height_box="0.0627"/>
   <xacro:link_v1 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
-				 ixx="0.003" ixy="0" ixz="0"
-				 iyy="0.003" iyz="0"
- 				 izz="0.001"/>
-  <!-- <xacro:link_cylinder_v0 name="link_t" mass="${t_rate/sum_rate*sum_mass}" -->
-  <!-- 						  radius="0.045" height="0.0115" -->
-  <!-- 						  ox="0.005406" oy="0.0" oz="-0.000191" oroll="0" opitch="0" oyaw="0"/> -->
+  				 ixx="0.003" ixy="0" ixz="0"
+  				 iyy="0.003" iyz="0"
+  				 izz="0.001"/>
   <link name="tool0"/>
   
   <!-- joint -->
@@ -163,13 +159,12 @@
   				  parent_name="link_b" child_name="link_t"
   				  ox="0.1365" oy="0" oz="-0.0045"
   				  roll="${-M_PI/2}" pitch="0" yaw="0"
-
-ax="-1" ay="0" az="0"
-el="7.35"
-ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
-vl="${t_axis_velocity_limit}"
-skp="1" skv="1"
-sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
+				  ax="-1" ay="0" az="0"
+				  el="7.35"
+				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
+				  vl="${t_axis_velocity_limit}"
+				  skp="1" skv="1"
+				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="joint_tool0" type="fixed">
     <origin rpy="0 0 0" xyz="0.0115 0 -0.040"/>
     <parent link="link_t"/>
