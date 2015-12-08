@@ -1,13 +1,25 @@
 <?xml version="1.0"?>
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/urdf/common.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/materials.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.urdf.xacro" />
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.transmission.xacro"/>
   <xacro:include filename="$(find motoman_description)/gazebo/sia5/sia5.gazebo.xacro"/>
 
+  <!-- Mass -->
   <property name="sum_mass" value="30.0" />
-  
+  <!-- about mass rate -->
+  <property name="base_rate" value="8.5" />
+  <property name="s_rate" value="7.7" />
+  <property name="l_rate" value="7.0" />
+  <property name="e_rate" value="1.2" />
+  <property name="u_rate" value="1.0" />
+  <property name="r_rate" value="0.9" />
+  <property name="b_rate" value="0.8" />
+  <property name="t_rate" value="0.5" />
+  <!-- Hard ware limits -->
+  <!-- Range limits -->
   <xacro:property name="s_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="s_axis_lower_limit" value="-${s_axis_upper_limit}"/>
   <xacro:property name="l_axis_upper_limit" value="${110.0*M_PI/180.0}"/>
@@ -22,7 +34,7 @@
   <xacro:property name="b_axis_lower_limit" value="-${b_axis_upper_limit}"/>  
   <xacro:property name="t_axis_upper_limit" value="${179.99999*M_PI/180.0}"/>
   <xacro:property name="t_axis_lower_limit" value="-${t_axis_upper_limit}"/>
-  
+  <!-- Velocity limits -->
   <xacro:property name="s_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
   <xacro:property name="l_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
   <xacro:property name="e_axis_velocity_limit" value="${200.0*M_PI/180.0}"/>
@@ -33,32 +45,51 @@
 
   <!-- link -->
   <link name="world"/>
-  <xacro:link_v1 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
-				 ixx="1.0" ixy="0.0" ixz="0.0"
-				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_s" mass="${s_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_l" mass="${l_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_e"  mass="${e_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_u" mass="${u_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_r" mass="${r_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
-  <xacro:link_v1 name="link_b" mass="${b_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  <xacro:link_box_v0 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
+					 width="0.1665" depth="0.1976" height="0.1465"
+					 ox="-0.025918" oy="-0.000376" oz="0.076105" oroll="0" opitch="0" oyaw="0"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_s"
+								   ox="0" oy="0" oz="0" oroll="0" opitch="0" oyaw="0"
+								   mass_cyl="${s_rate/sum_rate*sum_mass*0.2}"
+								   radius_cyl="0.066" height_cyl="0.031"
+								   mass_box="${s_rate/sum_rate*sum_mass*0.8}"
+								   width_box="0.0851" depth_box="0.1" height_box="0.1823"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_l"
+								   ox="0" oy="-0.006" oz="0.15" oroll="${M_PI}" opitch="0" oyaw="0"
+								   mass_cyl="${l_rate/sum_rate*sum_mass*0.4}"
+								   radius_cyl="0.066" height_cyl="0.073"
+								   mass_box="${l_rate/sum_rate*sum_mass*0.6}"
+								   width_box="0.073" depth_box="0.1089" height_box="0.149"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_e"
+								   ox="0" oy="0" oz="0" oroll="0" opitch="0" oyaw="${-M_PI/2}"
+								   mass_cyl="${e_rate/sum_rate*sum_mass*0.56}"
+								   radius_cyl="0.0685" height_cyl="0.0661"
+								   mass_box="${e_rate/sum_rate*sum_mass*0.44}"
+								   width_box="0.1234" depth_box="0.063" height_box="0.1176"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_u"
+								   ox="0.008" oy="-0.06" oz="-0.131" oroll="${-M_PI}" opitch="${M_PI/2}" oyaw="0"
+								   mass_cyl="${u_rate/sum_rate*sum_mass*0.48}"
+								   radius_cyl="0.055" height_cyl="0.0698"
+								   mass_box="${u_rate/sum_rate*sum_mass*0.52}"
+								   width_box="0.13174" depth_box="0.068" height_box="0.104"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_r"
+  								   ox="0" oy="0" oz="0" oroll="0" opitch="0" oyaw="${-M_PI/2}"
+  								   mass_cyl="${r_rate/sum_rate*sum_mass*0.25}"
+  								   radius_cyl="0.0525" height_cyl="0.038"
+  								   mass_box="${r_rate/sum_rate*sum_mass*0.75}"
+  								   width_box="0.0645" depth_box="0.084" height_box="0.1425"/>
+  <xacro:link_cylinder_plus_box_v0 name="link_b"
+  								   ox="0" oy="0.0045" oz="0.1365" oroll="${M_PI/2}" opitch="${-M_PI/2}" oyaw="0"
+  								   mass_cyl="${b_rate/sum_rate*sum_mass*0.55}"
+  								   radius_cyl="0.04" height_cyl="0.0948"
+  								   mass_box="${b_rate/sum_rate*sum_mass*0.45}"
+  								   width_box="0.0676" depth_box="0.076" height_box="0.0627"/>
   <xacro:link_v1 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
-  				 ixx="1.0" ixy="0.0" ixz="0.0"
-  				 iyy="1.0" iyz="0.0" izz="1.0"/>
+  				 ixx="0.003" ixy="0" ixz="0"
+  				 iyy="0.003" iyz="0"
+  				 izz="0.001"/>
   <link name="tool0"/>
-
+  
   <!-- joint -->
   <joint name="world" type="fixed">
     <parent link="world"/>
@@ -128,13 +159,12 @@
   				  parent_name="link_b" child_name="link_t"
   				  ox="0.1365" oy="0" oz="-0.0045"
   				  roll="${-M_PI/2}" pitch="0" yaw="0"
-
-  				  ax="-1" ay="0" az="0"
-  				  el="7.35"
-  				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
-  				  vl="${t_axis_velocity_limit}"
-  				  skp="1" skv="1"
-  				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
+				  ax="-1" ay="0" az="0"
+				  el="7.35"
+				  ll="${t_axis_lower_limit}" ul="${t_axis_upper_limit}"
+				  vl="${t_axis_velocity_limit}"
+				  skp="1" skv="1"
+				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="joint_tool0" type="fixed">
     <origin rpy="0 0 0" xyz="0.0115 0 -0.040"/>
     <parent link="link_t"/>
