@@ -5,5 +5,5 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   <node pkg="motoman_jointstate" name="joint_publisher" type="joint_publisher.py" output="screen" />
   <node pkg="motoman_jointstate" name="joint_listener" type="joint_listener.py" output="screen" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf_tutorial)/urdf.rviz" required="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find motoman_description)/launch/sia5/sia5_rviz.rviz" required="true" />
 </launch>

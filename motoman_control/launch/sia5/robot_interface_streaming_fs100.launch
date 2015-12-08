@@ -1,0 +1,28 @@
+<!--
+  Contoller specific version of 'robot_interface.launch'.
+
+
+  Usage:
+    robot_interface_streaming_fs100.launch robot_ip:=<value>
+-->
+<launch>
+	<arg name="robot_ip" default="10.0.0.2"/>
+	<arg name="use_bswap" default="true" />
+	<arg name="version0" default="true" />
+	<arg name="model" default="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
+
+	<!-- load URDF description -->
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'"/>
+
+	<!-- set joint name parameter -->
+	<rosparam param="controller_joint_names">[joint_s, joint_l, joint_e, joint_u, joint_r, joint_b, joint_t]</rosparam>
+
+	<!-- robot state publisher -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+	
+	<include file="$(find motoman_driver)/launch/robot_interface_streaming.launch">
+		<arg name="robot_ip"   value="$(arg robot_ip)" />
+		<arg name="use_bswap"  value="$(arg use_bswap)" />
+		<arg name="version0"  value="$(arg version0)" />
+	</include>
+</launch>
