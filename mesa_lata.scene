@@ -1,0 +1,44 @@
+Mesa_Lata
+* mesa_pata_izquierda_delantera
+1
+cylinder
+0.015 0.71
+0.20 0.97 0.355
+0 0 0 1
+0 0 0 1
+* mesa_pata_derecha_delantera
+1
+cylinder
+0.015 0.71
+0.20 -0.97 0.355
+0 0 0 1
+0 0 0 1
+* mesa_pata_derecha_trasera
+1
+cylinder
+0.015 0.71
+0.89 -0.97 0.355
+0 0 0 1
+0 0 0 1
+* mesa_pata_izquierda_trasera
+1
+cylinder
+0.015 0.71
+0.89 0.97 0.355
+0 0 0 1
+0 0 0 1
+* mesa_tablero
+1
+box
+0.75 2 0.03
+0.545 0 0.725
+0 0 0 1
+0.71372549 0.494117647 0.301960784 1
+* lata
+1
+cylinder
+0.03 0.12
+0.28 0 0.8
+0 0 0 1
+1 0 0 1
+.
