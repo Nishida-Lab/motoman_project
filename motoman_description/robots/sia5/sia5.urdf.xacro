@@ -10,14 +10,14 @@
   <!-- Mass -->
   <property name="sum_mass" value="30.0" />
   <!-- about mass rate -->
-  <property name="base_rate" value="8.5" />
-  <property name="s_rate" value="7.7" />
-  <property name="l_rate" value="7.0" />
-  <property name="e_rate" value="1.8" />
-  <property name="u_rate" value="1.7" />
-  <property name="r_rate" value="1.3" />
-  <property name="b_rate" value="1.2" />
-  <property name="t_rate" value="0.8" />
+  <property name="base_rate" value="5" />
+  <property name="s_rate" value="1.6" />
+  <property name="l_rate" value="1.5" />
+  <property name="e_rate" value="0.07" />
+  <property name="u_rate" value="0.07" />
+  <property name="r_rate" value="0.05" />
+  <property name="b_rate" value="0.05" />
+  <property name="t_rate" value="0.01" />
 
   <!-- Hard ware limits -->
   <!-- Range limits -->
@@ -85,9 +85,13 @@
   								   radius_cyl="0.04" height_cyl="0.0948"
   								   mass_box="${b_rate/sum_rate*sum_mass*0.45}"
   								   width_box="0.0676" depth_box="0.076" height_box="0.0627"/>
-  <xacro:link_cylinder_v0 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
-						  radius="0.045" height="0.0115"
-						  ox="0.005406" oy="0.0" oz="-0.000191" oroll="0" opitch="0" oyaw="0"/>
+  <xacro:link_v1 name="link_t" mass="${t_rate/sum_rate*sum_mass}"
+				 ixx="0.003" ixy="0" ixz="0"
+				 iyy="0.003" iyz="0"
+ 				 izz="0.001"/>
+  <!-- <xacro:link_cylinder_v0 name="link_t" mass="${t_rate/sum_rate*sum_mass}" -->
+  <!-- 						  radius="0.045" height="0.0115" -->
+  <!-- 						  ox="0.005406" oy="0.0" oz="-0.000191" oroll="0" opitch="0" oyaw="0"/> -->
   <link name="tool0"/>
   
   <!-- joint -->
