@@ -26,5 +26,5 @@
 		args="-urdf -model sia5 -param robot_description"/>
 
   <!-- ros_control motoman launch file -->
-  <include file="$(find motoman_control)/launch/sia5/sia5_control.launch" />
+  <include file="$(find motoman_control)/launch/sia5/sia5_moveit_control.launch" />
 </launch>
