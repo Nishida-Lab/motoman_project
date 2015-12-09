@@ -1,0 +1,5 @@
+<launch>
+  <group ns="sia5/sia5_controller/">
+	<node name="follow_joint_trajectory" pkg="motoman_control" type="motoman_control_node" output="screen" />
+  </group>
+</launch>
