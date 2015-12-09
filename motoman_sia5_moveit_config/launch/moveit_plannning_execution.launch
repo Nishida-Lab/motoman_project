@@ -5,6 +5,12 @@
  <include file="$(find motoman_sia5_moveit_config)/launch/move_group.launch">
   <arg name="publish_monitored_planning_scene" value="true" />
  </include>
+ 
+ <!-- <node pkg="joint_state_muxer" type="joint_state_muxer" name="joint_state_muxer" output="screen"> -->
+ <!--   <rosparam param="source_list">[joint_states]</rosparam> -->
+ <!--    </node> -->
+
+ 
  # The visualization component of MoveIt!
  <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch"/>
 </launch>
