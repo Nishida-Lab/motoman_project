@@ -1,5 +1,5 @@
 #!/bin/bash
-func_rosserver() {
+function _func_rosserver() {
 	if [ -z "$eth0_addr" ]; then
 		echo "No eth0 connection..."
 		if [ -z  "$wlan0_addr" ]; then
@@ -32,7 +32,7 @@ func_rosserver() {
 	env | grep "ROS_IP"
 }
 
-func_rosclient() {
+function _func_rosclient() {
 	if [ -z "$1" ]; then
 		echo $1
 		echo "Input the ROS server's IP address.'"
@@ -69,7 +69,7 @@ func_rosclient() {
 	fi
 }
 
-func_roslocal() {
+function _func_roslocal() {
 	export ROS_MASTER_URI=http://localhost:11311
 	unset ROS_HOST_NAME
 	unset ROS_IP
@@ -79,27 +79,36 @@ func_roslocal() {
 	env | grep "ROS_IP"
 }
 
+function _func_rosexit(){
+	export ROS_MASTER_URI=http://localhost:11311
+	unset ROS_HOST_NAME
+	unset ROS_IP
+	export PS1="\u@\h \W\\$ "
+}
+
 function _func_comp_rosaddress(){
 	local cur=${COMP_WORDS[COMP_CWORD]}
 	if [ "$COMP_CWORD" -eq 1 ]; then
-		COMPREPLY=( $(compgen -W "server client local" -- $cur) )
+		COMPREPLY=( $(compgen -W "server client local exit" -- $cur) )
 	fi
 }
 
-function func_rosaddress() {
+function _func_rosaddress() {
 	# Get now eth0 or wlan0 IP address
 	eth0_addr=$(ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1)
 	wlan0_addr=$(ip -f inet -o addr show wlan0|cut -d\  -f 7 | cut -d/ -f 1)
 
 	if [ $1 = "local" ]; then
-		func_roslocal
+		_func_roslocal
 	elif [ $1 = "server" ]; then
-		func_rosserver
+		_func_rosserver
 	elif [ $1 = "client" ]; then
-		func_rosclient $2
+		_func_rosclient $2
+	elif [ $1 = "exit" ]; then
+		_func_rosexit
 	fi
 	
 }
 
-alias rosaddress=func_rosaddress
+alias rosaddress=_func_rosaddress
 complete -o default -F _func_comp_rosaddress rosaddress
