@@ -83,7 +83,7 @@ function _func_rosexit(){
 	export ROS_MASTER_URI=http://localhost:11311
 	unset ROS_HOST_NAME
 	unset ROS_IP
-	export PS1="\u@\h \W\\$ "
+	export PS1="\u@\h:\w\\$ "
 }
 
 function _func_comp_rosaddress(){
