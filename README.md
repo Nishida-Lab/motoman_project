@@ -1,4 +1,4 @@
-# Motoman Project
+# Motoman Project [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg)](https://travis-ci.org/Nishida-Lab/motoman_project)
 ![SIA5](.image/sia5.png)
 ## Installation
 * [Japanese](https://github.com/Nishida-Lab/motoman_project/wiki/Installation-%5BJapanese%5D)
