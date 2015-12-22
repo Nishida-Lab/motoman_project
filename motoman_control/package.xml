@@ -21,6 +21,8 @@
   <run_depend>trajectory_msgs</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>motoman_driver</run_depend>
   
   <export>
   </export>

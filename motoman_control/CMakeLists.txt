@@ -11,7 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   CATKIN_DEPENDS actionlib_msgs
-)
+  )
+
+find_package(roslaunch)
+roslaunch_add_file_check(test/launch_test.xml)
+
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
