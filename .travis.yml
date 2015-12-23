@@ -79,6 +79,8 @@ before_install:
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
+  # Arduino Makefile
+  - sudo apt-get install -y arduino-mk screen
 
 # Create a catkin workspace with the package under integration.
 install:
@@ -105,10 +107,14 @@ before_script:
   # package depdencies: install using rosdep.
   - cd ~/catkin_ws
   - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-
+  
 # Compile and test. If the CATKIN_OPTIONS file exists, use it as an argument to
 # catkin_make.
 script:
+  # for Arduino
+  - cd ~/catkin_ws/src/motoman_project/gripper_arduino
+  - make
+  # for ROS
   - cd ~/catkin_ws
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
   # Testing: Use both run_tests (to see the output) and test (to error out).
