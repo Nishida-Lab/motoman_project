@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find motoman_control)/launch/sia5/robot_interface_streaming_fs100.launch"/>
+  <include file="$(find motoman_control)/launch/sia5/sia5_real_control.launch"/>
+</launch>
