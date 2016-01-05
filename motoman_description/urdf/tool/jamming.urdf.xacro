@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="tool_link_v0" params="name mass
+										   ixx ixy ixz
+										   iyy iyz izz">
+    <link name="${name}">
+      <visual>
+		<material name="blue"/>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/visual/COLLADA/${name}.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="tool_link_v1" params="name mass
+										   ixx ixy ixz
+										   iyy iyz izz">
+    <link name="${name}">
+      <visual>
+		<material name="red"/>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/visual/COLLADA/${name}.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  
+  <xacro:macro name="tool_link_cylinder_v0" params="name mass radius height
+											   ox oy oz oroll opitch oyaw">
+    <link name="${name}">
+      <visual>
+		<material name="blue"/>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/visual/COLLADA/${name}.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/tool/collision/STL/${name}.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${mass*((radius*radius)/4+(height*height)/12)}" ixy="0" ixz="0"
+				 iyy="${mass*((radius*radius)/4+(height*height)/12)}" iyz="0"
+				 izz="${(mass*radius*radius)/2}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+  
+</robot>
