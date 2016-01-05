@@ -46,7 +46,7 @@
 
   <!-- link -->
   <link name="world"/>
-  <xacro:link_box_v0 name="table_link" mass="${table_mass}"
+  <xacro:link_box_v1 name="table_link" mass="${table_mass}"
 					 width="0.676" depth="1.116" height="0.53"
 					 ox="0.20" oy="0" oz="0.265" oroll="0" opitch="0" oyaw="0"/>
   <xacro:link_box_v0 name="base_link" mass="${base_rate/sum_rate*sum_mass}"
