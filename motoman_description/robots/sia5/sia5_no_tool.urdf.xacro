@@ -175,7 +175,7 @@
 				  skp="1" skv="1"
 				  sll="${t_axis_lower_limit}" sul="${t_axis_upper_limit}"/>
   <joint name="joint_tool0" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0115 0 -0.040"/>
+    <origin rpy="0 0 0" xyz="0.0115 0 0"/>
     <parent link="link_t"/>
     <child link="tool0"/>
   </joint>
