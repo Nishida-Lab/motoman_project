@@ -72,6 +72,30 @@
     </link>
   </xacro:macro>
 
+  <xacro:macro name="link_box_v1" params="name mass width depth height
+										  ox oy oz oroll opitch oyaw">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/${name}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+		<origin xyz="0 ${oy} -${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <geometry>
+		  <box size="${depth} ${width} ${height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
+        <mass value="${mass}"/>
+        <inertia ixx="${(mass*((width/2)*(width/2)+(height/2)*(height/2)))/3}" ixy="0" ixz="0"
+				 iyy="${(mass*((depth/2)*(depth/2)+(height/2)*(height/2)))/3}" iyz="0"
+				 izz="${(mass*((depth/2)*(depth/2)+(width/2)*(width/2)))/3}" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
   <xacro:macro name="link_cylinder_plus_box_v0" params="name
 														ox oy oz oroll opitch oyaw
 														mass_cyl radius_cyl height_cyl
