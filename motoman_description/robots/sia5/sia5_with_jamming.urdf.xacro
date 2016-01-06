@@ -2,6 +2,7 @@
 <robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.gazebo.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_no_tool.urdf.xacro"/>
 
   <!-- Link -->
@@ -27,6 +28,9 @@
     <child link="balloon"/>
   </joint>
   
+  <!-- Gazebo -->
+  <xacro:gazebo_tool_link_v0 name="gripper_link" color="Blue"/>
+  <xacro:gazebo_tool_link_v0 name="balloon" color="Red"/>
   
 </robot>
 
