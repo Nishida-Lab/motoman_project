@@ -22,7 +22,7 @@
     </link>
   </xacro:macro>
 
-  <xacro:macro name="tool_link_v1" params="name mass
+  <xacro:macro name="tool_link_no_collision_v0" params="name mass
 										   ixx ixy ixz
 										   iyy iyz izz">
     <link name="${name}">
@@ -32,21 +32,15 @@
           <mesh filename="package://motoman_description/meshes/tool/visual/COLLADA/${name}.stl"/>
         </geometry>
       </visual>
-      <collision>
-        <geometry>
-          <mesh filename="package://motoman_description/meshes/tool/collision/STL/${name}.stl"/>
-        </geometry>
-      </collision>
       <inertial>
         <mass value="${mass}"/>
         <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
       </inertial>
     </link>
   </xacro:macro>
-
   
   <xacro:macro name="tool_link_cylinder_v0" params="name mass radius height
-											   ox oy oz oroll opitch oyaw">
+													ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
 		<material name="blue"/>

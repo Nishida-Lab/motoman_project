@@ -11,7 +11,7 @@
   							   ox="0" oy="0" oz="0"
   							   oroll="0" opitch="0" oyaw="0"/>
 
-  <xacro:tool_link_v1 name="balloon" mass="0.3"
+  <xacro:tool_link_no_collision_v0 name="balloon" mass="0.3"
   					  ixx="0.001" ixy="0" ixz="0"
   					  iyy="0.001" iyz="0" izz="0.001"/>
 
