@@ -9,4 +9,7 @@
   <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
   
   <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
 </package>
