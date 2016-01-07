@@ -31,53 +31,6 @@
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
-  <!-- gazebo -->
-  <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/sia5</robotNamespace>
-      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
-    </plugin>
-  </gazebo>
-  <gazebo reference="base_link">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_s">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_l">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_e">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_u">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_r">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_b">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_t">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
   <!-- Mass -->
   <!-- about mass rate -->
   <!-- Hard ware limits -->
@@ -381,6 +334,53 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+  <!-- gazebo -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/sia5</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
+  <gazebo reference="base_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_s">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_l">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_e">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_u">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_r">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_b">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_t">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
   <!-- Link -->
   <link name="gripper_link">
     <visual>
@@ -467,7 +467,7 @@
       <update_rate>30.0</update_rate>
       <camera>
         <horizontal_fov>1.4678219413</horizontal_fov>
-        <vertical_fov>0.9389871634</vertical_fov>
+        <!-- <vertical_fov>${53.8*M_PI/180.0}</vertical_fov> -->
         <image>
           <format>R8G8B8</format>
           <width>512</width>
@@ -494,7 +494,8 @@
         <distortion_k3>0.0</distortion_k3>
         <distortion_t1>0.0</distortion_t1>
         <distortion_t2>0.0</distortion_t2>
-        <pointCloudCutoff>0.4</pointCloudCutoff>
+        <pointCloudCutoff>0.05</pointCloudCutoff>
+        <pointCloudCutoffMax>4.5</pointCloudCutoffMax>
       </plugin>
     </sensor>
   </gazebo>

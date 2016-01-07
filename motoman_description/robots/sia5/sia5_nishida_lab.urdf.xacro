@@ -11,7 +11,7 @@
   
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
-    <origin rpy="0 -0.1745 0" xyz="0.50024 0 0.8195"/>
+    <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.05024 0 0.8195"/>
     <parent link="world"/>
     <child link="kinect2_link"/>
   </joint>
