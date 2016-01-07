@@ -121,7 +121,6 @@
     </link>
   </xacro:macro>
 
-  
   <xacro:macro name="joint_v1" params="joint_name
 									   parent_name child_name
                                        ox oy oz roll pitch yaw ax ay az
