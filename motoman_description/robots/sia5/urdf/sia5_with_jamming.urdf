@@ -30,53 +30,6 @@
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
-  <!-- gazebo -->
-  <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/sia5</robotNamespace>
-      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
-    </plugin>
-  </gazebo>
-  <gazebo reference="base_link">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_s">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_l">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_e">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_u">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_r">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_b">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
-  <gazebo reference="link_t">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <selfCollide>true</selfCollide>
-  </gazebo>
   <!-- Mass -->
   <!-- about mass rate -->
   <!-- Hard ware limits -->
@@ -380,6 +333,53 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+  <!-- gazebo -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/sia5</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
+  <gazebo reference="base_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_s">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_l">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_e">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_u">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_r">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_b">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="link_t">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
   <!-- Link -->
   <link name="gripper_link">
     <visual>

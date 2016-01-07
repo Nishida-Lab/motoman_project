@@ -3,7 +3,7 @@
   <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.urdf.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.gazebo.xacro"/>
-  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_no_tool.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_with_table.urdf.xacro"/>
 
   <!-- Link -->
   <xacro:tool_link_cylinder_v0 name="gripper_link" mass="1.0"
