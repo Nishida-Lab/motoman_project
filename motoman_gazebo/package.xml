@@ -12,5 +12,7 @@
   <run_depend>ros_control</run_depend>
   <run_depend>gazebo_ros_control</run_depend>
   <run_depend>gazebo_ros</run_depend>
+  <run_depend>robot_description</run_depend>
+  <run_depend>urdf_spawner</run_depend>
   <run_depend>motoman_control</run_depend>
 </package>

@@ -14,13 +14,10 @@ catkin_package(
   )
 
 find_package(roslaunch)
-roslaunch_add_file_check(
-  test/sia5_launch_test.xml
-  test/sia5_with_table_launch_test.xml
-  test/sia5_with_jamming_launch_test.xml
-  test/sia5_nishida_lab_launch_test.xml
-  )
-
+roslaunch_add_file_check(test/sia5_launch_test.xml)
+roslaunch_add_file_check(test/sia5_with_table_launch_test.xml)
+roslaunch_add_file_check(test/sia5_with_jamming_launch_test.xml)
+roslaunch_add_file_check(test/sia5_nishida_lab_launch_test.xml)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}

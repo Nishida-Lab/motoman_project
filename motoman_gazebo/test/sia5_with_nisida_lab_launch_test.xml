@@ -1,3 +1,0 @@
-<launch>
-  <include file="$(find motoman_gazebo)/launch/sia5/sia5_with_nishida_lab.launch"/>
-</launch>
