@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_with_jamming.urdf.xacro"/>
+
+  <!-- add Kinect V2 -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect2_link"/>
+  
+  <!-- Joint -->
+  <joint name="joint_kinect2" type="fixed">
+    <origin rpy="0 -0.1745 0" xyz="0.50024 0 0.8195"/>
+    <parent link="world"/>
+    <child link="kinect2_link"/>
+  </joint>
+  
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect2"/>
+  
+</robot>
