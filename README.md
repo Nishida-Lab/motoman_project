@@ -1,10 +1,4 @@
-# Motoman Project
-[![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch=master)](https://travis-ci.org/Nishida-Lab/motoman_project)
-[![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
-
-### Travis CI
-- master [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch=master)](https://travis-ci.org/Nishida-Lab/motoman_project)
-- moveit [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch=moveit)](https://travis-ci.org/Nishida-Lab/motoman_project)
+# Motoman Project [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg)](https://travis-ci.org/Nishida-Lab/motoman_project) [![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
 
 ![SIA5](.image/sia5.png)
 ## Installation
