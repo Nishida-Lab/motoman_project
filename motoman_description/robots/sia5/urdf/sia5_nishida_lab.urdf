@@ -454,11 +454,17 @@
       <inertia ixx="0.00674371" ixy="0" ixz="0" iyy="0.000281208" iyz="0" izz="0.0068708"/>
     </inertial>
   </link>
+  <link name="kinect2_rgb_optical_frame"/>
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
-    <origin rpy="0 -0.1745 0" xyz="0.50024 0 0.8195"/>
+    <origin rpy="0 0.17453293 3.14159274" xyz="1.05024 0 0.8195"/>
     <parent link="world"/>
     <child link="kinect2_link"/>
+  </joint>
+  <joint name="joint_rgb_kinect2" type="fixed">
+    <origin rpy="1.57079637 3.14159274 1.57079637"/>
+    <parent link="kinect2_link"/>
+    <child link="kinect2_rgb_optical_frame"/>
   </joint>
   <!-- Gazebo -->
   <gazebo reference="kinect2_link">
@@ -487,7 +493,7 @@
         <pointCloudTopicName>depth/points</pointCloudTopicName>
         <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
         <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-        <frameName>camera_depth_optical_frame_kinect2</frameName>
+        <frameName>kinect2_rgb_optical_frame</frameName>
         <baseline>0.1</baseline>
         <distortion_k1>0.0</distortion_k1>
         <distortion_k2>0.0</distortion_k2>
