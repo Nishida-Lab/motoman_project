@@ -414,7 +414,7 @@
   </link>
   <!-- Joint -->
   <joint name="joint_gripper" type="fixed">
-    <origin rpy="-0.1745 0 0" xyz="0 0 0"/>
+    <origin rpy="-0.1745 0 0" xyz="0.0001 0 0"/>
     <parent link="tool0"/>
     <child link="gripper_link"/>
   </joint>
