@@ -22,14 +22,14 @@
           </clip>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-          <cameraName>kinect</cameraName>
+          <cameraName>kinect2</cameraName>
           <alwaysOn>true</alwaysOn>
           <updateRate>30</updateRate>
-          <imageTopicName>rgb/image_raw</imageTopicName>
-          <depthImageTopicName>depth/image_raw</depthImageTopicName>
-          <pointCloudTopicName>depth/points</pointCloudTopicName>
-          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
-          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <imageTopicName>hd/image_color</imageTopicName>
+          <depthImageTopicName>hd/image_depth</depthImageTopicName>
+          <pointCloudTopicName>hd/points</pointCloudTopicName>
+          <cameraInfoTopicName>hd/camera_info</cameraInfoTopicName>
+          <depthImageCameraInfoTopicName>hd/camera_info</depthImageCameraInfoTopicName>
           <frameName>${name}_rgb_optical_frame</frameName>
           <baseline>0.1</baseline>
           <distortion_k1>0.0</distortion_k1>
