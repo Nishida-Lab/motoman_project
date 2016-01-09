@@ -9,15 +9,16 @@
         </geometry>
       </visual>
       <collision>
+		<origin xyz="0 0 0.041"/>
         <geometry>
-		  <box size="0.07 0.5 0.043"/>
+		  <box size="0.065 0.25 0.082"/>
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.5"/>
-        <inertia ixx="0.00674371" ixy="0" ixz="0"
-				 iyy="0.000281208" iyz="0"
-				 izz="0.0068708" />
+        <mass value="0.935"/>
+        <inertia ixx="0.0053937" ixy="0" ixz="0"
+				 iyy="0.00085311" iyz="0"
+				 izz="0.00519899" />
       </inertial>
     </link>
 </xacro:macro>
