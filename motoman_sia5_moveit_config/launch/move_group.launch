@@ -56,7 +56,6 @@
 				      move_group/MoveGroupQueryPlannersService
 				      move_group/MoveGroupStateValidationService
 				      move_group/MoveGroupGetPlanningSceneService
-					  move_group/MoveGroupGetPlanningSceneService
 				      move_group/ClearOctomapService
 				      " />
 
