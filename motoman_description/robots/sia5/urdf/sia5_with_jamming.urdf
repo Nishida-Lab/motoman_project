@@ -44,15 +44,15 @@
       </geometry>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 -0.265"/>
+      <origin rpy="0 0 0" xyz="0 0 -0.245"/>
       <geometry>
-        <box size="1.116 0.676 0.53"/>
+        <box size="1.116 0.676 0.5"/>
       </geometry>
     </collision>
     <inertial>
-      <origin rpy="0 0 0" xyz="0.2 0 0.265"/>
+      <origin rpy="0 0 0" xyz="0.2 0 0.245"/>
       <mass value="40.0"/>
-      <inertia ixx="2.45958666667" ixy="0" ixz="0" iyy="5.08785333333" iyz="0" izz="5.67477333333"/>
+      <inertia ixx="2.35658666667" ixy="0" ixz="0" iyy="4.98485333333" iyz="0" izz="5.67477333333"/>
     </inertial>
   </link>
   <link name="base_link">
@@ -195,7 +195,7 @@
   <joint name="world" type="fixed">
     <parent link="world"/>
     <child link="table_link"/>
-    <origin xyz="0 0 0.53"/>
+    <origin xyz="0 0 0.51"/>
   </joint>
   <joint name="joint_base" type="fixed">
     <parent link="table_link"/>
@@ -413,7 +413,7 @@
   </link>
   <!-- Joint -->
   <joint name="joint_gripper" type="fixed">
-    <origin rpy="-0.1745 0 0" xyz="0 0 0"/>
+    <origin rpy="-0.1745 0 0" xyz="0.0001 0 0"/>
     <parent link="tool0"/>
     <child link="gripper_link"/>
   </joint>
