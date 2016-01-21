@@ -7,8 +7,5 @@ MONITOR_PORT  		= /dev/ttyACM0
 # Set the Baudrate
 MONITOR_BAUDRATE 	= 115200
 
-# Add Libraries
-
-
 # Include Arduino.mk
 include /usr/share/arduino/Arduino.mk
