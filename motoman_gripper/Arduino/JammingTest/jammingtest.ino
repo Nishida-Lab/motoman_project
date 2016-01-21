@@ -1,4 +1,4 @@
-int swicth_pin = 8;
+int switch_pin = 8;
 
 void setup()
 {
