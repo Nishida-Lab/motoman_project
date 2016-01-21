@@ -1,28 +1,31 @@
-#include <ros.h>
-#include <std_msgs/Bool.h>
+#include <ros.h> // Use ros_lib.
+#include <std_msgs/Int32.h>
 
-ros::NodeHandle n;
-std_msgs::Bool data;  
-int hang_pin = 8;
+void switchCb(const std_msgs::Int32& msg); 
 
-ros::Subscriber<std_msgs::Bool> sub("sia5/gripper", &hangCallback);
+/* Declare global variables. */
+ros::NodeHandle nh; // The nodeHandle.
+ros::Subscriber<std_msgs::Int32> sub("/arduino_switch", &switchCb); // Set subscribe the motor_driver topic.
 
-// Call Back
-void hangCallback(const std_msgs::Bool &hang_on){
-  if(hang_on.data)
-	digitalWrite(hang_pin, HIGH);
-  else
-	digitalWrite(hang_pin, LOW);
+void setup() {
+  /* Set pins Mode. */
+  pinMode(8, OUTPUT);
+  digitalWrite(8, LOW);
+  /* Node handle setting. */
+  nh.initNode(); // First setup the node handle.
+  nh.subscribe(sub); // Start subscribe the "steer_ctrl" topic.
 }
 
-void setup()
-{
-  pinMode(hang_pin, OUTPUT);
-  n.initNode();
-  node.Subscriber(sub);
+void loop() {
+  nh.spinOnce(); // Check topic and if change it, run the call back function.
 }
 
-void loop()
-{
-  n.spinOnce();
+
+void switchCb(const std_msgs::Int32& msg) {
+  if(msg.data == 1){
+	digitalWrite(8, HIGH);
+  }
+  else{
+	digitalWrite(8, LOW);
+  }
 }
