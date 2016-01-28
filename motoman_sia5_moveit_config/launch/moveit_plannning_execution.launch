@@ -12,5 +12,7 @@
 
  
  # The visualization component of MoveIt!
- <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch"/>
+ <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch">
+     <arg name="config" value="true"/>
+ </include>
 </launch>
