@@ -100,6 +100,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        table_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         tool0:
           Alpha: 1
           Show Axes: false
@@ -135,6 +140,8 @@ Visualization Manager:
           Value: true
         link_u:
           Value: true
+        table_link:
+          Value: true
         tool0:
           Value: true
         world:
@@ -146,16 +153,17 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
-            link_s:
-              link_l:
-                link_e:
-                  link_u:
-                    link_r:
-                      link_b:
-                        link_t:
-                          tool0:
-                            {}
+          table_link:
+            base_link:
+              link_s:
+                link_l:
+                  link_e:
+                    link_u:
+                      link_r:
+                        link_b:
+                          link_t:
+                            tool0:
+                              {}
       Update Interval: 0
       Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
@@ -211,6 +219,11 @@ Visualization Manager:
             Show Trail: false
             Value: true
           link_u:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          table_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -306,75 +319,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          tool0:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          world:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-        Robot Alpha: 0.5
-        Show Robot Collision: false
-        Show Robot Visual: false
-      Value: true
-    - Class: moveit_rviz_plugin/PlanningScene
-      Enabled: true
-      Move Group Namespace: ""
-      Name: PlanningScene
-      Planning Scene Topic: planning_scene
-      Robot Description: robot_description
-      Scene Geometry:
-        Scene Alpha: 0.9
-        Scene Color: 50; 230; 50
-        Scene Display Time: 0.2
-        Show Scene Geometry: true
-        Voxel Coloring: Z-Axis
-        Voxel Rendering: Occupied Voxels
-      Scene Robot:
-        Attached Body Color: 150; 50; 150
-        Links:
-          All Links Enabled: true
-          Expand Joint Details: false
-          Expand Link Details: false
-          Expand Tree: false
-          Link Tree Style: Links in Alphabetic Order
-          base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_b:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_e:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_l:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_r:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_s:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_t:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          link_u:
+          table_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -415,7 +360,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.89791
+      Distance: 3.51037
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
