@@ -24,6 +24,9 @@
 	<arg name="joint_limits_config" value="$(arg joint_limits_config)"/>
 	<arg name="kinematics_config" value="$(arg kinematics_config)"/>
 	<arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
+	<arg name="sensor_config" value="$(arg sensor_config)"/>
+	<arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+	<arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
   </include>
   
   <!-- The visualization component of MoveIt! -->
