@@ -3,9 +3,9 @@
 	<arg name="load_robot_description" value="true"/>
 	<arg name="urdf_model" value="$(find motoman_description)/robots/sia5/urdf/sia5_with_table.urdf"/>
 	<arg name="srdf_model" value="$(find motoman_moveit)/config/sia5_with_table/sia5.srdf"/>
-	<arg name="joint_limits_file" value="$(find motoman_moveit)/config/sia5_with_table/joint_limits.yaml"/>
-	<arg name="kinematics_file" value="$(find motoman_moveit)/config/sia5_with_table/kinematics.yaml"/>
-	<arg name="controllers_file" value="$(find motoman_moveit)/config/sia5_with_table/controllers.yaml"/>
+	<arg name="joint_limits_config" value="$(find motoman_moveit)/config/sia5_with_table/joint_limits.yaml"/>
+	<arg name="kinematics_config" value="$(find motoman_moveit)/config/sia5_with_table/kinematics.yaml"/>
+	<arg name="controllers_config" value="$(find motoman_moveit)/config/sia5_with_table/controllers.yaml"/>
 	<arg name="use_depth_sensor" value="false"/>
 	<arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5.rviz"/>
   </include>

@@ -9,10 +9,10 @@
   <arg name="srdf_model"/>
 
   <!-- Joint Limits file.-->
-  <arg name="joint_limits_file"/>
+  <arg name="joint_limits_config"/>
 
   <!-- Kinematics file. -->
-  <arg name="kinematics_file"/>
+  <arg name="kinematics_config"/>
   
   <!-- The name of the parameter under which the URDF is loaded -->
   <arg name="robot_description" default="robot_description"/>
@@ -25,12 +25,12 @@
 
   <!-- Load updated joint limits (override information from URDF) -->
   <group ns="$(arg robot_description)_planning">
-    <rosparam command="load" file="$(arg joint_limits_file)"/>
+    <rosparam command="load" file="$(arg joint_limits_config)"/>
   </group>
 
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
-    <rosparam command="load" file="$(arg kinematics_file)"/>
+    <rosparam command="load" file="$(arg kinematics_config)"/>
   </group>
 
 </launch>
