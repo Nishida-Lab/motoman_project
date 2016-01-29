@@ -12,12 +12,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>moveit_commander</build_depend>
-  <build_depend>nextage_ros_bridge</build_depend>
-  <build_depend>nextage_moveit_config</build_depend>
   <build_depend>rospy</build_depend>
   <run_depend>moveit_commander</run_depend>
-  <run_depend>nextage_ros_bridge</run_depend>
-  <run_depend>nextage_moveit_config</run_depend>
   <run_depend>rospy</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>motoman_sia5_moveit_config</run_depend>
   
 </package>
