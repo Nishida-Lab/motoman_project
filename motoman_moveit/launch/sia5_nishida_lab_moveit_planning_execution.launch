@@ -10,6 +10,6 @@
 	<arg name="sensor_config" value="$(find motoman_moveit)/config/sia5_nishida_lab/kinect2.yaml"/>
 	<arg name="octomap_frame_name" value="kinect2_link"/>
 	<arg name="sensor_max_range" value="4.5"/>
-	<arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5.rviz"/>
+	<arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5_nishida_lab.rviz"/>
   </include>
 </launch>
