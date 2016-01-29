@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find motoman_sia5_moveit_config)/launch/moveit_planning_execution.launch">
+	<arg name="load_robot_description" value="true"/>
+	<arg name="urdf_model" value="$(find motoman_description)/robots/sia5/urdf/sia5_with_jamming.urdf"/>
+	<arg name="srdf_model" value="$(find motoman_moveit)/config/sia5_with_jamming/sia5.srdf"/>
+	<arg name="joint_limits_file" value="$(find motoman_moveit)/config/sia5_with_jamming/joint_limits.yaml"/>
+	<arg name="kinematics_file" value="$(find motoman_moveit)/config/sia5_with_jamming/kinematics.yaml"/>
+	<arg name="controllers_file" value="$(find motoman_moveit)/config/sia5_with_jamming/controllers.yaml"/>
+	<arg name="use_depth_sensor" value="false"/>
+	<arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5.rviz"/>
+  </include>
+</launch>
