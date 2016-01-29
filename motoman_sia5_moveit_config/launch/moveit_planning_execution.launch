@@ -8,9 +8,9 @@
   <arg name="kinematics_config" default="$(find motoman_sia5_moveit_config)/config/kinematics.yaml"/>
   <arg name="controllers_config" default="$(find motoman_sia5_moveit_config)/config/controllers.yaml"/>
   <arg name="use_depth_sensor" default="false"/>
-  <arg name="sensor_config"/>
-  <arg name="octomap_frame_name"/>
-  <arg name="sensor_max_range"/>
+  <arg name="sensor_config" default="$(find motoman_sia5_moveit_config)/config/kinect2.yaml"/>
+  <arg name="octomap_frame_name" default="kinect2_link"/>
+  <arg name="sensor_max_range" default="4.5"/>
   <arg name="rviz_config" default="$(find motoman_sia5_moveit_config)/launch/moveit.rviz"/>
   
   <!-- The planning and execution components of MoveIt! configured to -->
