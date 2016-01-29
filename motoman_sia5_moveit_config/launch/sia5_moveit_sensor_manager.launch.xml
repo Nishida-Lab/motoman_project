@@ -1,6 +1,11 @@
-<launch>
-  <rosparam command="load" file="$(find motoman_sia5_moveit_config)/config/kinect2.yaml" />
-  <param name="octomap_frame" type="string" value="kinect2_link" />
-  <param name="octomap_resolution" type="double" value="0.05" />
-  <param name="max_range" type="double" value="4.5" />
+<launch>  
+  <arg name="use_depth_sensor"/>
+  <arg name="sensor_config"/>
+  <arg name="octomap_frame_name"/>
+  <arg name="sensor_max_range"/>
+  
+  <rosparam command="load" file="$(arg sensor_config)"/>
+  <param name="octomap_frame" type="string" value="$(arg octomap_frame_name)"/>
+  <param name="octomap_resolution" type="double" value="0.05"/>
+  <param name="max_range" type="double" value="$(arg sensor_max_range)"/>
 </launch>

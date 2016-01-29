@@ -1,18 +1,38 @@
 <launch>
- # The planning and execution components of MoveIt! configured to
- # publish the current configuration of the robot (simulated or real)
- # and the current state of the world as seen by the planner
- <include file="$(find motoman_sia5_moveit_config)/launch/move_group.launch">
-  <arg name="publish_monitored_planning_scene" value="true" />
- </include>
- 
- <!-- <node pkg="joint_state_muxer" type="joint_state_muxer" name="joint_state_muxer" output="screen"> -->
- <!--   <rosparam param="source_list">[joint_states]</rosparam> -->
- <!--    </node> -->
 
- 
- # The visualization component of MoveIt!
- <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch">
-     <arg name="config" value="true"/>
- </include>
+  <!-- Arguments for move_group -->
+  <arg name="load_robot_description" default="true"/>
+  <arg name="urdf_model" default="$(find motoman_description)/robots/sia5/urdf/sia5.urdf"/>
+  <arg name="srdf_model" default="$(find motoman_sia5_moveit_config)/config/sia5.srdf"/>
+  <arg name="joint_limits_config" default="$(find motoman_sia5_moveit_config)/config/joint_limits.yaml"/>
+  <arg name="kinematics_config" default="$(find motoman_sia5_moveit_config)/config/kinematics.yaml"/>
+  <arg name="controllers_config" default="$(find motoman_sia5_moveit_config)/config/controllers.yaml"/>
+  <arg name="use_depth_sensor" default="false"/>
+  <arg name="sensor_config" default="$(find motoman_sia5_moveit_config)/config/kinect2.yaml"/>
+  <arg name="octomap_frame_name" default="kinect2_link"/>
+  <arg name="sensor_max_range" default="4.5"/>
+  <arg name="rviz_config" default="$(find motoman_sia5_moveit_config)/launch/moveit.rviz"/>
+  
+  <!-- The planning and execution components of MoveIt! configured to -->
+  <!-- publish the current configuration of the robot (simulated or real) -->
+  <!-- and the current state of the world as seen by the planner -->
+  <include file="$(find motoman_sia5_moveit_config)/launch/move_group.launch">
+	<arg name="publish_monitored_planning_scene" value="true" />
+	<arg name="load_robot_description" value="$(arg load_robot_description)"/>
+	<arg name="urdf_model" value="$(arg urdf_model)"/>
+	<arg name="srdf_model" value="$(arg srdf_model)"/>
+	<arg name="joint_limits_config" value="$(arg joint_limits_config)"/>
+	<arg name="kinematics_config" value="$(arg kinematics_config)"/>
+	<arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
+	<arg name="sensor_config" value="$(arg sensor_config)"/>
+	<arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+	<arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
+  </include>
+  
+  <!-- The visualization component of MoveIt! -->
+  <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+	<arg name="rviz_config" value="$(arg rviz_config)"/>
+	<arg name="kinematics_config" value="$(arg kinematics_config)"/>
+  </include>
 </launch>

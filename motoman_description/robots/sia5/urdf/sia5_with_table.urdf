@@ -343,41 +343,49 @@
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_s">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_l">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_e">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_u">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_r">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_b">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_t">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
+    <turnGravityOff>true</turnGravityOff>
   </gazebo>
 </robot>
 
