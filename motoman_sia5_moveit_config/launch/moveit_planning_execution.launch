@@ -8,6 +8,7 @@
   <arg name="kinematics_file" default="$(find motoman_sia5_moveit_config)/config/kinematics.yaml"/>
   <arg name="controllers_file" default="$(find motoman_sia5_moveit_config)/config/controllers.yaml"/>
   <arg name="use_depth_sensor" default="false"/>
+  <arg name="rviz_config" default="$(find motoman_sia5_moveit_config)/launch/moveit.rviz"/>
   
   <!-- The planning and execution components of MoveIt! configured to -->
   <!-- publish the current configuration of the robot (simulated or real) -->
@@ -25,5 +26,7 @@
   <!-- The visualization component of MoveIt! -->
   <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>
+	<arg name="rviz_config" value="$(arg rviz_config)"/>
+	<arg name="kinematics_file" value="$(arg kinematics_file)"/>
   </include>
 </launch>
