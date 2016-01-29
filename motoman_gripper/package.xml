@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>motoman_gripper</name>
+  <version>1.0.0</version>
+  <description>The motoman_gripper package</description>
+
+  <maintainer email="groadpg@gmail.com">RyodoTanaka</maintainer>
+  <license>BSD</license>
+  <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
+
+  <build_depend>catkin</build_depend>
+  <run_depend>rosserial_arduino</run_depend>
+  <run_depend>rosserial</run_depend>
+  <run_depend>rosserial_python</run_depend>
+
+</package>

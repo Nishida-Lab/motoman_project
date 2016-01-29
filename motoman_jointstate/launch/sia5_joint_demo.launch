@@ -1,9 +1,0 @@
-<launch>
-  <arg name="model" default="$(find motoman_description)/robots/sia5/sia5_no_tool.urdf.xacro"/>
-
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'"/>
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-  <node pkg="motoman_jointstate" name="joint_publisher" type="joint_publisher.py" output="screen" />
-  <node pkg="motoman_jointstate" name="joint_listener" type="joint_listener.py" output="screen" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find motoman_description)/launch/sia5/sia5_rviz.rviz" required="true" />
-</launch>

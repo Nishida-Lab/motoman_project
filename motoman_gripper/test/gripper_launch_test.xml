@@ -1,0 +1,3 @@
+<launch>
+  <include file="$(find motoman_gripper)/launch/sia5_gripper.launch"/>
+</launch>

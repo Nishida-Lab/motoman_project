@@ -79,7 +79,9 @@ before_install:
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
-
+  # Arduino Makefile
+  - sudo apt-get install -y arduino-mk screen
+  
 # Create a catkin workspace with the package under integration.
 install:
   - mkdir -p ~/catkin_ws/src
@@ -109,6 +111,11 @@ before_script:
 # Compile and test. If the CATKIN_OPTIONS file exists, use it as an argument to
 # catkin_make.
 script:
+  # for Arduino
+  - cd ~/catkin_ws/src/motoman_project/motoman_gripper/Arduino/JammingTest
+  - make
+  - cd ~/catkin_ws/src/motoman_project/motoman_gripper/Arduino/Kawashima
+  - make
   # for ROS
   - cd ~/catkin_ws
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
