@@ -14,9 +14,9 @@
   <arg name="kinematics_config" default="$(find motoman_sia5_moveit_config)/config/kinematics.yaml"/>
   <arg name="controllers_config" default="$(find motoman_sia5_moveit_config)/config/controllers.yaml"/>
   <arg name="use_depth_sensor" default="false"/>
-  <arg name="sensor_config" if="$(arg use_depth_sensor)"/>
-  <arg name="octomap_frame_name" if="$(arg use_depth_sensor)"/>
-  <arg name="sensor_max_range" if="$(arg use_depth_sensor)"/>
+  <arg name="sensor_config" default="$(find motoman_sia5_moveit_config)/config/kinect2.yaml"/>
+  <arg name="octomap_frame_name" default="kinect2_link"/>
+  <arg name="sensor_max_range" default="4.5"/>
   
   <!-- Call planning context -->
   <include file="$(find motoman_sia5_moveit_config)/launch/planning_context.launch" >
@@ -52,12 +52,12 @@
   </include>
 
   <!-- Sensors Functionality -->
-  <include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg allow_trajectory_execution)">
+  <include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg use_depth_sensor)">
     <arg name="moveit_sensor_manager" value="sia5" />
 	<arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
-	<arg name="sensor_config" value="$(arg sensor_config)" if="$(arg use_depth_sensor)"/>
-	<arg name="octomap_frame_name" value="$(arg octomap_frame_name)" if="$(arg use_depth_sensor)"/>
-	<arg name="sensor_max_range" value="$(arg sensor_max_range)" if="$(arg use_depth_sensor)"/>
+	<arg name="sensor_config" value="$(arg sensor_config)"/>
+	<arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+	<arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
   </include>
 
   <!-- Start the actual move_group node/action server -->

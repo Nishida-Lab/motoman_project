@@ -1,15 +1,11 @@
 <launch>  
   <arg name="use_depth_sensor"/>
-  <arg name="sensor_config" if="$(arg use_depth_sensor)"/>
-  <arg name="octomap_frame_name" if="$(arg use_depth_sensor)"/>
-  <arg name="sensor_max_range" if="$(arg use_depth_sensor)"/>
+  <arg name="sensor_config"/>
+  <arg name="octomap_frame_name"/>
+  <arg name="sensor_max_range"/>
   
-  <rosparam command="load" file="$(arg sensor_config)"
-			if="$(arg use_depth_sensor)"/>
-  <param name="octomap_frame" type="string" value="$(arg octomap_frame_name)"
-		 if="$(arg use_depth_sensor)"/>
-  <param name="octomap_resolution" type="double" value="0.05"
-		 if="$(arg use_depth_sensor)"/>
-  <param name="max_range" type="double" value="$(sensor_max_range)"
-		 if="$(arg use_depth_sensor)"/>
+  <rosparam command="load" file="$(arg sensor_config)"/>
+  <param name="octomap_frame" type="string" value="$(arg octomap_frame_name)"/>
+  <param name="octomap_resolution" type="double" value="0.05"/>
+  <param name="max_range" type="double" value="$(arg sensor_max_range)"/>
 </launch>
