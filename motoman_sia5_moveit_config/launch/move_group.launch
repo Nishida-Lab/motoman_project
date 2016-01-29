@@ -45,6 +45,7 @@
     <arg name="moveit_manage_controllers" value="true" />
     <arg name="moveit_controller_manager" value="sia5" unless="$(arg fake_execution)"/>
     <arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
+	<arg name="controllers_file" value="$(arg controllers_file)"/>
   </include>
 
   <!-- Sensors Functionality -->

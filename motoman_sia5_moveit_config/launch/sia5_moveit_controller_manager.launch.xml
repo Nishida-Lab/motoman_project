@@ -1,5 +1,5 @@
 <launch>
-  <arg name="controllers_file" />
+  <arg name="controllers_file"/>
   
   <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
   <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
