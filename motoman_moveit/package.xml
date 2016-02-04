@@ -11,11 +11,31 @@
   <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>moveit_commander</build_depend>
   <build_depend>rospy</build_depend>
+  <build_depend>moveit_commander</build_depend>
   <run_depend>moveit_commander</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>rviz</run_depend>
   <run_depend>motoman_sia5_moveit_config</run_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>moveit_msgs</build_depend>
+  <build_depend>boost</build_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>cmake_modules</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>moveit_core</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>moveit_msgs</run_depend>
+  <run_depend>boost</run_depend>
+  <run_depend>eigen</run_depend>
+  <run_depend>cmake_modules</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>moveit_ros_perception</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>moveit_core</run_depend>
   
 </package>
