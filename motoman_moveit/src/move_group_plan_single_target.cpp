@@ -20,13 +20,13 @@ int main(int argc, char **argv)
 
     // Set a goal message as a pose of the end effector
     geometry_msgs::Pose goal;
-    goal.orientation.x = -0.000764819;
-    goal.orientation.y = 0.0366097;
-    goal.orientation.z = 0.00918912;
-    goal.orientation.w = 0.999287;
-    goal.position.x = 0.775884;
-    goal.position.y = 0.43172;
-    goal.position.z = 2.71809;
+    goal.orientation.x = 0;
+    goal.orientation.y = 0;
+    goal.orientation.z = 0;
+    goal.orientation.w = 1;
+    goal.position.x = 0.5;
+    goal.position.y = 0.3;
+    goal.position.z = 0.5;
 
     // Set the tolerance to consider the goal achieved
     plan_group.setGoalTolerance(0.2);
@@ -51,13 +51,13 @@ int main(int argc, char **argv)
 
     sleep(7.0);
 
-    goal.orientation.x = -0.000764819+0.01;
-    goal.orientation.y = 0.0366097-0.01;
-    goal.orientation.z = 0.00918912-0.01;
-    goal.orientation.w = 0.999287;
-    goal.position.x = 0.775884;
-    goal.position.y = 0.43172;
-    goal.position.z = 2.71809;
+    goal.orientation.x = 0;
+    goal.orientation.y = 0;
+    goal.orientation.z = 0;
+    goal.orientation.w = 1;
+    goal.position.x = 0.5;
+    goal.position.y = -0.3;
+    goal.position.z = 0.5;
 
     // Set the tolerance to consider the goal achieved
     plan_group.setGoalTolerance(0.2);
