@@ -32,7 +32,7 @@ def main():
 
     target_pose.position.x = 0.5
     target_pose.position.y = -0.25
-    target_pose.position.z = 2.5
+    target_pose.position.z = 0.5
     target_pose.orientation.x = 0.0
     target_pose.orientation.y = 0.0
     target_pose.orientation.z = 0.0
@@ -49,7 +49,7 @@ def main():
 
     target_pose.position.x = 0.4
     target_pose.position.y = -0.15
-    target_pose.position.z = 2.4
+    target_pose.position.z = 0.6
     target_pose.orientation.x = 0.0
     target_pose.orientation.y = 0.0
     target_pose.orientation.z = 0.0
@@ -65,8 +65,8 @@ def main():
     print "=" * 10, " Joint values: ", arm.get_current_joint_values()
 
     target_pose.position.x = 0.4
-    target_pose.position.y = -0.15
-    target_pose.position.z = 2.7
+    target_pose.position.y = 0.4
+    target_pose.position.z = 0.4
     target_pose.orientation.x = 0.0
     target_pose.orientation.y = 0.0
     target_pose.orientation.z = 0.0
