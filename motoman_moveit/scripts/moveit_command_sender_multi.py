@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import moveit_commander
 import rospy
 import geometry_msgs.msg
-# import copy
+import copy
 
 def main():
     rospy.init_node("moveit_command_sender")
@@ -30,8 +29,9 @@ def main():
     print arm_initial_pose
 
     target_pose = geometry_msgs.msg.Pose()
+
     target_pose.position.x = 0.5
-    target_pose.position.y = 0.0
+    target_pose.position.y = -0.25
     target_pose.position.z = 0.5
     target_pose.orientation.x = 0.0
     target_pose.orientation.y = 0.0
@@ -39,23 +39,46 @@ def main():
     target_pose.orientation.w = 1.0
     arm.set_pose_target(target_pose)
 
-    print "=" * 10, " plan..."
-    # plan()はMoveit!プラグインでいう「Plan」実機は動かない
-    # プランニングだけ
-    # plan = arm.plan()
-    # go()はMoveit!プラグインでいう「Plan and Exucute」
+    print "=" * 10, " plan1..."
     arm.go()
-    rospy.sleep(1)
+    rospy.sleep(2)
 
     print "=" * 10, " Planning to a joint-space goal"
     arm.clear_pose_targets()
     print "=" * 10, " Joint values: ", arm.get_current_joint_values()
 
-    rospy.spin()
+    target_pose.position.x = 0.4
+    target_pose.position.y = -0.15
+    target_pose.position.z = 0.6
+    target_pose.orientation.x = 0.0
+    target_pose.orientation.y = 0.0
+    target_pose.orientation.z = 0.0
+    target_pose.orientation.w = 1.0
+    arm.set_pose_target(target_pose)
+
+    print "=" * 10, " plan2..."
+    arm.go()
+    rospy.sleep(2)
+
+    print "=" * 10, " Planning to a joint-space goal"
+    arm.clear_pose_targets()
+    print "=" * 10, " Joint values: ", arm.get_current_joint_values()
+
+    target_pose.position.x = 0.4
+    target_pose.position.y = 0.4
+    target_pose.position.z = 0.4
+    target_pose.orientation.x = 0.0
+    target_pose.orientation.y = 0.0
+    target_pose.orientation.z = 0.0
+    target_pose.orientation.w = 1.0
+    arm.set_pose_target(target_pose)
+
+    print "=" * 10, " plan3..."
+    arm.go()
+    rospy.sleep(2)
 
 if __name__ == '__main__':
     try:
         main()
     except rospy.ROSInterruptException:
-        print "ROSInterruptException!!!!"
         pass
