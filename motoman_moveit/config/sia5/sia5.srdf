@@ -13,7 +13,6 @@
         <joint name="joint_tool0" />
     </group>
     <group name="arm">
-        <joint name="world" />
         <joint name="joint_s" />
         <joint name="joint_l" />
         <joint name="joint_e" />
