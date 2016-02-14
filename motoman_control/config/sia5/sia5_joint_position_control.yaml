@@ -1,34 +1,33 @@
-sia5 :
 # Publish all joint states -----------------------------------
-  joint_state_controller:
-    type: joint_state_controller/JointStateController
-    publish_rate: 50    
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50    
 # Position Controllers ---------------------------------------
-  joint_s_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_s
-    pid: {p: 100, i: 10, d: 0, i_clamp: 100}
-  joint_l_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_l
-    pid: {p: 1000, i: 500, d: 0, i_clamp: 500}
-  joint_e_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_e
-    pid: {p: 100, i: 10, d: 0, i_clamp: 100}
-  joint_u_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_u
-    pid: {p: 100, i: 10, d: 0, i_clamp: 100}
-  joint_r_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_r
-    pid: {p: 10, i: 1, d: 0, i_clamp: 100}
-  joint_b_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_b
-    pid: {p: 10, i: 1, d: 0, i_clamp: 100}  
-  joint_t_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: joint_t
-    pid: {p: 10, i: 1, d: 0, i_clamp: 100}
+joint_s_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_s
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+joint_l_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_l
+  pid: {p: 1000, i: 500, d: 0, i_clamp: 500}
+joint_e_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_e
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+joint_u_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_u
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+joint_r_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_r
+  pid: {p: 10, i: 1, d: 0, i_clamp: 100}
+joint_b_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_b
+  pid: {p: 10, i: 1, d: 0, i_clamp: 100}  
+joint_t_position_controller:
+  type: effort_controllers/JointPositionController
+  joint: joint_t
+  pid: {p: 10, i: 1, d: 0, i_clamp: 100}
