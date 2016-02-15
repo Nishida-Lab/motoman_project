@@ -199,6 +199,7 @@
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+	  <!-- <robotSimType>rosbook_arm_hardware_gazebo/ROSBookArmHardwareGazebo</robotSimType> -->
     </plugin>
   </gazebo>
   <xacro:gazebo_link_v1 name="base_link"/>
