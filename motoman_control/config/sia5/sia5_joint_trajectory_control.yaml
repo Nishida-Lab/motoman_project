@@ -13,14 +13,6 @@ sia5_controller:
     - joint_r
     - joint_b
     - joint_t
-  gains: # Required because we're controlling an effort interface
-    joint_s: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_l: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_e: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_u: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_r: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_b: {p: 1, i: 0, d: 0.0, i_clamp: 0}
-    joint_t: {p: 1, i: 0, d: 0.0, i_clamp: 0}
   constraints:
     goal_time: &goal_time_constraint 2.0
     joint_s:
