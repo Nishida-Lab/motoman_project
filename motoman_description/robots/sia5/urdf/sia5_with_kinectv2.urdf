@@ -247,7 +247,7 @@
     </joint>
     <actuator name="motor_s">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_l">
@@ -257,7 +257,7 @@
     </joint>
     <actuator name="motor_l">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_e">
@@ -267,7 +267,7 @@
     </joint>
     <actuator name="motor_e">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>100</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_u">
@@ -277,7 +277,7 @@
     </joint>
     <actuator name="motor_u">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>50</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_r">
@@ -287,7 +287,7 @@
     </joint>
     <actuator name="motor_r">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>30</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_b">
@@ -297,7 +297,7 @@
     </joint>
     <actuator name="motor_b">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>30</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_t">
@@ -307,14 +307,13 @@
     </joint>
     <actuator name="motor_t">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>10</mechanicalReduction>
     </actuator>
   </transmission>
   <!-- gazebo -->
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-      <!-- <robotSimType>rosbook_arm_hardware_gazebo/ROSBookArmHardwareGazebo</robotSimType> -->
     </plugin>
   </gazebo>
   <gazebo reference="base_link">
@@ -380,7 +379,7 @@
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
     <origin rpy="0 0.17453293 3.14159274" xyz="1.05024 0 0.3195"/>
-    <parent link="world"/>
+    <parent link="base_link"/>
     <child link="kinect2_link"/>
   </joint>
   <joint name="joint_rgb_kinect2" type="fixed">
