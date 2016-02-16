@@ -242,70 +242,70 @@
   <transmission name="transmission_s">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_s">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_s">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_l">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_l">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_l">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_e">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_e">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_e">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_u">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_u">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_u">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_r">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_r">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_r">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_b">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_b">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_b">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
   <transmission name="transmission_t">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_t">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_t">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -313,55 +313,48 @@
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <!-- <robotSimType>rosbook_arm_hardware_gazebo/ROSBookArmHardwareGazebo</robotSimType> -->
     </plugin>
   </gazebo>
   <gazebo reference="base_link">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_s">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_l">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_e">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_u">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_r">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_b">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
   <gazebo reference="link_t">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <selfCollide>true</selfCollide>
-    <turnGravityOff>true</turnGravityOff>
   </gazebo>
 </robot>
 

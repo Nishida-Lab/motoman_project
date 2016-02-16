@@ -27,7 +27,5 @@
 		args="-urdf -model sia5 -param robot_description"/>
 
   <!-- ros_control motoman launch file -->
-  <rosparam file="$(find motoman_description)/config/joint_limits.yaml" command="load"/>
-  <include file="$(find motoman_control)/launch/sia5/sia5_sim_control.launch">
-  </include>
+  <include file="$(find motoman_control)/launch/sia5/sia5_sim_control.launch"/>
 </launch>
