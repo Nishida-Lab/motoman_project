@@ -314,7 +314,6 @@
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-      <!-- <robotSimType>rosbook_arm_hardware_gazebo/ROSBookArmHardwareGazebo</robotSimType> -->
     </plugin>
   </gazebo>
   <gazebo reference="base_link">
@@ -380,7 +379,7 @@
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
     <origin rpy="0 0.17453293 3.14159274" xyz="1.05024 0 0.3195"/>
-    <parent link="world"/>
+    <parent link="base_link"/>
     <child link="kinect2_link"/>
   </joint>
   <joint name="joint_rgb_kinect2" type="fixed">
