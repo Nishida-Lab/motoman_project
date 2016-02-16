@@ -52,8 +52,8 @@ compiler:
   - gcc
 notifications:
   email:
-    on_success: always
-    on_failue: always
+    on_success: never
+    on_failue: never
   slack: nishida-lab:Sczvu4bdpbngcXGeiZAEdHGx
 
 # Configuration variables. All variables are global now, but this can be used to
@@ -81,7 +81,7 @@ before_install:
   - rosdep update
   # Arduino Makefile
   - sudo apt-get install -y arduino-mk screen
-  
+
 # Create a catkin workspace with the package under integration.
 install:
   - mkdir -p ~/catkin_ws/src
@@ -107,7 +107,7 @@ before_script:
   # package depdencies: install using rosdep.
   - cd ~/catkin_ws
   - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-  
+
 # Compile and test. If the CATKIN_OPTIONS file exists, use it as an argument to
 # catkin_make.
 script:
