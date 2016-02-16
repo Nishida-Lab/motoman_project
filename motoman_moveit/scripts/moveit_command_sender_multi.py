@@ -77,6 +77,31 @@ def main():
     arm.go()
     rospy.sleep(2)
 
+    print "=" * 10, " Cartesian Paths"
+    waypoints = []
+
+    waypoints.append(arm.get_current_pose().pose)
+
+    wpose = geometry_msgs.msg.Pose()
+    wpose.orientation.w = 1.0
+    wpose.position.x = waypoints[0].position.x
+    wpose.position.y = waypoints[0].position.y - 0.15
+    wpose.position.z = waypoints[0].position.z
+    waypoints.append(copy.deepcopy(wpose))
+
+    wpose.position.y -= 0.2
+    wpose.position.z -= 0.2
+    waypoints.append(copy.deepcopy(wpose))
+
+    wpose.position.z += 0.2
+    waypoints.append(copy.deepcopy(wpose))
+
+    (plan, fraction) = arm.compute_cartesian_path(waypoints, 0.01, 0.0)
+
+    print "=" * 10, " plan4..."
+    arm.execute(plan)
+    rospy.sleep(5)
+
 if __name__ == '__main__':
     try:
         main()
