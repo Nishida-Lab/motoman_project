@@ -69,8 +69,8 @@ env:
 
 ################################################################################
 
-# Install system dependencies, namely a very barebones ROS setup.
 before_install:
+  # Install system dependencies, namely a very barebones ROS setup.
   - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
   - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
   - sudo apt-get update -qq
@@ -81,6 +81,19 @@ before_install:
   - rosdep update
   # Arduino Makefile
   - sudo apt-get install -y arduino-mk screen
+  # libfreenect2
+  - yes | sudo apt-add-repository ppa:floe/libusb && sudo apt-get update -qq && sudo apt-get install -y libusb-1.0-0-dev
+  - sudo apt-get install -y libturbojpeg libjpeg-turbo8-dev
+  - sudo dpkg -i debs/libglfw3*deb; sudo apt-get install -f; sudo apt-get install -y libgl1-mesa-dri-lts-vivid
+  - yes | sudo apt-add-repository ppa:pmjdebruijn/beignet-testing; sudo apt-get update -qq; sudo apt-get install -y beignet-dev;
+  - git clone https://github.com/OpenKinect/libfreenect2.git
+  - cd libfreenect2
+  - mkdir build && cd build
+  - cmake ..
+  - make
+  - sudo make install
+  - sudo ldconfig
+  - cd ~
 
 # Create a catkin workspace with the package under integration.
 install:
