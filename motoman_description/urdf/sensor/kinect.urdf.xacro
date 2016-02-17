@@ -4,8 +4,9 @@
 <xacro:macro name="kinect2_link_box_v0" params="name">
     <link name="${name}">
       <visual>
+		<material name="black"/>
         <geometry>
-          <mesh filename="package://motoman_description/meshes/sensor/visual/COLLADA/kinect2.dae"/>
+          <mesh filename="package://motoman_description/meshes/sensor/visual/COLLADA/kinectv2.stl"/>
         </geometry>
       </visual>
       <collision>

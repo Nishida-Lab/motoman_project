@@ -24,7 +24,7 @@
   
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-		args="-urdf -model sia5 -param robot_description"/>
+  		args="-urdf -model sia5 -param robot_description"/>
 
   <!-- ros_control motoman launch file -->
   <include file="$(find motoman_control)/launch/sia5/sia5_sim_control.launch"/>

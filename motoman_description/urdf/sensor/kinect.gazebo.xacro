@@ -5,6 +5,9 @@
 
   <xacro:macro name="kinect_gazebo" params="name">
 	<gazebo reference="${name}_link">
+	  <mu1>0.2</mu1>
+	  <mu2>0.2</mu2>
+	  <material>Gazebo/Black</material>
 	  <!-- hd -->
       <sensor type="depth" name="${name}">
 		<always_on>true</always_on>
@@ -20,6 +23,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/hd</cameraName>
@@ -57,6 +65,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/qhd</cameraName>
@@ -94,6 +107,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/sd</cameraName>

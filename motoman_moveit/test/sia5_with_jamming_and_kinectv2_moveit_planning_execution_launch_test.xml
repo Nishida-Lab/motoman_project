@@ -1,0 +1,3 @@
+<launch>
+ <include file="$(find motoman_moveit)/launch/sia5_with_jamming_and_kinectv2_moveit_planning_execution.launch"/>
+</launch>

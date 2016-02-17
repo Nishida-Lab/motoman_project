@@ -1,0 +1,12 @@
+<launch>
+  <arg name="model"/>
+  <arg name="model_name"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+  
+  <node name="spawn_armarker" pkg="gazebo_ros" type="spawn_model" args="-file $(arg model) -urdf -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg model_name)" respawn="false" output="screen" />
+</launch>
