@@ -37,24 +37,6 @@
   <!-- Velocity limits -->
   <!-- link -->
   <link name="world"/>
-  <link name="table_link">
-    <visual>
-      <geometry>
-        <mesh filename="package://motoman_description/meshes/sia5/visual/COLLADA/table_link.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 -0.245"/>
-      <geometry>
-        <box size="1.116 0.676 0.5"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <origin rpy="0 0 0" xyz="0.2 0 0.245"/>
-      <mass value="40.0"/>
-      <inertia ixx="2.35658666667" ixy="0" ixz="0" iyy="4.98485333333" iyz="0" izz="5.67477333333"/>
-    </inertial>
-  </link>
   <link name="base_link">
     <visual>
       <geometry>
@@ -194,11 +176,6 @@
   <!-- joint -->
   <joint name="world" type="fixed">
     <parent link="world"/>
-    <child link="table_link"/>
-    <origin xyz="0 0 0.51"/>
-  </joint>
-  <joint name="joint_base" type="fixed">
-    <parent link="table_link"/>
     <child link="base_link"/>
   </joint>
   <joint name="joint_s" type="revolute">
@@ -337,7 +314,6 @@
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-      <!-- <robotSimType>rosbook_arm_hardware_gazebo/ROSBookArmHardwareGazebo</robotSimType> -->
     </plugin>
   </gazebo>
   <gazebo reference="base_link">
