@@ -1,7 +1,7 @@
 <launch>
   <include file="$(find motoman_sia5_moveit_config)/launch/moveit_planning_execution.launch">
 	<arg name="load_robot_description" value="true"/>
-	<arg name="urdf_model" value="$(find motoman_description)/robots/sia5/urdf/sia5_with_kinectv2.urdf"/>
+	<arg name="urdf_model" value="$(find motoman_description)/robots/sia5/urdf/sia5_with_kinectv2.urdf.xacro"/>
 	<arg name="srdf_model" value="$(find motoman_moveit)/config/sia5_with_kinectv2/sia5.srdf"/>
 	<arg name="joint_limits_config" value="$(find motoman_moveit)/config/sia5_with_kinectv2/joint_limits.yaml"/>
 	<arg name="kinematics_config" value="$(find motoman_moveit)/config/sia5_with_kinectv2/kinematics.yaml"/>
