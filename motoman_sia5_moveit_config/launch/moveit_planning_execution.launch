@@ -2,7 +2,7 @@
 
   <!-- Arguments for move_group -->
   <arg name="load_robot_description" default="true"/>
-  <arg name="urdf_model" default="$(find motoman_description)/robots/sia5/urdf/sia5.urdf"/>
+  <arg name="urdf_model" default="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
   <arg name="srdf_model" default="$(find motoman_sia5_moveit_config)/config/sia5.srdf"/>
   <arg name="joint_limits_config" default="$(find motoman_sia5_moveit_config)/config/joint_limits.yaml"/>
   <arg name="kinematics_config" default="$(find motoman_sia5_moveit_config)/config/kinematics.yaml"/>
