@@ -16,7 +16,6 @@
     </group>
     <group name="arm">
         <joint name="world" />
-        <joint name="joint_base" />
         <joint name="joint_s" />
         <joint name="joint_l" />
         <joint name="joint_e" />
@@ -56,7 +55,6 @@
     <disable_collisions link1="base_link" link2="link_e" reason="Never" />
     <disable_collisions link1="base_link" link2="link_l" reason="Never" />
     <disable_collisions link1="base_link" link2="link_s" reason="Adjacent" />
-    <disable_collisions link1="base_link" link2="table_link" reason="Adjacent" />
     <disable_collisions link1="gripper_link" link2="link_b" reason="Never" />
     <disable_collisions link1="gripper_link" link2="link_e" reason="Never" />
     <disable_collisions link1="gripper_link" link2="link_r" reason="Never" />
@@ -71,13 +69,10 @@
     <disable_collisions link1="link_e" link2="link_s" reason="Never" />
     <disable_collisions link1="link_e" link2="link_t" reason="Never" />
     <disable_collisions link1="link_e" link2="link_u" reason="Adjacent" />
-    <disable_collisions link1="link_e" link2="table_link" reason="Never" />
     <disable_collisions link1="link_l" link2="link_s" reason="Adjacent" />
     <disable_collisions link1="link_l" link2="link_u" reason="Never" />
-    <disable_collisions link1="link_l" link2="table_link" reason="Never" />
     <disable_collisions link1="link_r" link2="link_t" reason="Never" />
     <disable_collisions link1="link_r" link2="link_u" reason="Adjacent" />
     <disable_collisions link1="link_s" link2="link_u" reason="Never" />
-    <disable_collisions link1="link_s" link2="table_link" reason="Never" />
     <disable_collisions link1="link_t" link2="link_u" reason="Never" />
 </robot>
