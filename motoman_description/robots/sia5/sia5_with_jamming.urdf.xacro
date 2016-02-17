@@ -4,7 +4,7 @@
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.urdf.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.gazebo.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
-
+  
   <!-- Link -->
   <xacro:tool_link_cylinder_v0 name="gripper_link" mass="1.0"
   							   radius="0.0965" height="0.61445"
@@ -12,10 +12,10 @@
   							   oroll="0" opitch="0" oyaw="0"/>
 
   <xacro:tool_link_no_collision_v0 name="balloon" mass="0.3"
-  					  ixx="0.001" ixy="0" ixz="0"
-  					  iyy="0.001" iyz="0" izz="0.001"/>
+  								   ixx="0.001" ixy="0" ixz="0"
+  								   iyy="0.001" iyz="0" izz="0.001"/>
 
-  <!-- Joint -->
+  <!-- Joint  -->
   <joint name="joint_gripper" type="fixed">
     <origin rpy="-0.1745 0 0" xyz="0.0001 0 0"/>
     <parent link="tool0"/>

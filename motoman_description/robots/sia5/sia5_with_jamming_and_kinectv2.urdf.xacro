@@ -3,8 +3,8 @@
   <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
-  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_table_gazebo.urdf.xacro"/>
-
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_with_jamming.urdf.xacro"/>
+  
   <!-- add Kinect V2 -->
   <!-- Link -->
   <xacro:kinect2_link_box_v0 name="kinect2_link"/>
