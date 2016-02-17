@@ -5,7 +5,11 @@
   <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.urdf.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.gazebo.xacro"/>
-  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_table_gazebo.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_basic.urdf.xacro"/>
+
+  <xacro:add_world>
+	<origin xyz="0 0 0.511" rpy="0 0 0"/>
+  </xacro:add_world>
 
   <!-- add Kinect V2 -->
   <!-- Link -->

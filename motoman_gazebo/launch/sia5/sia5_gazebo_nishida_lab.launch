@@ -26,6 +26,13 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 		args="-urdf -model sia5 -param robot_description"/>
 
+  <!-- Spawn the table -->
+  <include file="$(find motoman_gazebo)/launch/sia5/model_spawner.launch">
+	<arg name="model_name" value="sia5_table"/>
+	<arg name="model" value="$(find motoman_gazebo)/models/urdf/table.urdf"/>
+	<arg name="z" value="0.51"/>
+  </include>
+
   <!-- ros_control motoman launch file -->
   <include file="$(find motoman_control)/launch/sia5/sia5_sim_control.launch" />
 </launch>
