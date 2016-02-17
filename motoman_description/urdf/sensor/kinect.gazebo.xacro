@@ -5,6 +5,9 @@
 
   <xacro:macro name="kinect_gazebo" params="name">
 	<gazebo reference="${name}_link">
+	  <mu1>0.2</mu1>
+	  <mu2>0.2</mu2>
+	  <material>Gazebo/Black</material>
 	  <!-- hd -->
       <sensor type="depth" name="${name}">
 		<always_on>true</always_on>
