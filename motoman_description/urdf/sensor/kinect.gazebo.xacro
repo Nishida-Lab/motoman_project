@@ -23,6 +23,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/hd</cameraName>
@@ -60,6 +65,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/qhd</cameraName>
@@ -97,6 +107,11 @@
 			<near>0.05</near>
 			<far>4.5</far>
           </clip>
+		  <noise>
+			<type>gussian</type>
+			<mean>0.0</mean>
+			<stddev>0.005</stddev>
+		  </noise>
 		</camera>
 		<plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>kinect2/sd</cameraName>
