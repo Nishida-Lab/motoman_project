@@ -1,5 +1,5 @@
 <launch>
   <include file="$(find motoman_control)/launch/sia5/robot_interface_streaming_fs100.launch">
-	<arg name="model" value="$(find motoman_description)/robots/sia5/sia5_nishida_lab.urdf.xacro"/>
+	<arg name="model" value="$(find motoman_description)/robots/sia5/sia5_with_kinectv2.urdf.xacro"/>
   </include>
 </launch>
