@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/tool/jamming.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_table_gazebo.urdf.xacro"/>
+
+  <!-- add Kinect V2 -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect2_link"/>
+  <link name="kinect2_rgb_optical_frame"/>
+  
+  <!-- Joint -->
+  <joint name="joint_kinect2" type="fixed">
+    <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.02024 0.30 0.3595"/>
+    <parent link="base_link"/>
+    <child link="kinect2_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect2" type="fixed">
+	<origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+	<parent link="kinect2_link"/>
+	<child link="kinect2_rgb_optical_frame"/>
+  </joint>
+  
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect2"/>
+
+  <!-- add Jamming Gripper -->
+   <!-- Link -->
+  <xacro:tool_link_cylinder_v0 name="gripper_link" mass="1.0"
+  							   radius="0.0965" height="0.61445"
+  							   ox="0" oy="0" oz="0"
+  							   oroll="0" opitch="0" oyaw="0"/>
+
+  <xacro:tool_link_no_collision_v0 name="balloon" mass="0.3"
+  								   ixx="0.001" ixy="0" ixz="0"
+  								   iyy="0.001" iyz="0" izz="0.001"/>
+
+  <!-- Joint  -->
+  <joint name="joint_gripper" type="fixed">
+    <origin rpy="-0.1745 0 0" xyz="0.0001 0 0"/>
+    <parent link="tool0"/>
+    <child link="gripper_link"/>
+  </joint>
+
+  <joint name="joint_balloon" type="fixed">
+    <origin rpy="0.1745 0 0" xyz="0.108 0 0"/>
+    <parent link="gripper_link"/>
+    <child link="balloon"/>
+  </joint>
+  
+  <!-- Gazebo -->
+  <xacro:gazebo_tool_link_v0 name="gripper_link" color="Blue"/>
+  <xacro:gazebo_tool_link_v0 name="balloon" color="Red"/>
+  
+</robot>
