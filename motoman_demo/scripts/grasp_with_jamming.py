@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import math
 import moveit_commander
 import rospy
 import geometry_msgs.msg
 import copy
+import tf2_ros
 import tf
 from std_msgs.msg import Int32
 
@@ -22,59 +24,78 @@ def main():
     target_pose = geometry_msgs.msg.Pose()
 
     # ========== TF Lister ========== #
-    tf_listner = tf.TransformListner()
+    tf_buffer = tf2_ros.Buffer()
+    tf_listner = tf2_ros.TransformListener(tf_buffer)
+    get_tf_flg = False
     # Get target TF
-    try:
-        (tgt_trans,tgt_pose) = tf_listner.lookupTransform('/world', '/target', rospy.Time(0))
-    except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-        continue
+    while not get_tf_flg :
+        try :
+            trans = tf_buffer.lookup_transform('world', 'ar_marker', rospy.Time(0),rospy.Duration(10))
+            print "world -> ar_marker"
+            print trans.transform
+            print "Target Place & Pose"
+            # Go to up from target
+            target_pose.position.x = trans.transform.translation.x - 0.004
+            target_pose.position.y = trans.transform.translation.y
+            target_pose.position.z = trans.transform.translation.z + 0.32
+            q = (trans.transform.rotation.x,
+                 trans.transform.rotation.y,
+                 trans.transform.rotation.z,
+                 trans.transform.rotation.w)
+            (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
+            # roll -= math.pi/6.0
+            pitch += math.pi/2.0
+            # yaw += math.pi/4.0
+            tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
+            target_pose.orientation.x = tar_q[0]
+            target_pose.orientation.y = tar_q[1]
+            target_pose.orientation.z = tar_q[2]
+            target_pose.orientation.w = tar_q[3]
+            # target_pose.orientation.x = trans.transform.rotation.x
+            # target_pose.orientation.y = trans.transform.rotation.y
+            # target_pose.orientation.z = trans.transform.rotation.z
+            # target_pose.orientation.w = trans.transform.rotation.w
+            print target_pose
+            arm.set_pose_target(target_pose)
+            arm.go()
+            
+            # Get Grasp
+            target_pose.position.x = trans.transform.translation.x - 0.004
+            target_pose.position.y = trans.transform.translation.y
+            target_pose.position.z = trans.transform.translation.z + 0.22
+            target_pose.orientation = target_pose.orientation
+            # target_pose.orientation.x = trans.transform.rotation.x
+            # target_pose.orientation.y = trans.transform.rotation.y
+            # target_pose.orientation.z = trans.transform.rotation.z
+            # target_pose.orientation.w = trans.transform.rotation.w
+            print target_pose
+            arm.set_pose_target(target_pose)
+            arm.go()
+            
+            # Grasp
+            grasp_pub.publish(1)
+            print "!! Grasping !!"
+            rospy.sleep(1.0)
+            # Go to Home Position
+            target_pose.position.x = 0.503
+            target_pose.position.y = 0
+            target_pose.position.z = 1.1563
+            target_pose.orientation.x = 0
+            target_pose.orientation.y = 0
+            target_pose.orientation.z = 0
+            target_pose.orientation.w = 1
+            arm.set_pose_target(target_pose)
+            arm.go()
+            
+            # Release
+            print " !! Release !!"
+            grasp_pub.publish(0)
+            rospy.sleep(2)
+            get_tf_flg = True
+            
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) :
+            continue
 
-    print "Target Place & Pose"
-    print "( ", tgt_trans.[0] ", ", tgt_trans[1], ", ", tgt_trans[2], " )"
-    print "( ", tgt_pose.[0] ", ", tgt_pose[1], ", ", tgt_pose[2], tgt_pose[3], " )"
-
-    # Go to up from target
-    target_pose.position.x = tgt_trans.[0]
-    target_pose.position.y = tgt_trans.[1]
-    target_pose.position.z = tgt_trans.[2] + 0.2
-    target_pose.orientation.x = tgt_pose.[0]
-    target_pose.orientation.y = tgt_pose.[1]
-    target_pose.orientation.z = tgt_pose.[2]
-    target_pose.orientation.w = tgt_pose.[3]
-    arm.set_pose_target(target_pose)
-    arm.go()
-
-    # Get Grasp
-    target_pose.position.x = tgt_trans.[0]
-    target_pose.position.y = tgt_trans.[1]
-    target_pose.position.z = tgt_trans.[2] + 0.1
-    target_pose.orientation.x = tgt_pose.[0]
-    target_pose.orientation.y = tgt_pose.[1]
-    target_pose.orientation.z = tgt_pose.[2]
-    target_pose.orientation.w = tgt_pose.[3]
-    arm.set_pose_target(target_pose)
-    arm.go()
-
-    # Grasp
-    grasp_pub.publish(1)
-    print "!! Grasping !!"
-    rospy.sleep(1.0)
-    
-    # Go to Home Position
-    target_pose.position.x = 0
-    target_pose.position.y = 0
-    target_pose.position.z = 0
-    target_pose.orientation.x = 0
-    target_pose.orientation.y = 0
-    target_pose.orientation.z = 0
-    target_pose.orientation.w = 1
-    arm.set_pose_target(target_pose)
-    arm.go()
-
-    # Release
-    print " !! Release !!"
-    grasp_pub.publish(0)
-    rospy.sleep(2)
 
 if __name__ == '__main__':
     try:
