@@ -1,5 +1,5 @@
 <launch>
-	<arg name="model" default="$(find motoman_gazebo)/models/urdf/table.urdf"/>
+	<arg name="model" default="$(find motoman_gazebo)/models/urdf/test_box.urdf"/>
 	<arg name="gui" default="False" />
 	<param name="robot_description" textfile="$(arg model)" />
 	<param name="use_gui" value="$(arg gui)"/>
