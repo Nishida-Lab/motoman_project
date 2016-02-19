@@ -1,0 +1,15 @@
+<launch>
+  <include file="$(find motoman_sia5_moveit_config)/launch/moveit_planning_execution.launch">
+	<arg name="load_robot_description" value="true"/>
+	<arg name="urdf_model" value="$(find motoman_description)/robots/sia5/sia5_with_multi_kinectv2.urdf.xacro"/>
+	<arg name="srdf_model" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/sia5.srdf"/>
+	<arg name="joint_limits_config" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/joint_limits.yaml"/>
+	<arg name="kinematics_config" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/kinematics.yaml"/>
+	<arg name="controllers_config" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/controllers.yaml"/>
+	<arg name="use_depth_sensor" value="true"/>
+	<arg name="sensor_config" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/kinect2.yaml"/>
+	<arg name="octomap_frame_name" value="octomap_link"/>
+	<arg name="sensor_max_range" value="4.5"/>
+	<arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5_nishida_lab.rviz"/>
+  </include>
+</launch>

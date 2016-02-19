@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
+
+  <!-- add Kinect V2 -->
+  <!-- Gazebo -->
+  <xacro:kinect_joints suffix="/kinect_first" rpy="0 0 -${120*M_PI/180}" xyz="0.5 0.8660 0.5"/>
+  <xacro:kinect_joints suffix="/kinect_second" rpy="0 0 ${120*M_PI/180}" xyz="0.5 -0.8660 0.5"/>
+
+</robot>

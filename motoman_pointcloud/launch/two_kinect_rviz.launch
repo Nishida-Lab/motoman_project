@@ -1,0 +1,22 @@
+<launch>
+  <node pkg="two_kinect_merge" type="point_cloud_merger" name="point_cloud_merger_1" output="screen">
+    <param name="/cloud_in_1" value="/kinect_first/kinect2/hd/points" />
+    <param name="/cloud_in_2" value="/kinect_second/kinect2/hd/points" />
+    <param name="/cloud_out" value="/merged_cloud" />
+  </node>
+
+<!--   <node pkg="two_kinect_merge" type="point_cloud_merger" name="point_cloud_merger_2" output="screen">
+    <param name="/cloud_in_1" value="/merged_cloud" />
+    <param name="/cloud_in_2" value="/kinect_third/kinect2/hd/points" />
+    <param name="/cloud_out" value="/merged_cloud2" />
+  </node> -->
+
+<!--   <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <param name="resolution" value="0.05" />
+    <param name="frame_id" type="string" value="world" />
+    <param name="sensor_model/max_range" value="5.0" />
+    <remap from="cloud_in" to="/merged_cloud" />
+  </node>
+ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find two_kinect_merge)/launch/rviz/multi_kinect.rviz" required="true" />
+</launch>

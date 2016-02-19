@@ -15,7 +15,7 @@
   <!-- Link -->
   <xacro:kinect2_link_box_v0 name="kinect2_link"/>
   <link name="kinect2_rgb_optical_frame"/>
-  
+
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
     <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.02024 0.30 0.3595"/>
@@ -28,9 +28,9 @@
 	<parent link="kinect2_link"/>
 	<child link="kinect2_rgb_optical_frame"/>
   </joint>
-  
+
   <!-- Gazebo -->
-  <xacro:kinect_gazebo name="kinect2"/>
+  <xacro:kinect_gazebo suffix=""  name="kinect2"/>
 
   <!-- add Jamming Gripper -->
    <!-- Link -->
@@ -56,9 +56,9 @@
     <parent link="gripper_link"/>
     <child link="balloon"/>
   </joint>
-  
+
   <!-- Gazebo -->
   <xacro:gazebo_tool_link_v0 name="gripper_link" color="Blue"/>
   <!-- <xacro:gazebo_tool_link_v0 name="balloon" color="Red"/> -->
-  
+
 </robot>
