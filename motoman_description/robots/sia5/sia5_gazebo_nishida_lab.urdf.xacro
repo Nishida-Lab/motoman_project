@@ -39,9 +39,10 @@
   							   ox="0" oy="0" oz="0"
   							   oroll="0" opitch="0" oyaw="0"/>
 
-  <xacro:tool_link_no_collision_v0 name="balloon" mass="0.3"
-  								   ixx="0.001" ixy="0" ixz="0"
-  								   iyy="0.001" iyz="0" izz="0.001"/>
+  <link name="balloon"/>
+  <!-- <xacro:tool_link_no_collision_v0 name="balloon" mass="0.3" -->
+  <!-- 								   ixx="0.001" ixy="0" ixz="0" -->
+  <!-- 								   iyy="0.001" iyz="0" izz="0.001"/> -->
 
   <!-- Joint  -->
   <joint name="joint_gripper" type="fixed">
@@ -58,6 +59,6 @@
   
   <!-- Gazebo -->
   <xacro:gazebo_tool_link_v0 name="gripper_link" color="Blue"/>
-  <xacro:gazebo_tool_link_v0 name="balloon" color="Red"/>
+  <!-- <xacro:gazebo_tool_link_v0 name="balloon" color="Red"/> -->
   
 </robot>

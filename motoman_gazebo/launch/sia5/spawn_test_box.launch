@@ -1,0 +1,10 @@
+<launch>
+<!-- Spawn the table -->
+  <include file="$(find motoman_gazebo)/launch/sia5/model_spawner.launch">
+	<arg name="model_name" value="test_box"/>
+	<arg name="model" value="$(find motoman_gazebo)/models/urdf/test_box.urdf"/>
+	<arg name="x" value="0.25"/>
+	<arg name="y" value="0.25"/>
+	<arg name="z" value="0.565"/>
+  </include>
+</launch>

@@ -5,7 +5,7 @@ void switchCb(const std_msgs::Int32& msg);
 
 /* Declare global variables. */
 ros::NodeHandle nh; // The nodeHandle.
-ros::Subscriber<std_msgs::Int32> sub("/arduino_switch", &switchCb); // Set subscribe the motor_driver topic.
+ros::Subscriber<std_msgs::Int32> sub("/jamming_grasp", &switchCb); // Set subscribe the motor_driver topic.
 
 void setup() {
   /* Set pins Mode. */
