@@ -43,27 +43,26 @@
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="end_effector" parent_link="link_t" group="gripper" parent_group="arm" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="base_link" link2="kinect2_link" reason="Adjacent" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="/kinect_second/kinect2_link" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_b" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_e" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_l" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_r" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_s" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_t" reason="Never" />
+    <disable_collisions link1="/kinect_first/kinect2_link" link2="link_u" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_b" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_e" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_l" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_r" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_s" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_t" reason="Never" />
+    <disable_collisions link1="/kinect_second/kinect2_link" link2="link_u" reason="Never" />
     <disable_collisions link1="base_link" link2="link_e" reason="Never" />
     <disable_collisions link1="base_link" link2="link_l" reason="Never" />
     <disable_collisions link1="base_link" link2="link_s" reason="Adjacent" />
-
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_b" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_e" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_l" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_r" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_s" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_t" reason="Never" />
-    <disable_collisions link1="kinect_first/kinect2_link" link2="link_u" reason="Never" />
-
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_b" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_e" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_l" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_r" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_s" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_t" reason="Never" />
-    <disable_collisions link1="kinect_second/kinect2_link" link2="link_u" reason="Never" />
-
     <disable_collisions link1="link_b" link2="link_e" reason="Never" />
     <disable_collisions link1="link_b" link2="link_r" reason="Adjacent" />
     <disable_collisions link1="link_b" link2="link_t" reason="Adjacent" />
