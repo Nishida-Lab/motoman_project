@@ -9,14 +9,23 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning
   moveit_ros_planning_interface
   pluginlib
+  # Pointcloud merge
+  tf
+  tf_conversions
+  cmake_modules
+  std_msgs
+  sensor_msgs
+  pcl_ros
+  pcl_conversions
   cmake_modules
   )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
+find_package(PCL REQUIRED QUIET COMPONENTS common)
 find_package(Eigen REQUIRED)
 
 catkin_package(
-  CATKIN_DEPENDS roscpp moveit_msgs
+  CATKIN_DEPENDS roscpp moveit_msgs sensor_msgs std_msgs pcl_ros pcl_msgs tf tf_conversions
   moveit_core
   moveit_ros_planning_interface
   )
@@ -24,7 +33,7 @@ catkin_package(
 include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
 include_directories(${catkin_INCLUDE_DIRS})
 
-link_directories(${catkin_LIBRARY_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS} ${PCL_COMMON_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
 
 add_executable(move_group_plan_single_target
   src/move_group_plan_single_target.cpp
@@ -36,9 +45,13 @@ target_link_libraries(move_group_plan_single_target
   ${EIGEN_LIBRARIES}
   )
 
+add_executable(point_cloud_merger src/point_cloud_merger.cpp)
+target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
+
 find_package(roslaunch)
 roslaunch_add_file_check(test/sia5_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_and_kinectv2_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_kinectv2_moveit_planning_execution_launch_test.xml)
+roslaunch_add_file_check(test/sia5_with_multi_kinectv2_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_gazebo_nishida_lab_moveit_planning_execution_launch_test.xml)

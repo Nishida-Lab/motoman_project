@@ -4,12 +4,12 @@
   <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
   <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
-  
+
   <!-- add Kinect V2 -->
   <!-- Link -->
   <xacro:kinect2_link_box_v0 name="kinect2_link"/>
   <link name="kinect2_rgb_optical_frame"/>
-  
+
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
     <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.05024 0 0.3195"/>
@@ -22,8 +22,8 @@
 	<parent link="kinect2_link"/>
 	<child link="kinect2_rgb_optical_frame"/>
   </joint>
-  
+
   <!-- Gazebo -->
-  <xacro:kinect_gazebo name="kinect2"/>
-  
+  <xacro:kinect_gazebo suffix="" name="kinect2"/>
+
 </robot>

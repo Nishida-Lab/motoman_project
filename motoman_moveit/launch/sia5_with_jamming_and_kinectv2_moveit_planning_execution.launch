@@ -5,7 +5,7 @@
 	<arg name="srdf_model" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2/sia5.srdf"/>
 	<arg name="joint_limits_config" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2/joint_limits.yaml"/>
 	<arg name="kinematics_config" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2/kinematics.yaml"/>
-	<arg name="controllers_config" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2//controllers.yaml"/>
+	<arg name="controllers_config" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2/controllers.yaml"/>
 	<arg name="use_depth_sensor" value="true"/>
 	<arg name="sensor_config" value="$(find motoman_moveit)/config/sia5_with_jamming_and_kinectv2/kinect2.yaml"/>
 	<arg name="octomap_frame_name" value="kinect2_link"/>
