@@ -1,49 +1,26 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <xacro:macro name="kinect2_link_box_v0" params="name">
+  
+<xacro:macro name="kinect2_link_box_v0" params="name">
     <link name="${name}">
       <visual>
-        <material name="black"/>
+		<material name="black"/>
         <geometry>
           <mesh filename="package://motoman_description/meshes/sensor/visual/COLLADA/kinectv2.stl"/>
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0 0.041"/>
+		<origin xyz="0 0 0.041"/>
         <geometry>
-          <box size="0.065 0.25 0.082"/>
+		  <box size="0.065 0.25 0.082"/>
         </geometry>
       </collision>
       <inertial>
         <mass value="0.935"/>
         <inertia ixx="0.0053937" ixy="0" ixz="0"
-                 iyy="0.00085311" iyz="0"
-                 izz="0.00519899" />
+				 iyy="0.00085311" iyz="0"
+				 izz="0.00519899" />
       </inertial>
     </link>
-  </xacro:macro>
-
-  <xacro:macro name="kinect_joints" params="suffix rpy xyz">
-
-    <xacro:kinect2_link_box_v0 name="${suffix}/kinect2_link"/>
-    <link name="${suffix}/kinect2_rgb_optical_frame"/>
-
-    <!-- Joint -->
-    <joint name="${suffix}/joint_kinect2" type="fixed">
-      <origin rpy="${rpy}" xyz="${xyz}"/>
-      <parent link="base_link"/>
-      <child link="${suffix}/kinect2_link"/>
-    </joint>
-
-    <joint name="${suffix}/joint_rgb_kinect2" type="fixed">
-      <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
-      <parent link="${suffix}/kinect2_link"/>
-      <child link="${suffix}/kinect2_rgb_optical_frame"/>
-    </joint>
-
-    <!-- Gazebo -->
-    <xacro:kinect_gazebo name="${suffix}/kinect2" suffix="${suffix}"/>
-  </xacro:macro>
-
+</xacro:macro>
 </robot>
