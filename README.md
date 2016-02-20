@@ -14,7 +14,11 @@
 ### MoveIt!
 * [Japanese](https://github.com/Nishida-Lab/motoman_project/wiki/MoveIt!-%5BJapanese%5D)
 
+#### Control Real Robot using MotoROS + Moveit!
 [![img](.image/moveit_youtube.png)](https://youtu.be/WvK1FSl2GSg)
+
+#### Motion planning from merged point cloud
+[![img](.image/multi_kinect_youtube.png)](https://youtu.be/WFr2TgGqnDg)
 
 ## About `rosaddress` command
 * [Japanese](https://github.com/Nishida-Lab/motoman_project/wiki/About-rosaddress-command-%5BJapanese%5D)
