@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+ <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <property name="sum_rate" value="${base_rate + s_rate
-								   + l_rate + e_rate
-								   + u_rate + r_rate
-								   + b_rate + t_rate}" />
-  
+                                      + l_rate + e_rate
+                                      + u_rate + r_rate
+                                      + b_rate + t_rate}" />
+
   <xacro:macro name="link_v1" params="name mass
                                       ixx ixy ixz
                                       iyy iyz izz">
@@ -27,7 +27,7 @@
   </xacro:macro>
 
   <xacro:macro name="link_cylinder_v0" params="name mass radius height
-											   ox oy oz oroll opitch oyaw">
+                                               ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
         <geometry>
@@ -50,7 +50,7 @@
   </xacro:macro>
 
   <xacro:macro name="link_box_v0" params="name mass width depth  height
-										  ox oy oz oroll opitch oyaw">
+                                          ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
         <geometry>
@@ -73,7 +73,7 @@
   </xacro:macro>
 
   <xacro:macro name="link_box_v1" params="name mass width depth height
-										  ox oy oz oroll opitch oyaw">
+                                          ox oy oz oroll opitch oyaw">
     <link name="${name}">
       <visual>
         <geometry>
@@ -97,9 +97,9 @@
   </xacro:macro>
 
   <xacro:macro name="link_cylinder_plus_box_v0" params="name
-														ox oy oz oroll opitch oyaw
-														mass_cyl radius_cyl height_cyl
-														mass_box width_box depth_box height_box">
+                                                        ox oy oz oroll opitch oyaw
+                                                        mass_cyl radius_cyl height_cyl
+                                                        mass_box width_box depth_box height_box">
     <link name="${name}">
       <visual>
         <geometry>
@@ -115,23 +115,23 @@
 		<origin xyz="${ox} ${oy} ${oz}" rpy="${oroll} ${opitch} ${oyaw}"/>
         <mass value="${mass_cyl+mass_box}"/>
         <inertia ixx="${mass_cyl*((radius_cyl*radius_cyl)/4+(height_cyl*height_cyl)/3)+mass_box/3*(width_box*width_box+height_box*height_box)+mass_box*(radius_cyl*radius_cyl-radius_cyl*width_box+height_cyl*height_cyl+height_cyl*height_box)}" ixy="0" ixz="0"
-				 iyy="${mass_cyl*((radius_cyl*radius_cyl)/4+(height_cyl*height_cyl)/12)+mass_box/3*(depth_box*depth_box+height_box*height_box)+mass_box*(radius_cyl*radius_cyl-radius_cyl*depth_box+height_cyl*height_cyl+height_cyl*height_box)}" iyz="0"
-				 izz="${(mass_cyl*radius_cyl*radius_cyl)/2+mass_box/3*(depth_box*depth_box+width_box*width_box)+mass_box*(2*radius_cyl*radius_cyl-radius_cyl*depth_box-radius_cyl*width_box)}" />
+                 iyy="${mass_cyl*((radius_cyl*radius_cyl)/4+(height_cyl*height_cyl)/12)+mass_box/3*(depth_box*depth_box+height_box*height_box)+mass_box*(radius_cyl*radius_cyl-radius_cyl*depth_box+height_cyl*height_cyl+height_cyl*height_box)}" iyz="0"
+                 izz="${(mass_cyl*radius_cyl*radius_cyl)/2+mass_box/3*(depth_box*depth_box+width_box*width_box)+mass_box*(2*radius_cyl*radius_cyl-radius_cyl*depth_box-radius_cyl*width_box)}" />
       </inertial>
     </link>
   </xacro:macro>
 
   <xacro:macro name="joint_v1" params="joint_name
-									   parent_name child_name
+                                       parent_name child_name
                                        ox oy oz roll pitch yaw ax ay az
-									   el ll ul vl
-									   skp skv sll sul">
+                                       el ll ul vl
+                                       skp skv sll sul">
     <joint name="${joint_name}" type="revolute">
       <origin xyz="${ox} ${oy} ${oz}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent_name}"/>
       <child link="${child_name}"/>
       <axis xyz="${ax} ${ay} ${az}"/>
-	  <dynamics damping="0.7" friction="0.7"/>
+      <dynamics damping="0.7" friction="0.7"/>
       <limit effort="${el}" lower="${ll}" upper="${ul}" velocity="${vl}"/>
     </joint>
   </xacro:macro>

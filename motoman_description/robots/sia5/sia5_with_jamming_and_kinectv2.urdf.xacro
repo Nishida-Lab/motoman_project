@@ -18,9 +18,9 @@
   </joint>
 
   <joint name="joint_rgb_kinect2" type="fixed">
-	<origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
-	<parent link="kinect2_link"/>
-	<child link="kinect2_rgb_optical_frame"/>
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect2_link"/>
+    <child link="kinect2_rgb_optical_frame"/>
   </joint>
 
   <!-- Gazebo -->

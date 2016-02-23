@@ -35,8 +35,7 @@
   <!-- about mass rate -->
   <!-- Hard ware limits -->
   <!-- Range limits -->
-  
-  pp  
+
   <!-- Velocity limits -->
   <!-- Add macro -->
   <!-- link -->
@@ -682,4 +681,3 @@
     </sensor>
   </gazebo>
 </robot>
-
