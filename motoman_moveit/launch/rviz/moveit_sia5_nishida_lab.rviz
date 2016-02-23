@@ -6,6 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
+        - /TF1/Frames1
+        - /MotionPlanning1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.5
@@ -28,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -64,7 +67,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
@@ -137,35 +139,41 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
+        ar_marker_1:
+          Value: true
+        ar_marker_2:
+          Value: true
+        ar_marker_3:
+          Value: true
         balloon:
-          Value: true
+          Value: false
         base_link:
-          Value: true
+          Value: false
         gripper_link:
-          Value: true
+          Value: false
         kinect2_link:
-          Value: true
+          Value: false
         kinect2_rgb_optical_frame:
-          Value: true
+          Value: false
         link_b:
-          Value: true
+          Value: false
         link_e:
-          Value: true
+          Value: false
         link_l:
-          Value: true
+          Value: false
         link_r:
-          Value: true
+          Value: false
         link_s:
-          Value: true
+          Value: false
         link_t:
-          Value: true
+          Value: false
         link_u:
-          Value: true
+          Value: false
         tool0:
-          Value: true
+          Value: false
         world:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -176,7 +184,12 @@ Visualization Manager:
           base_link:
             kinect2_link:
               kinect2_rgb_optical_frame:
-                {}
+                ar_marker_1:
+                  {}
+                ar_marker_2:
+                  {}
+                ar_marker_3:
+                  {}
             link_s:
               link_l:
                 link_e:
@@ -221,7 +234,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           base_link:
             Alpha: 1
             Show Axes: false
@@ -305,7 +317,7 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: arm
-        Query Goal State: true
+        Query Goal State: false
         Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
@@ -331,7 +343,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           base_link:
             Alpha: 1
             Show Axes: false
@@ -451,22 +462,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.28359
+      Distance: 3.16244
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.064781
-        Y: 0.232552
-        Z: 0.513796
+        X: 0.214784
+        Y: 0.13262
+        Z: -0.26746
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.375398
+      Pitch: 0.360398
       Target Frame: world
       Value: Orbit (rviz)
-      Yaw: 5.45357
+      Yaw: 5.73357
     Saved: ~
 Window Geometry:
   Displays:
@@ -486,5 +497,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1871
-  X: 39
+  X: 35
   Y: 14
