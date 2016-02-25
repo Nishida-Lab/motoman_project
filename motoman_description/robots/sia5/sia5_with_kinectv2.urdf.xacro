@@ -24,6 +24,6 @@
   </joint>
 
   <!-- Gazebo -->
-  <xacro:kinect_gazebo suffix="" name="kinect2"/>
+  <xacro:kinect_gazebo name="kinect2"/>
 
 </robot>
