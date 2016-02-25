@@ -27,9 +27,9 @@
 
   <!-- merge multi pointcloud data from multi kinect  -->
   <node pkg="motoman_moveit" type="point_cloud_merger" name="point_cloud_merger">
-    <param name="/cloud_in_1" value="/kinect_first/kinect2/hd/points" />
-    <param name="/cloud_in_2" value="/kinect_second/kinect2/hd/points" />
-    <param name="/cloud_out" value="/merged_cloud" />
+    <param name="cloud_in_1" value="/kinect_first/hd/points" />
+    <param name="cloud_in_2" value="/kinect_second/hd/points" />
+    <param name="cloud_out" value="/merged_cloud" />
   </node>
 
   <!-- ros_control motoman launch file -->
