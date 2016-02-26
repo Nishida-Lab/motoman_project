@@ -28,7 +28,7 @@ PointCloudMerger::PointCloudMerger(ros::NodeHandle &nh, ros::NodeHandle &privNh)
                          privNh.param<std::string>("/cloud_in_1", "/kinect_first/hd/points"),
                          1),
     pointcloudSubscriber2(nh,
-                         privNh.param<std::string>("/cloud_in_2", "/kinect_second/hd/points"),
+                         privNh.param<std::string>("/cloud_in_2", "/camera/depth_registered/points"),
                          1),
     mergedPointcloudPublisher(nh.advertise<sensor_msgs::PointCloud2>(
                          privNh.param<std::string>("/cloud_out", "/merged_cloud"),
