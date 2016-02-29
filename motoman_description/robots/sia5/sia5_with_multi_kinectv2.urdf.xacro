@@ -27,14 +27,22 @@
   <!-- Gazebo -->
   <xacro:kinect_gazebo name="kinect_first"/>
 
+  <!-- Kinect_second -->
   <!-- Link -->
-  <xacro:kinect2_link_box_v0 name="camera_link"/>
+  <xacro:kinect2_link_box_v0 name="kinect_second_link"/>
+  <link name="kinect_second_rgb_optical_frame"/>
 
   <!-- Joint -->
   <joint name="joint_kinect_second" type="fixed">
-    <origin rpy="0 ${20*M_PI/180} -${125/180*M_PI}" xyz="0.92 1.02 0.68"/>
+    <origin xyz="0.9685 1.203 0.7466" rpy="0.0029 0.2681 -2.1377" />
     <parent link="base_link"/>
-    <child link="camera_link"/>
+    <child link="kinect_second_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_second" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_second_link"/>
+    <child link="kinect_second_rgb_optical_frame"/>
   </joint>
 
   <!-- Gazebo -->
