@@ -1,0 +1,20 @@
+#the number of patterns to be recognized
+3
+
+#pattern 1
+ar_marker_1
+data/4x4/4x4_51.patt
+80.0
+0.0 0.0
+
+#pattern 2
+ar_marker_2
+data/4x4/4x4_55.patt
+80.0
+0.0 0.0
+
+#pattern 3
+ar_marker_3
+data/4x4/4x4_93.patt
+80.0
+0.0 0.0

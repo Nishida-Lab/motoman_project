@@ -3,7 +3,7 @@
 
   <xacro:include filename="$(find motoman_description)/urdf/common.xacro" />
 
-  <xacro:macro name="kinect_gazebo" params="name suffix">
+  <xacro:macro name="kinect_gazebo" params="name">
     <gazebo reference="${name}_link">
       <mu1>0.2</mu1>
       <mu2>0.2</mu2>
@@ -15,13 +15,13 @@
         <camera>
           <horizontal_fov>${84.1*M_PI/180.0}</horizontal_fov>
           <image>
-        <format>R8G8B8</format>
-        <width>512</width>
-        <height>424</height>
+            <format>R8G8B8</format>
+            <width>512</width>
+            <height>424</height>
           </image>
           <clip>
-        <near>0.05</near>
-        <far>4.5</far>
+            <near>0.05</near>
+            <far>4.5</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -30,7 +30,7 @@
           </noise>
         </camera>
         <plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-          <cameraName>${suffix}/kinect2/hd</cameraName>
+          <cameraName>${name}/hd</cameraName>
           <alwaysOn>true</alwaysOn>
           <updateRate>30</updateRate>
           <imageTopicName>image_color</imageTopicName>
@@ -72,7 +72,7 @@
           </noise>
         </camera>
         <plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-          <cameraName>${suffix}/kinect2/qhd</cameraName>
+          <cameraName>${name}/qhd</cameraName>
           <alwaysOn>true</alwaysOn>
           <updateRate>30</updateRate>
           <imageTopicName>image_color</imageTopicName>
@@ -92,7 +92,7 @@
         </plugin>
       </sensor>
 
-	  <!-- sd -->
+      <!-- sd -->
       <sensor type="depth" name="${name}">
         <always_on>true</always_on>
         <update_rate>30.0</update_rate>
@@ -104,8 +104,8 @@
             <height>424</height>
           </image>
           <clip>
-          <near>0.05</near>
-          <far>4.5</far>
+            <near>0.05</near>
+            <far>4.5</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -114,7 +114,7 @@
           </noise>
         </camera>
         <plugin name="${name}_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-          <cameraName>${suffix}/kinect2/sd</cameraName>
+          <cameraName>${name}/sd</cameraName>
           <alwaysOn>true</alwaysOn>
           <updateRate>30</updateRate>
           <imageTopicName>image_color</imageTopicName>

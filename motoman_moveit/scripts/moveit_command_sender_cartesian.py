@@ -39,7 +39,7 @@ def main():
     wpose.orientation.w = 1.0
     wpose.position.x = waypoints[0].position.x
     wpose.position.y = waypoints[0].position.y
-    wpose.position.z = waypoints[0].position.z + 0.5
+    wpose.position.z = waypoints[0].position.z - 0.1
     waypoints.append(copy.deepcopy(wpose))
 
     # wpose.position.y -= 0.2
@@ -49,7 +49,7 @@ def main():
     # wpose.position.z += 0.2
     # waypoints.append(copy.deepcopy(wpose))
 
-    (plan, fraction) = arm.compute_cartesian_path(waypoints, 0.005, 0.0, avoid_collisions=False)
+    (plan, fraction) = arm.compute_cartesian_path(waypoints, 0.01, 0.0, avoid_collisions=False)
 
     print "=" * 10, " plan1..."
     arm.execute(plan)

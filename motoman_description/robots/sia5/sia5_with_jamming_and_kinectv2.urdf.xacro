@@ -12,10 +12,11 @@
 
   <!-- Joint -->
   <joint name="joint_kinect2" type="fixed">
-    <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.02024 0.30 0.3595"/>
+	<origin rpy="0 ${29*M_PI/180} ${114/180*M_PI}" xyz="0.885 -0.78 0.75"/>
     <parent link="base_link"/>
     <child link="kinect2_link"/>
   </joint>
+  <!-- <origin rpy="0 ${10*M_PI/180} ${M_PI}" xyz="1.02024 0.30 0.3595"/> -->
 
   <joint name="joint_rgb_kinect2" type="fixed">
     <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
@@ -24,6 +25,6 @@
   </joint>
 
   <!-- Gazebo -->
-  <xacro:kinect_gazebo suffix="" name="kinect2"/>
+  <xacro:kinect_gazebo name="kinect2"/>
 
 </robot>

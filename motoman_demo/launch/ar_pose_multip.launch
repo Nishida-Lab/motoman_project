@@ -4,14 +4,14 @@
 	<remap from="camera_info" to="/kinect2/hd/camera_info"/>
   </node>
   
-  <node name="ar_pose" pkg="ar_pose" type="ar_single" respawn="false"
+  <node name="ar_pose" pkg="ar_pose" type="ar_multi" respawn="false"
 		output="screen">
-    <param name="marker_pattern" type="string"
-		   value="$(find ar_pose)/data/4x4/4x4_93.patt"/>
+    <param name="marker_pattern_list" type="string"
+		   value="$(find motoman_demo)/config/armarker_multiple"/>
     <param name="marker_width" type="double" value="80.08"/>
     <param name="marker_center_x" type="double" value="0.0"/>
     <param name="marker_center_y" type="double" value="0.0"/>
-    <param name="threshold" type="int" value="103"/>
+    <param name="threshold" type="int" value="120"/>
     <param name="use_history" type="bool" value="true"/>
 	<remap from="camera/image_raw" to="/image_rect"/>
 	<remap from="camera/camera_info" to="/kinect2/hd/camera_info"/>
