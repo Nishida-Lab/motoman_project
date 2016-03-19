@@ -9,7 +9,7 @@
     <arg name="use_depth_sensor" value="true"/>
     <arg name="sensor_config" value="$(find motoman_moveit)/config/sia5_with_multi_kinectv2/kinect2.yaml"/>
     <arg name="octomap_frame_name" value="octomap_link"/>
-    <arg name="octomap_resolution_value" value="0.025"/>
+    <arg name="octomap_resolution_value" value="0.035"/>
     <arg name="sensor_max_range" value="2.0"/>
     <arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5_with_multi_kinect.rviz"/>
   </include>
