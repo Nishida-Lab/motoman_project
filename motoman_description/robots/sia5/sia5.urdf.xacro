@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="motoman_sia5" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- File Include -->
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_basic.urdf.xacro" />
 
