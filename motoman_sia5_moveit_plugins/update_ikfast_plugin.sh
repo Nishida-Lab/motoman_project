@@ -1,0 +1,1 @@
+rosrun moveit_ikfast create_ikfast_moveit_plugin.py motoman_sia5 arm motoman_sia5_moveit_plugins /home/morita/Documents/dev/ros/motoman_ws/src/motoman_project/motoman_sia5_moveit_plugins/src/motoman_sia5_arm_ikfast_solver.cpp
