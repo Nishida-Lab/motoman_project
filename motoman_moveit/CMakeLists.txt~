@@ -57,7 +57,6 @@ target_link_libraries(move_group_plan_single_target
 
 target_link_libraries(kinect_downsampler_node
   ${catkin_LIBRARIES}
-)
 
 add_executable(point_cloud_merger src/point_cloud_merger.cpp)
 target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
