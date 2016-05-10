@@ -32,16 +32,15 @@ catkin_package(
 
 include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
 include_directories(
-    include
-    ${catkin_INCLUDE_DIRS}
-)
+  include
+  ${catkin_INCLUDE_DIRS}
+  )
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${PCL_COMMON_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
 
 add_executable(move_group_plan_single_target
   src/move_group_plan_single_target.cpp
   )
-
 
 add_executable(
   kinect_downsampler_node
