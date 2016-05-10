@@ -1,7 +1,7 @@
 <launch>
-  <node name="point_cloud_merger" pkg="motoman_moveit" node="point_cloud_merger">
-	<remap from="/cloud_in_1" to="/kinect_first/hd/points"/>
-	<remap from="/cloud_in_2" to="/kinect_second/hd/points"/>
-	<remap from="/cloud_out" to="/merged_cloud"/>
+  <node pkg="motoman_moveit" type="point_cloud_merger" name="point_cloud_merger" output="screen">
+    <param name="cloud_in_1"  value="/kinect_first/hd/resized_points" />
+    <param name="cloud_in_2"  value="/kinect_second/hd/resized_points" />
+    <param name="cloud_out"  value="/merged_cloud" />
   </node>
 </launch>
