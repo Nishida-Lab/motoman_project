@@ -26,7 +26,7 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model sia5 -param robot_description"/>
 
   <!-- merge multi pointcloud data from multi kinect  -->
-  <node pkg="motoman_moveit" type="point_cloud_merger" name="point_cloud_merger">
+  <node pkg="motoman_point_cloud" type="point_cloud_merger" name="point_cloud_merger">
     <param name="cloud_in_1" value="/kinect_first/hd/points" />
     <param name="cloud_in_2" value="/kinect_second/hd/points" />
     <param name="cloud_out" value="/merged_cloud" />
