@@ -1,0 +1,20 @@
+<launch>
+  <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
+    <param name="loop_rate" value="10" />
+    <!-- クラスタリングのしきい値 -->
+    <param name="clusterTolerance" value="0.02" />
+    <param name="minSize" value="100" />
+    <param name="maxSize" value="2500" />
+    <!-- クラスタリングを行うエリア -->
+    <param name="crop_x_min" value="0.15" />
+    <param name="crop_x_max" value="1.5" />
+    <param name="crop_y_min" value="-1.2" />
+    <param name="crop_y_max" value="1.2" />
+    <param name="crop_z_min" value="0.01" />
+    <param name="crop_z_max" value="0.5" />
+
+    <param name="source_pc_topic_name" value="/merged_cloud" />
+    <param name="box_name" value="/clustering_result" />
+    <param name="clustering_frame_id" value="world" />
+  </node>
+</launch>
