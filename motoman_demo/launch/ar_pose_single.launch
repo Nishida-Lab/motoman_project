@@ -1,7 +1,7 @@
 <launch>
   <node pkg="image_proc" type="image_proc" name="image_proc">
-	<remap from="image_raw" to="/kinect2/hd/image_color"/>
-	<remap from="camera_info" to="/kinect2/hd/camera_info"/>
+	<remap from="image_raw" to="/kinect_first/hd/image_color"/>
+	<remap from="camera_info" to="/kinect_first/hd/camera_info"/>
   </node>
   
   <node name="ar_pose" pkg="ar_pose" type="ar_single" respawn="false"
@@ -14,6 +14,6 @@
     <param name="threshold" type="int" value="103"/>
     <param name="use_history" type="bool" value="true"/>
 	<remap from="camera/image_raw" to="/image_rect"/>
-	<remap from="camera/camera_info" to="/kinect2/hd/camera_info"/>
+	<remap from="camera/camera_info" to="/kinect_first/hd/camera_info"/>
   </node>
 </launch>
