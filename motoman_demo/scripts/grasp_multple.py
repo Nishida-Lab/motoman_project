@@ -30,7 +30,7 @@ def main():
     tf_buffer = tf2_ros.Buffer()
     tf_listner = tf2_ros.TransformListener(tf_buffer)
 
-    for i in [1, 2, 3]:
+    for i in [1, 2, 3, 4, 5, 6]:
         target = "ar_marker_" + str(i)
         get_tf_flg = False
         # Get target TF
@@ -61,7 +61,7 @@ def main():
                 arm.set_pose_target(target_pose)
                 arm.go()
                 arm.clear_pose_targets()
-                rospy.sleep(2)
+                #rospy.sleep(2)
                 # Get Grasp
                 # waypoints = []
             
@@ -108,7 +108,7 @@ def main():
                 arm.set_pose_target(target_pose)
                 arm.go()
                 arm.clear_pose_targets()
-                rospy.sleep(2)
+                #rospy.sleep(2)
 
                 # Go to Home Position
                 target_pose.position.x = -0.13683 + (i-1)*0.08
@@ -121,7 +121,7 @@ def main():
                 arm.set_pose_target(target_pose)
                 arm.go()
                 arm.clear_pose_targets()
-                rospy.sleep(2)
+                #rospy.sleep(2)
 
                 target_pose.position.x = target_pose.position.x
                 target_pose.position.y = target_pose.position.y
