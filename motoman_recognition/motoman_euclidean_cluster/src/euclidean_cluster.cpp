@@ -45,6 +45,13 @@ void EuclideanCluster::EuclideanCallback(
   // std::vector<int> dummy;
   // pcl::removeNaNFromPointCloud(*pcl_source_ptr, *pcl_source_ptr, dummy);
 
+  // Create the filtering object
+  pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+  sor.setInputCloud (pcl_source_ptr);
+  sor.setMeanK (100);
+  sor.setStddevMulThresh (0.1);
+  sor.filter (*pcl_source_ptr);
+
   // 平面をしきい値で除去する→Cropboxで
   CropBox(pcl_source_ptr, crop_min_, crop_max_);
 
@@ -178,7 +185,7 @@ jsk_recognition_msgs::BoundingBox EuclideanCluster::MomentOfInertia_AABB(pcl::Po
   box.header.frame_id = frame_id_;
   box.pose = pose;
   box.dimensions = size;
-  // box.label = cluster_cnt;
+  box.label = cluster_cnt;
 
   return box;
 }
