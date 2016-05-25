@@ -13,7 +13,7 @@
 
   <!-- Joint -->
   <joint name="joint_kinect_first" type="fixed">
-    <origin xyz="0.8625 -0.7818 0.7662" rpy="-0.0209 0.5976 1.9579" />
+    <origin xyz="0.8625 -0.7708 0.7662" rpy="-0.0209 0.5976 1.9287" />
     <parent link="base_link"/>
     <child link="kinect_first_link"/>
   </joint>
