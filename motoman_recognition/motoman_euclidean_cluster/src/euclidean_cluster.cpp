@@ -131,7 +131,7 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
 
     // 一つのclusterをpushback
     jsk_recognition_msgs::BoundingBox box;
-    box = MomentOfInertia_AABB(cloud_cluster, j);
+    box = MinAreaRect(cloud_cluster, j);
     box_array.boxes.push_back(box);
 
     j++;
@@ -246,6 +246,79 @@ jsk_recognition_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::Poi
 
   return box;
 }
+
+jsk_recognition_msgs::BoundingBox EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt){
+  // PCLによる点群の最大最小エリア取得
+  pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
+  feature_extractor.setInputCloud(cloud);
+  feature_extractor.compute();
+
+  std::vector<float> moment_of_inertia;
+  std::vector<float> eccentricity;
+  pcl::PointXYZ min_point_AABB;
+  pcl::PointXYZ max_point_AABB;
+
+  geometry_msgs::Pose pose;
+  geometry_msgs::Vector3 size;
+
+  feature_extractor.getMomentOfInertia(moment_of_inertia);
+  feature_extractor.getEccentricity(eccentricity);
+  feature_extractor.getAABB(min_point_AABB, max_point_AABB);
+
+  // OpenCVで最小矩形を当てはめる
+  std::vector<cv::Point2f> points;
+  for(unsigned int i = 0; i < cloud->points.size(); i++){
+    cv::Point2f p2d;
+    p2d.x = cloud->points[i].x;
+    p2d.y = cloud->points[i].y;
+    points.push_back(p2d);
+  }
+  cv::Mat points_mat(points);
+  cv::RotatedRect rrect = cv::minAreaRect(points_mat);
+
+  // ROS_INFO("Center of mass (x, y) = (%f, %f)", rrect.center.x, rrect.center.y);
+  // ROS_INFO("Height = %f Width =  %f", rrect.size.height, rrect.size.width);
+  // ROS_INFO("Angle = %f [deg]", rrect.angle);
+
+  // jsk_recognition_msgs::BoundingBoxの型に合わせて代入していく
+  pose.position.x = rrect.center.x;
+  pose.position.y = rrect.center.y;
+  pose.position.z = (min_point_AABB.z + max_point_AABB.z) / 2.0;
+
+  Eigen::Matrix3f AxisAngle;
+  Eigen::Vector3f axis(0,0,1); //z 軸を指定
+  AxisAngle = Eigen::AngleAxisf(rrect.angle*M_PI/180.0, axis); // z軸周りに90度反時計回りに回転
+  Eigen::Quaternionf quat(AxisAngle); // クォータニオンに変換
+  pose.orientation.x = quat.x();
+  pose.orientation.y = quat.y();
+  pose.orientation.z = quat.z();
+  pose.orientation.w = quat.w();
+
+  size.x = rrect.size.width;
+  size.y = rrect.size.height;
+  size.z = max_point_AABB.z - min_point_AABB.z;
+
+  // TFの名前付け
+  std::stringstream ss;
+  std::string object_name;
+  ss << cluster_cnt;
+  object_name = "object_" + ss.str();
+
+  br_.sendTransform(tf::StampedTransform(
+      tf::Transform(
+          tf::Quaternion(pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w),
+          tf::Vector3(pose.position.x, pose.position.y, max_point_AABB.z)),
+          ros::Time::now(), "world", object_name));
+
+  jsk_recognition_msgs::BoundingBox box;
+  box.header.frame_id = frame_id_;
+  box.pose = pose;
+  box.dimensions = size;
+  box.label = cluster_cnt;
+
+  return box;
+}
+
 
 void EuclideanCluster::run()
 {
