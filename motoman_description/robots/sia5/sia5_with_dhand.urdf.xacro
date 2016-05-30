@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_basic.urdf.xacro"/>
+  <xacro:include filename="$(find dhand_description)/robots/dhand_adapted.urdf.xacro"/>
+
+  <xacro:add_world>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+  </xacro:add_world>
+  
+  <!-- Joint -->
+  <joint name="dhand_adapter_joint" type="fixed">
+	<origin xyz="0 0 0" rpy="${M_PI} 0 0"/>
+	<parent link="tool0"/>
+	<child link="dhand_adapter_link"/>
+  </joint>
+  
+</robot>

@@ -1,0 +1,7 @@
+<launch>
+  <arg name="robot_ip" default="localhost"/>
+  
+  <include file="$(find motoman_control)/launch/sia5/sia5_with_dhand_streaming.launch"/>
+  
+  <include file="$(find motoman_control)/launch/sia5/sia5_real_control.launch"/>
+</launch>

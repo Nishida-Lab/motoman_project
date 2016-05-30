@@ -4,8 +4,8 @@
   <rosparam file="$(find motoman_control)/config/sia5/sia5_joint_trajectory_control.yaml" command="load"/>
 
   <!-- load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager"
-		type="spawner" output="screen"
+  <node name="sia5_controller_spawner" pkg="controller_manager"
+		type="spawner" output="screen" 
 		args="joint_state_controller
 			  sia5_controller"/>
 
