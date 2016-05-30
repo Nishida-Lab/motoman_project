@@ -37,7 +37,7 @@ def main():
             # Go to up from target
             target_pose.position.x = trans.transform.translation.x
             target_pose.position.y = trans.transform.translation.y + 0.03
-            target_pose.position.z = trans.transform.translation.z + 0.32
+            target_pose.position.z = trans.transform.translation.z + 0.42
             q = (trans.transform.rotation.x,
                  trans.transform.rotation.y,
                  trans.transform.rotation.z,
@@ -55,7 +55,7 @@ def main():
             arm.set_pose_target(target_pose)
             arm.go()
             arm.clear_pose_targets()
-            rospy.sleep(1)
+            # rospy.sleep(1)
             
             # Get Grasp
             # waypoints = []
@@ -73,7 +73,7 @@ def main():
             
             target_pose.position.x = trans.transform.translation.x
             target_pose.position.y = trans.transform.translation.y + 0.03
-            target_pose.position.z = trans.transform.translation.z + 0.243
+            target_pose.position.z = trans.transform.translation.z + 0.283
             target_pose.orientation = target_pose.orientation
             print target_pose
             arm.set_pose_target(target_pose)
@@ -99,7 +99,7 @@ def main():
             # (plan, fraction) = arm.compute_cartesian_path(waypoints, 0.005, 0.0, False)
             target_pose.position.x = trans.transform.translation.x
             target_pose.position.y = trans.transform.translation.y + 0.03
-            target_pose.position.z = trans.transform.translation.z + 0.32
+            target_pose.position.z = trans.transform.translation.z + 0.42
             target_pose.orientation = target_pose.orientation
             print target_pose
             arm.set_pose_target(target_pose)
@@ -110,7 +110,7 @@ def main():
             # Go to Home Position
             target_pose.position.x = trans.transform.translation.x
             target_pose.position.y = -trans.transform.translation.y
-            target_pose.position.z = trans.transform.translation.z + 0.32
+            target_pose.position.z = trans.transform.translation.z + 0.42
             target_pose.orientation = target_pose.orientation
             arm.set_pose_target(target_pose)
             arm.go()
@@ -119,7 +119,7 @@ def main():
             
             target_pose.position.x = trans.transform.translation.x
             target_pose.position.y = -trans.transform.translation.y
-            target_pose.position.z = trans.transform.translation.z + 0.25
+            target_pose.position.z = trans.transform.translation.z + 0.30
             target_pose.orientation = target_pose.orientation
             arm.set_pose_target(target_pose)
             arm.go()
