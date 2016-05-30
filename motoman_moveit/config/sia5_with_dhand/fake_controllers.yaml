@@ -1,0 +1,20 @@
+controller_list:
+  - name: fake_arm_controller
+    joints:
+      - joint_s
+      - joint_l
+      - joint_e
+      - joint_u
+      - joint_r
+      - joint_b
+      - joint_t
+  - name: fake_gripper_controller
+    joints:
+      - dhand_finger_base_left_joint
+      - dhand_finger_middle_left_joint
+      - dhand_finger_top_left_joint
+      - dhand_finger_middle_middle_joint
+      - dhand_finger_top_middle_joint
+      - dhand_finger_base_right_joint
+      - dhand_finger_middle_right_joint
+      - dhand_finger_top_right_joint
