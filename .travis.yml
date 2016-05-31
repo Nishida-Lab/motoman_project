@@ -79,6 +79,8 @@ before_install:
   # Install PCL
   - yes | sudo apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; sudo apt-get update -qq; sudo apt-get install -y libpcl-all;
   # Install OpenCV
+  - wget https://raw.githubusercontent.com/Ry0/my_ubuntu_setup/master/OpenCV_install/opencv_install.sh
+  - sudo sh opencv_install.sh
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
