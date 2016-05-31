@@ -1,5 +1,55 @@
+<!--
+  Contoller specific version of 'robot_interface.launch'.
+
+
+  Usage:
+    robot_interface_streaming_fs100.launch robot_ip:=<value>
+-->
 <launch>
-  <include file="$(find motoman_control)/launch/sia5/robot_interface_streaming_fs100.launch">
+	<arg name="robot_ip" default="10.0.0.2"/>
+	<arg name="use_bswap" default="true" />
+	<arg name="version0" default="true" />
 	<arg name="model" value="$(find motoman_description)/robots/sia5/sia5_with_dhand.urdf.xacro"/>
-  </include>
+	
+	<!-- load URDF description -->
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'"/>
+
+	<!-- set joint name parameter -->
+	<rosparam param="controller_joint_names">[joint_s, joint_l, joint_e, joint_u, joint_r, joint_b, joint_t]</rosparam>
+
+	<!-- robot state publisher -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+	  <remap from="/joint_states" to="/sia5/joint_states"/>
+	</node>
+
+	<!--======== from here robot interface streaming ======== -->
+	<param name="robot_ip_address" type="str" value="$(arg robot_ip)" />
+	<param name="version0" type="bool" value="$(arg version0)" />
+	
+	<!-- load the correct version of the motion streaming node -->
+	<node if="$(arg use_bswap)" name="motion_streaming_interface"
+		  pkg="motoman_driver" type="motion_streaming_interface_bswap" >
+	  <remap from="/joint_states" to="/sia5/joint_states"/>
+	</node>
+	<node unless="$(arg use_bswap)" name="motion_streaming_interface"
+		  pkg="motoman_driver" type="motion_streaming_interface" >
+	  <remap from="/joint_states" to="/sia5/joint_states"/>
+	</node>
+	
+	<node if="$(arg version0)" name="joint_trajectory_action"
+		pkg="industrial_robot_client" type="joint_trajectory_action" />
+	<node unless="$(arg version0)" name="joint_trajectory_action"
+		pkg="motoman_driver" type="motoman_driver_joint_trajectory_action" />
+
+
+	<node if="$(arg use_bswap)" name="joint_state" 
+		  pkg="motoman_driver" type="robot_state_bswap" >
+	  <remap from="/joint_states" to="sia5/joint_states"/>
+	</node>
+	<node unless="$(arg use_bswap)" name="joint_state" 
+		  pkg="motoman_driver" type="robot_state" >
+	  <remap from="/joint_states" to="sia5/joint_states"/>
+	</node>
+
 </launch>
+
