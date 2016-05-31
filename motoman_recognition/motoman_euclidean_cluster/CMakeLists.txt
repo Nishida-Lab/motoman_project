@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(OpenCV REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -28,6 +28,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 add_executable(
@@ -38,6 +39,7 @@ add_executable(
 
 target_link_libraries(euclidean_cluster_node
   ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
 )
 
 

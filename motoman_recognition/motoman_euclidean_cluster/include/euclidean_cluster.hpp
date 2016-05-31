@@ -36,6 +36,8 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/impl/transforms.hpp>
 
+#include <opencv/cv.h>
+
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
 
 using namespace pcl;
@@ -44,14 +46,11 @@ class EuclideanCluster {
 public:
   EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n);
   void EuclideanCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min,
-               pcl::PointXYZ max);
+  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
   void Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-  jsk_recognition_msgs::BoundingBox
-  MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
-                       int cluster_cnt);
-  jsk_recognition_msgs::BoundingBox
-  MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  jsk_recognition_msgs::BoundingBox MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
+  jsk_recognition_msgs::BoundingBox MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  jsk_recognition_msgs::BoundingBox MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
   void run();
 
 private:
