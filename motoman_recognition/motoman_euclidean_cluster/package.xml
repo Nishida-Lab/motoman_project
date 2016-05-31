@@ -48,7 +48,6 @@
   <build_depend>jsk_visualization</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>pcl_msgs</build_depend>
-  <build_depend>opencv2</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
@@ -58,7 +57,6 @@
   <run_depend>jsk_visualization</run_depend>
   <run_depend>pcl_ros</run_depend>
   <run_depend>pcl_msgs</run_depend>
-  <run_depend>opencv2</run_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
