@@ -24,7 +24,6 @@
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>ros_controllers</run_depend>
   <run_depend>motoman_driver</run_depend>
-  <run_depend>motoman_driver</run_depend>
   <run_depend>industrial_robot_client</run_depend>
   
   <export>
