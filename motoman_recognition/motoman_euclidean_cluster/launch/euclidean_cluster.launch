@@ -11,9 +11,9 @@
     <param name="crop_y_min" value="-0.33" />
     <param name="crop_y_max" value="0.33" />
     <param name="crop_z_min" value="0.035" />
-    <param name="crop_z_max" value="0.5" />
+    <param name="crop_z_max" value="1.2" />
 
-    <param name="source_pc_topic_name" value="/kinect_first/hd/points" />
+    <param name="source_pc_topic_name" value="/kinect_first/hd/resized_points" />
     <param name="box_name" value="/clustering_result" />
     <param name="clustering_frame_id" value="world" />
   </node>
