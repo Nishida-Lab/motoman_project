@@ -17,6 +17,12 @@
 	<!-- set joint name parameter -->
 	<rosparam param="controller_joint_names">[joint_s, joint_l, joint_e, joint_u, joint_r, joint_b, joint_t]</rosparam>
 
+	<!-- DHand-Joint Republisher -->
+	<node pkg="dhand_control"  type="dhand_joint_state_republisher"  name="dhand_joint_state_republisher" output="screen">
+      <param name="joint_state_republish_topic_name" value="/joint_states" />
+      <param name="joint_state_subscribe_topic_name" value="/sia5/joint_states" />
+	</node>
+	
 	<!-- robot state publisher -->
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
