@@ -35,8 +35,7 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/impl/transforms.hpp>
-
-#include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <visualization_msgs/Marker.h>
 
 using namespace pcl;
 
@@ -45,6 +44,7 @@ public:
   CableRemove(ros::NodeHandle nh, ros::NodeHandle n);
   void CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
   void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
+  void DrawCable(Eigen::Vector3f cable_start_point, Eigen::Vector3f cable_end_point);
   void run();
 
 private:
@@ -52,7 +52,7 @@ private:
   ros::Rate rate_;
   std::string frame_id_;
   ros::Publisher fileterd_cloud_pub_;
-  // ros::Publisher euclidean_cluster_pub_;
+  ros::Publisher marker_pub_;
   ros::Subscriber source_pc_sub_;
   tf::TransformListener tf_;
   // tf::TransformBroadcaster br_;
