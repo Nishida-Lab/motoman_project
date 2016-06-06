@@ -13,7 +13,6 @@
 #include <pcl_ros/impl/transforms.hpp>
 
 #include <visualization_msgs/Marker.h>
-#include <jsk_recognition_msgs/BoundingBoxArray.h>
 
 using namespace pcl;
 
@@ -21,10 +20,9 @@ class CableRemove {
 public:
   CableRemove(ros::NodeHandle nh, ros::NodeHandle n);
   void CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
   void DrawCable(Eigen::Vector3d a, Eigen::Vector3d b);
-  Eigen::Affine3f DrawBox(Eigen::Vector3d a, Eigen::Vector3d b, double length);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Eigen::Affine3f matrix, double length);
+  void DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b, double length);
+  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
   void run();
 
 private:
@@ -32,8 +30,8 @@ private:
   ros::Rate rate_;
   std::string frame_id_;
   ros::Publisher fileterd_cloud_pub_;
-  ros::Publisher marker_pub_;
-  ros::Publisher bounding_pub_;
+  ros::Publisher cable_line_pub_;
+  ros::Publisher remove_area_pub_;
   ros::Subscriber source_pc_sub_;
   tf::TransformListener tf_;
 

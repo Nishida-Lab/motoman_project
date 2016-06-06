@@ -11,10 +11,10 @@
 
    <!-- クラスタリングを行うエリア -->
     <param name="crop_x_min" value="-0.4" />
-    <param name="crop_x_max" value="0.6" />
+    <param name="crop_x_max" value="1.0" />
     <param name="crop_y_min" value="-0.5" />
     <param name="crop_y_max" value="0.5" />
-    <param name="crop_z_min" value="0.01" />
+    <param name="crop_z_min" value="-0.01" />
     <param name="crop_z_max" value="2.5" />
 
     <param name="radius_threshold" value="0.1" />

@@ -9,8 +9,8 @@ CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
 {
   source_pc_sub_ = nh_.subscribe(n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1, &CableRemove::CableRemoveCallback, this);
   fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(n.param<std::string>("filtered_pc_topic_name", "/cable_removed_pointcloud"), 1);
-  marker_pub_ = nh_.advertise<visualization_msgs::Marker>("/cable", 1);
-  bounding_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/remove_area"), 1);
+  cable_line_pub_ = nh_.advertise<visualization_msgs::Marker>(n.param<std::string>("cable_name", "/cable"), 1);
+  remove_area_pub_ = nh_.advertise<visualization_msgs::Marker>(n.param<std::string>("remove_area_name", "/remove_area"), 1);
 
   n.param<double>("cable_start_pos_x", cable_start_pos_[0], 0.36);
   n.param<double>("cable_start_pos_y", cable_start_pos_[1], 0.00);
@@ -53,7 +53,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
 
   DrawCable(cable_start_pos_, dhand_adapter_pos_);
   double length = (dhand_adapter_pos_ - cable_start_pos_).norm();
-  Eigen::Affine3f pose = DrawBox(cable_start_pos_, dhand_adapter_pos_, length);
+  DrawCylinder(cable_start_pos_, dhand_adapter_pos_, length);
 
   sensor_msgs::PointCloud2 trans_pc;
   try {
@@ -128,10 +128,10 @@ void CableRemove::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b)
 
   line_list.points.push_back(p);
 
-  marker_pub_.publish(line_list);
+  cable_line_pub_.publish(line_list);
 }
 
-Eigen::Affine3f CableRemove::DrawBox(Eigen::Vector3d a, Eigen::Vector3d b, double length)
+void CableRemove::DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b, double length)
 {
   Eigen::Vector3d axis_vector = b - a;
   Eigen::Vector3d axis_vector_normalized = axis_vector.normalized();
@@ -155,43 +155,48 @@ Eigen::Affine3f CableRemove::DrawBox(Eigen::Vector3d a, Eigen::Vector3d b, doubl
 
   // Rotate so that vector points along line
   q.normalize();
-  Eigen::Quaternionf qf = q.cast <float> ();
-  // スケーリング
-  Eigen::DiagonalMatrix<float, 3> scaling = Eigen::Scaling(1.0f, 1.0f, 1.0f);
-  // 平行移動(x, y, z)
-  Eigen::Translation<float, 3> translation = Eigen::Translation<float, 3>(float(a[0] + b[0])/2.0, float(a[1] + b[1])/2.0, float(a[2] + b[2])/2.0);
-  // アフィン変換用行列
-  Eigen::Affine3f matrix;
-  // 変換行列を求める
-  matrix = translation * scaling * qf;
 
-  geometry_msgs::Pose geometry_pose;
-  geometry_msgs::Vector3 size;
+  // Draw marker
+  visualization_msgs::Marker marker;
+  // Set the frame ID and timestamp.  See the TF tutorials for information on these.
+  marker.header.frame_id = frame_id_;
+  marker.header.stamp = ros::Time::now();
 
-  geometry_pose.position.x = (a[0] + b[0])/2.0;
-  geometry_pose.position.y = (a[1] + b[1])/2.0;
-  geometry_pose.position.z = (a[2] + b[2])/2.0;
-  geometry_pose.orientation.x = q.x();
-  geometry_pose.orientation.y = q.y();
-  geometry_pose.orientation.z = q.z();
-  geometry_pose.orientation.w = q.w();
+  // Set the namespace and id for this marker.  This serves to create a unique ID
+  // Any marker sent with the same namespace and id will overwrite the old one
+  marker.ns = "basic_shapes";
+  marker.id = 0;
 
-  size.x = 0.1;
-  size.y = 0.1;
-  size.z = length;
+  // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
+  marker.type = visualization_msgs::Marker::CYLINDER;
 
-  jsk_recognition_msgs::BoundingBox box;
-  box.header.frame_id = frame_id_;
-  box.pose = geometry_pose;
-  box.dimensions = size;
+  // Set the marker action.  Options are ADD and DELETE
+  marker.action = visualization_msgs::Marker::ADD;
 
-  jsk_recognition_msgs::BoundingBoxArray box_array;
-  box_array.boxes.push_back(box);
-  box_array.header.stamp = ros::Time::now();
-  box_array.header.frame_id = frame_id_;
+  // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
+  marker.pose.position.x = (a[0] + b[0])/2.0;
+  marker.pose.position.y = (a[1] + b[1])/2.0;
+  marker.pose.position.z = (a[2] + b[2])/2.0;
+  marker.pose.orientation.x = q.x();
+  marker.pose.orientation.y = q.y();
+  marker.pose.orientation.z = q.z();
+  marker.pose.orientation.w = q.w();
 
-  bounding_pub_.publish(box_array);
-  return matrix;
+  // Set the scale of the marker -- 1x1x1 here means 1m on a side
+  marker.scale.x = 2*radius_threshold_;
+  marker.scale.y = 2*radius_threshold_;
+  marker.scale.z = length;
+
+  // Set the color -- be sure to set alpha to something non-zero!
+  marker.color.r = 231.0/255.0;
+  marker.color.g = 79.0/255.0;
+  marker.color.b = 81.0/255.0;
+  marker.color.a = 0.25;
+
+  marker.lifetime = ros::Duration();
+
+  // Publish the marker
+  remove_area_pub_.publish(marker);
 }
 
 void CableRemove::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
