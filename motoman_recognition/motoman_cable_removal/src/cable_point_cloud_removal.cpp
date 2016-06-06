@@ -15,12 +15,23 @@ CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
   n.param<double>("cable_start_pos_x", cable_start_pos_[0], 0.36);
   n.param<double>("cable_start_pos_y", cable_start_pos_[1], 0.00);
   n.param<double>("cable_start_pos_z", cable_start_pos_[2], 1.56);
+
+  // clopboxを当てはめるエリアを定義
+  n.param<float>("crop_x_min", crop_min_.x, -0.6);
+  n.param<float>("crop_x_max", crop_max_.x, 0.6);
+  n.param<float>("crop_y_min", crop_min_.y, -0.8);
+  n.param<float>("crop_y_max", crop_max_.y, 0.8);
+  n.param<float>("crop_z_min", crop_min_.z, 0.01);
+  n.param<float>("crop_z_max", crop_max_.z, 2.5);
+
+  // ケーブルの消す範囲（ケーブルを軸としたときの半径）
+  n.param<double>("radius_threshold", radius_threshold_, 0.1);
 }
 
 void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc) {
   tf::StampedTransform transform;
   try{
-    tf_.lookupTransform("/world", "/dhand_adapter_link", ros::Time(0), transform);
+    tf_.lookupTransform("/world", "/dhand_base_link", ros::Time(0), transform);
   }
   catch (tf::TransformException ex){
     ROS_ERROR("%s",ex.what());
@@ -56,6 +67,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   pcl::fromROSMsg(trans_pc, pcl_source);
   pcl::PointCloud<PointXYZ>::Ptr pcl_source_ptr(new pcl::PointCloud<PointXYZ>(pcl_source));
 
+  CableRemove::CropBox(pcl_source_ptr, crop_min_, crop_max_);
   for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = pcl_source_ptr->points.begin(); pcl_source_ptr_i < pcl_source_ptr->points.end(); ++pcl_source_ptr_i){
     if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]){
       Eigen::Vector3f AB(dhand_adapter_pos_[0] - cable_start_pos_[0],
@@ -68,7 +80,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
       float Length_AB = AB.norm();
       float Length_ABCrossAP = ABcrossAP.norm();
       float H = Length_ABCrossAP / Length_AB;
-      if( H < 0.05 ){
+      if( H < radius_threshold_ ){
         pcl_source_ptr->erase(pcl_source_ptr_i);
         pcl_source_ptr_i--;
         // ROS_INFO("Remove Cable Point Cloud H = %f", H);
@@ -82,7 +94,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   filtered_pc2.header.stamp = ros::Time::now();
   filtered_pc2.header.frame_id = frame_id_;
   fileterd_cloud_pub_.publish(filtered_pc2);
-
+  ROS_INFO("Cable remove point cloud published");
 }
 
 void CableRemove::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b)
@@ -180,6 +192,43 @@ Eigen::Affine3f CableRemove::DrawBox(Eigen::Vector3d a, Eigen::Vector3d b, doubl
 
   bounding_pub_.publish(box_array);
   return matrix;
+}
+
+void CableRemove::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                               pcl::PointXYZ min, pcl::PointXYZ max) {
+  Eigen::Vector4f minPoint;
+
+  minPoint[0] = min.x; // define minimum point x
+  minPoint[1] = min.y; // define minimum point y
+  minPoint[2] = min.z; // define minimum point z
+
+  Eigen::Vector4f maxPoint;
+  maxPoint[0] = max.x; // define max point x
+  maxPoint[1] = max.y; // define max point y
+  maxPoint[2] = max.z; // define max point z
+
+  Eigen::Vector3f boxTranslatation;
+  boxTranslatation[0] = 0;
+  boxTranslatation[1] = 0;
+  boxTranslatation[2] = 0;
+
+  Eigen::Vector3f boxRotation;
+  boxRotation[0] = 0; // rotation around x-axis
+  boxRotation[1] = 0; // rotation around y-axis
+  boxRotation[2] = 0; // in radians rotation around z-axis. this rotates your
+
+  Eigen::Affine3f boxTransform;
+
+  pcl::CropBox<pcl::PointXYZ> cropFilter;
+  cropFilter.setInputCloud(cloud);
+  cropFilter.setMin(minPoint);
+  cropFilter.setMax(maxPoint);
+  cropFilter.setTranslation(boxTranslatation);
+  cropFilter.setRotation(boxRotation);
+
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>());
+  cropFilter.filter(*cloud_filtered);
+  pcl::copyPointCloud<pcl::PointXYZ, pcl::PointXYZ>(*cloud_filtered, *cloud);
 }
 
 void CableRemove::run()
