@@ -8,5 +8,15 @@
     <param name="source_pc_topic_name" value="/merged_cloud" />
     <param name="filtered_pc_topic_name" value="/cable_removed_pointcloud" />
     <param name="box_name" value="/remove_area" />
+
+   <!-- クラスタリングを行うエリア -->
+    <param name="crop_x_min" value="-0.6" />
+    <param name="crop_x_max" value="0.9" />
+    <param name="crop_y_min" value="-0.8" />
+    <param name="crop_y_max" value="0.8" />
+    <param name="crop_z_min" value="0.01" />
+    <param name="crop_z_max" value="2.5" />
+
+    <param name="radius_threshold" value="0.1" />
   </node>
 </launch>
