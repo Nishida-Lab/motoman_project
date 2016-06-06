@@ -1,20 +1,12 @@
 <launch>
-  <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
-    <param name="loop_rate" value="5" />
-    <!-- クラスタリングのしきい値 -->
-    <param name="clusterTolerance" value="0.02" />
-    <param name="minSize" value="50" />
-    <param name="maxSize" value="25000" />
-    <!-- クラスタリングを行うエリア -->
-    <param name="crop_x_min" value="0.15" />
-    <param name="crop_x_max" value="0.6" />
-    <param name="crop_y_min" value="-0.33" />
-    <param name="crop_y_max" value="0.33" />
-    <param name="crop_z_min" value="-0.17" />
-    <param name="crop_z_max" value="0.3" />
+  <node name="cable_point_cloud_removal" pkg="motoman_cable_removal" type="cable_point_cloud_removal_node" output="screen">
+    <param name="loop_rate" value="10" />
+    <param name="cable_start_pos_x" value="0.36" />
+    <param name="cable_start_pos_y" value="0.00" />
+    <param name="cable_start_pos_z" value="1.56" />
 
-    <param name="source_pc_topic_name" value="/kinect_first/hd/points" />
-    <param name="box_name" value="/clustering_result" />
-    <param name="clustering_frame_id" value="world" />
+    <param name="source_pc_topic_name" value="/merged_cloud" />
+    <param name="filtered_pc_topic_name" value="/cable_removed_pointcloud" />
+    <param name="box_name" value="/remove_area" />
   </node>
 </launch>

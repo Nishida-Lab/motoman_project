@@ -62,7 +62,9 @@ private:
   ros::Publisher bounding_pub_;
   ros::Subscriber source_pc_sub_;
   tf::TransformListener tf_;
-  // tf::TransformBroadcaster br_;
+
+  Eigen::Vector3d dhand_adapter_pos_;
+  Eigen::Vector3d cable_start_pos_;
 };
 
 #endif /* CABLE_POINT_CLOUD_REMOVAL_H */

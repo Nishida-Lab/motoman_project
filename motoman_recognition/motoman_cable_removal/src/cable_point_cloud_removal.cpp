@@ -1,6 +1,5 @@
 // #include <cable_point_cloud_removal.hpp>
 #include "../include/cable_point_cloud_removal.hpp"
-
 using namespace pcl;
 
 CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
@@ -10,20 +9,12 @@ CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
 {
   source_pc_sub_ = nh_.subscribe(n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1, &CableRemove::CableRemoveCallback, this);
   fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(n.param<std::string>("filtered_pc_topic_name", "/cable_removed_pointcloud"), 1);
-  marker_pub_ = nh_.advertise<visualization_msgs::Marker>("visualization_marker", 10);
-  bounding_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/boundingbox_result"), 1);
+  marker_pub_ = nh_.advertise<visualization_msgs::Marker>("/cable", 1);
+  bounding_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/remove_area"), 1);
 
-  // // クラスタリングのパラメータを初期化
-  // n.param<double>("clusterTolerance", clusterTolerance_, 0.02);
-  // n.param<int>("minSize", minSize_, 100);
-  // n.param<int>("maxSize", maxSize_, 25000);
-  // // clopboxを当てはめるエリアを定義
-  // n.param<float>("crop_x_min", crop_min_.x, 0.15);
-  // n.param<float>("crop_x_max", crop_max_.x, 1.5);
-  // n.param<float>("crop_y_min", crop_min_.y, -1.5);
-  // n.param<float>("crop_y_max", crop_max_.y, 1.5);
-  // n.param<float>("crop_z_min", crop_min_.z, 0.01);
-  // n.param<float>("crop_z_max", crop_max_.z, 0.5);
+  n.param<double>("cable_start_pos_x", cable_start_pos_[0], 0.36);
+  n.param<double>("cable_start_pos_y", cable_start_pos_[1], 0.00);
+  n.param<double>("cable_start_pos_z", cable_start_pos_[2], 1.56);
 }
 
 void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc) {
@@ -45,17 +36,15 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   //           << ")"
   //           << std::endl;
 
-  Eigen::Vector3d dhand_adapter_pos;
-  dhand_adapter_pos[0] = transform.getOrigin().x();
-  dhand_adapter_pos[1] = transform.getOrigin().y();
-  dhand_adapter_pos[2] = transform.getOrigin().z();
-  Eigen::Vector3d A(0.36, 0, 1.56);
+  dhand_adapter_pos_[0] = transform.getOrigin().x();
+  dhand_adapter_pos_[1] = transform.getOrigin().y();
+  dhand_adapter_pos_[2] = transform.getOrigin().z();
+
+  DrawCable(cable_start_pos_, dhand_adapter_pos_);
+  double length = (dhand_adapter_pos_ - cable_start_pos_).norm();
+  Eigen::Affine3f pose = DrawBox(cable_start_pos_, dhand_adapter_pos_, length);
+
   sensor_msgs::PointCloud2 trans_pc;
-
-  DrawCable(A, dhand_adapter_pos);
-  double length = (dhand_adapter_pos - A).norm();
-  Eigen::Affine3f pose = DrawBox(A, dhand_adapter_pos, length);
-
   try {
     pcl_ros::transformPointCloud(frame_id_, *source_pc, trans_pc, tf_);
   } catch (tf::ExtrapolationException e) {
@@ -67,29 +56,31 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   pcl::fromROSMsg(trans_pc, pcl_source);
   pcl::PointCloud<PointXYZ>::Ptr pcl_source_ptr(new pcl::PointCloud<PointXYZ>(pcl_source));
 
-  // for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = pcl_source_ptr->begin(); pcl_source_ptr_i < pcl_source_ptr->end(); ++pcl_source_ptr_i){
-  //   if (pcl_source_ptr_i->z > dhand_adapter_pos[2]){
-  //     Eigen::Vector3f AB(dhand_adapter_pos[0]-A[0], dhand_adapter_pos[1]-A[1], dhand_adapter_pos[2]-A[2]);
-  //     Eigen::Vector3f AP(pcl_source_ptr_i->x-A[0], pcl_source_ptr_i->y-A[1], pcl_source_ptr_i->z-A[2]);
-  //     Eigen::Vector3f ABcrossAP = AB.cross(AP);
-  //     float Length_AB = AB.norm();
-  //     float Length_ABCrossAP = ABcrossAP.norm();
-  //     float H = Length_ABCrossAP / Length_AB;
-  //     if( H < 1 ){
-  //       pcl_source_ptr->erase(pcl_source_ptr_i);
-  //       // ROS_INFO("Remove Cable Point Cloud H = %f", H);
-  //     }
-  //   }
-  //   pcl_source_ptr->erase(pcl_source_ptr_i);
-  // }
-  CropBox(pcl_source_ptr, pose, length);
-
+  for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = pcl_source_ptr->points.begin(); pcl_source_ptr_i < pcl_source_ptr->points.end(); ++pcl_source_ptr_i){
+    if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]){
+      Eigen::Vector3f AB(dhand_adapter_pos_[0] - cable_start_pos_[0],
+                         dhand_adapter_pos_[1] - cable_start_pos_[1],
+                         dhand_adapter_pos_[2] - cable_start_pos_[2]);
+      Eigen::Vector3f AP(pcl_source_ptr_i->x - cable_start_pos_[0],
+                         pcl_source_ptr_i->y - cable_start_pos_[1],
+                         pcl_source_ptr_i->z - cable_start_pos_[2]);
+      Eigen::Vector3f ABcrossAP = AB.cross(AP);
+      float Length_AB = AB.norm();
+      float Length_ABCrossAP = ABcrossAP.norm();
+      float H = Length_ABCrossAP / Length_AB;
+      if( H < 0.05 ){
+        pcl_source_ptr->erase(pcl_source_ptr_i);
+        pcl_source_ptr_i--;
+        // ROS_INFO("Remove Cable Point Cloud H = %f", H);
+      }
+    }
+  }
 
   // 処理後の点群をpublish
   sensor_msgs::PointCloud2 filtered_pc2;
   pcl::toROSMsg(*pcl_source_ptr, filtered_pc2);
   filtered_pc2.header.stamp = ros::Time::now();
-  filtered_pc2.header.frame_id = "world";
+  filtered_pc2.header.frame_id = frame_id_;
   fileterd_cloud_pub_.publish(filtered_pc2);
 
 }
@@ -107,10 +98,10 @@ void CableRemove::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b)
   line_list.type = visualization_msgs::Marker::LINE_LIST;
   line_list.scale.x = 0.02;
 
-  line_list.color.r = 1.0;
-  line_list.color.g = 1.0;
-  line_list.color.b = 1.0;
-  line_list.color.a = 0.75;
+  line_list.color.r = 0.0;
+  line_list.color.g = 0.0;
+  line_list.color.b = 0.0;
+  line_list.color.a = 0.5;
 
   geometry_msgs::Point p;
   p.x = a[0];
@@ -189,29 +180,6 @@ Eigen::Affine3f CableRemove::DrawBox(Eigen::Vector3d a, Eigen::Vector3d b, doubl
 
   bounding_pub_.publish(box_array);
   return matrix;
-}
-
-void CableRemove::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, Eigen::Affine3f matrix, double length) {
-
-  Eigen::Vector4f minPoint;
-  minPoint[0] = -1; // define minimum point x
-  minPoint[1] = -1; // define minimum point y
-  minPoint[2] = 0; // define minimum point z
-
-  Eigen::Vector4f maxPoint;
-  maxPoint[0] = 1; // define max point x
-  maxPoint[1] = 1; // define max point y
-  maxPoint[2] = length; // define max point z
-
-  pcl::CropBox<pcl::PointXYZ> cropFilter(true);
-  cropFilter.setInputCloud(cloud);
-  cropFilter.setMin(minPoint);
-  cropFilter.setMax(maxPoint);
-  cropFilter.setTransform(matrix);
-
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>());
-  cropFilter.filter(*cloud_filtered);
-  pcl::copyPointCloud<pcl::PointXYZ, pcl::PointXYZ>(*cloud_filtered, *cloud);
 }
 
 void CableRemove::run()
