@@ -10,10 +10,10 @@
     <param name="box_name" value="/remove_area" />
 
    <!-- クラスタリングを行うエリア -->
-    <param name="crop_x_min" value="-0.6" />
-    <param name="crop_x_max" value="0.9" />
-    <param name="crop_y_min" value="-0.8" />
-    <param name="crop_y_max" value="0.8" />
+    <param name="crop_x_min" value="-0.4" />
+    <param name="crop_x_max" value="0.6" />
+    <param name="crop_y_min" value="-0.5" />
+    <param name="crop_y_max" value="0.5" />
     <param name="crop_z_min" value="0.01" />
     <param name="crop_z_max" value="2.5" />
 
