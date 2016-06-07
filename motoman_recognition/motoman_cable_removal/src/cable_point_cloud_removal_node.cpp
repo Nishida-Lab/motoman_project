@@ -6,8 +6,8 @@ int main(int argc, char *argv[])
   ros::NodeHandle nh;
   ros::NodeHandle n("~");
 
-  CableRemove cluster(nh, n);
-  cluster.run();
+  CableRemove cable(nh, n);
+  cable.run();
 
   return 0;
 }
