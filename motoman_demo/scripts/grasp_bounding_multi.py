@@ -34,7 +34,7 @@ def get_tf_data(times):
 def cb_once(bbox_array_data):
     # ========== publisher to jamming gripper ========== #
     grasp_pub = rospy.Publisher('/jamming_grasp', Int32, queue_size=1)
-    
+
     # ========== Moveit init ========== #
     # moveit_commander init
     robot = moveit_commander.RobotCommander()
@@ -52,14 +52,14 @@ def cb_once(bbox_array_data):
         print trans[i].transform
         target_pose.position.x = trans[i].transform.translation.x
         target_pose.position.y = trans[i].transform.translation.y
-        target_pose.position.z = trans[i].transform.translation.z + 0.2
+        target_pose.position.z = trans[i].transform.translation.z + 0.4
         q = (trans[i].transform.rotation.x,
              trans[i].transform.rotation.y,
              trans[i].transform.rotation.z,
              trans[i].transform.rotation.w)
         (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
         # roll -= math.pi/6.0
-        pitch += math.pi/2.0
+        # pitch += math.pi/2.0
         # yaw += math.pi/4.0
         tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
         target_pose.orientation.x = tar_q[0]
@@ -74,7 +74,7 @@ def cb_once(bbox_array_data):
         grasp_pub.publish(1)
         print "!! Grasping !!"
         rospy.sleep(0.5)
-    
+
         # Go to Set Position
         target_pose.position.x = -0.13683 + (i-1)*0.08
         target_pose.position.y = -0.22166
@@ -95,7 +95,7 @@ def cb_once(bbox_array_data):
     arm.set_pose_target(arm_initial_pose)
     arm.go()
     arm.clear_pose_targets
-        
+
     subscriber.unregister()
 
 def main():
@@ -107,7 +107,7 @@ def main():
     sub_once = rospy.Subscriber('/clustering_result', BoundingBoxArray, cb_once, sub_once)
 
     rospy.spin()
-        
+
 if __name__ == '__main__':
     try:
         main()
