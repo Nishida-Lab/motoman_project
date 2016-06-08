@@ -216,11 +216,10 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
             tf::Vector3(pose.position.x, pose.position.y, max_point_AABB.z)),
             ros::Time::now(), "world", object_name));
 
-    jsk_recognition_msgs::BoundingBox box;
-    box.header.frame_id = frame_id_;
-    box.pose = pose;
-    box.dimensions = size;
-    box.label = cluster_cnt;
+    box_.header.frame_id = frame_id_;
+    box_.pose = pose;
+    box_.dimensions = size;
+    box_.label = cluster_cnt;
 
     return true;
   } else {
@@ -269,11 +268,10 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
             tf::Vector3(pose.position.x, pose.position.y, max_point_AABB.z)),
             ros::Time::now(), "world", object_name));
 
-    jsk_recognition_msgs::BoundingBox box;
-    box.header.frame_id = frame_id_;
-    box.pose = pose;
-    box.dimensions = size;
-    box.label = cluster_cnt;
+    box_.header.frame_id = frame_id_;
+    box_.pose = pose;
+    box_.dimensions = size;
+    box_.label = cluster_cnt;
 
     return true;
   }else{
