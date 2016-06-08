@@ -163,14 +163,14 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
   pcl::PointXYZ min_point_AABB;
   pcl::PointXYZ max_point_AABB;
 
+  geometry_msgs::Pose pose;
+  geometry_msgs::Vector3 size;
+
+  feature_extractor.getMomentOfInertia(moment_of_inertia);
+  feature_extractor.getEccentricity(eccentricity);
+  feature_extractor.getAABB(min_point_AABB, max_point_AABB);
+
   if(min_point_AABB.z < min_height_){
-    geometry_msgs::Pose pose;
-    geometry_msgs::Vector3 size;
-
-    feature_extractor.getMomentOfInertia(moment_of_inertia);
-    feature_extractor.getEccentricity(eccentricity);
-    feature_extractor.getAABB(min_point_AABB, max_point_AABB);
-
     // OpenCVで最小矩形を当てはめる
     std::vector<cv::Point2f> points;
     for(unsigned int i = 0; i < cloud->points.size(); i++){
@@ -238,14 +238,14 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
   pcl::PointXYZ min_point_AABB;
   pcl::PointXYZ max_point_AABB;
 
+  geometry_msgs::Pose pose;
+  geometry_msgs::Vector3 size;
+
+  feature_extractor.getMomentOfInertia(moment_of_inertia);
+  feature_extractor.getEccentricity(eccentricity);
+  feature_extractor.getAABB(min_point_AABB, max_point_AABB);
+
   if(min_point_AABB.z < min_height_){
-    geometry_msgs::Pose pose;
-    geometry_msgs::Vector3 size;
-
-    feature_extractor.getMomentOfInertia(moment_of_inertia);
-    feature_extractor.getEccentricity(eccentricity);
-    feature_extractor.getAABB(min_point_AABB, max_point_AABB);
-
     pose.position.x = (min_point_AABB.x + max_point_AABB.x) / 2.0;
     pose.position.y = (min_point_AABB.y + max_point_AABB.y) / 2.0;
     pose.position.z = (min_point_AABB.z + max_point_AABB.z) / 2.0;
