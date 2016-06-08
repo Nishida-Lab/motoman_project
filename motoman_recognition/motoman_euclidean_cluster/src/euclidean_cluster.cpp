@@ -132,15 +132,14 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
     cloud_cluster->is_dense = true;
 
     // 一つのclusterをpushback
-
     if(MinAreaRect(cloud_cluster, j)){
       box_array.boxes.push_back(box_);
+      j++;
     }
-    j++;
   }
 
   // int clusterLength = clusterIndices.size();
-  ROS_INFO("Found %lu clusters:", cluster_indices.size());
+  ROS_INFO("Found %lu clusters:", j);
 
   // publish
   box_array.header.stamp = ros::Time::now();
