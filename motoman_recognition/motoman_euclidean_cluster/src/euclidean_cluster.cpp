@@ -139,7 +139,7 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   }
 
   // int clusterLength = clusterIndices.size();
-  ROS_INFO("Found %lu clusters:", j);
+  ROS_INFO("Found %d clusters:", j);
 
   // publish
   box_array.header.stamp = ros::Time::now();
