@@ -59,7 +59,7 @@ def cb_once(bbox_array_data):
              trans[i].transform.rotation.w)
         (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
         # roll -= math.pi/6.0
-        # pitch += math.pi/2.0
+        pitch += math.pi/2.0
         # yaw += math.pi/4.0
         tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
         target_pose.orientation.x = tar_q[0]

@@ -51,6 +51,15 @@ target_link_libraries(cable_removal_draw_node
   ${catkin_LIBRARIES}
 )
 
+add_executable(
+  cable_point_cloud_removal_downsample_node
+  src/cable_point_cloud_removal_downsample.cpp
+  src/cable_point_cloud_removal_downsample_node.cpp
+  )
+
+target_link_libraries(cable_point_cloud_removal_downsample_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Testing ##

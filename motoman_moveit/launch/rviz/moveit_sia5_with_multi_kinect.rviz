@@ -8,6 +8,9 @@ Panels:
         - /Status1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
+        - /BoundingBoxArray1
+        - /Marker1
+        - /Marker2
       Splitter Ratio: 0.5
     Tree Height: 721
   - Class: rviz/Selection
@@ -28,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -55,24 +58,6 @@ Visualization Manager:
       Collision Enabled: false
       Enabled: true
       Links:
-        /kinect_first/kinect2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        /kinect_first/kinect2_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        /kinect_second/kinect2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        /kinect_second/kinect2_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
@@ -83,6 +68,83 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        dhand_adapter_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_base_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_base_middle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_base_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_middle_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_middle_middle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_middle_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_top_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_top_middle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_finger_top_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        dhand_palm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        kinect_first_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kinect_first_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        kinect_second_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kinect_second_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         link_b:
           Alpha: 1
           Show Axes: false
@@ -133,63 +195,19 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
-        kinect_first/kinect2_link:
-          Value: true
-        kinect_first/kinect2_rgb_optical_frame:
-          Value: true
-        kinect_second/kinect2_link:
-          Value: true
-        kinect_second/kinect2_rgb_optical_frame:
-          Value: true
-        link_b:
-          Value: true
-        link_e:
-          Value: true
-        link_l:
-          Value: true
-        link_r:
-          Value: true
-        link_s:
-          Value: true
-        link_t:
-          Value: true
-        link_u:
-          Value: true
-        tool0:
-          Value: true
-        world:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_link:
-            kinect_first/kinect2_link:
-              kinect_first/kinect2_rgb_optical_frame:
-                {}
-            kinect_second/kinect2_link:
-              kinect_second/kinect2_rgb_optical_frame:
-                {}
-            link_s:
-              link_l:
-                link_e:
-                  link_u:
-                    link_r:
-                      link_b:
-                        link_t:
-                          tool0:
-                            {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -212,24 +230,6 @@ Visualization Manager:
       Planned Path:
         Interrupt Display: false
         Links:
-          /kinect_first/kinect2_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          /kinect_first/kinect2_rgb_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          /kinect_second/kinect2_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          /kinect_second/kinect2_rgb_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           All Links Enabled: true
           Expand Joint Details: false
           Expand Link Details: false
@@ -240,6 +240,83 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          dhand_adapter_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          kinect_first_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          kinect_first_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          kinect_second_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          kinect_second_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           link_b:
             Alpha: 1
             Show Axes: false
@@ -321,24 +398,6 @@ Visualization Manager:
       Scene Robot:
         Attached Body Color: 150; 50; 150
         Links:
-          /kinect_first/kinect2_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          /kinect_first/kinect2_rgb_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          /kinect_second/kinect2_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          /kinect_second/kinect2_rgb_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           All Links Enabled: true
           Expand Joint Details: false
           Expand Link Details: false
@@ -349,6 +408,83 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          dhand_adapter_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_base_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_middle_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_left_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_middle_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_finger_top_right_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          dhand_palm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          kinect_first_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          kinect_first_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          kinect_second_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          kinect_second_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           link_b:
             Alpha: 1
             Show Axes: false
@@ -422,9 +558,38 @@ Visualization Manager:
       Size (m): 0.01
       Style: Spheres
       Topic: /merged_cloud
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Class: jsk_rviz_plugin/BoundingBoxArray
+      Enabled: true
+      Name: BoundingBoxArray
+      Topic: /clustering_result
+      Unreliable: false
+      Value: true
+      alpha: 0.8
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.005
+      only edge: false
+      show coords: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /remove_area
+      Name: Marker
+      Namespaces:
+        basic_shapes: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /cable
+      Name: Marker
+      Namespaces:
+        points_and_lines: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -474,7 +639,7 @@ Window Geometry:
   Hide Right Dock: true
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002c10000037cfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc000000280000037c000001b60100001bfa000000000100000002fb000000100044006900730070006c0061007900730100000000ffffffff0000010f00fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000000ffffffff000002c100fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000037cfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000037c000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074f0000003efc0100000002fb0000000800540069006d006501000000000000074f0000027200fffffffb0000000800540069006d00650100000000000004500000000000000000000004880000037c00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002c10000037cfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc000000280000037c000001d50100001bfa000000000100000002fb000000100044006900730070006c0061007900730100000000ffffffff0000016b00fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000000ffffffff000002c100fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000037cfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000037c000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074f0000003efc0100000002fb0000000800540069006d006501000000000000074f0000027200fffffffb0000000800540069006d00650100000000000004500000000000000000000004880000037c00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -484,5 +649,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1871
-  X: 35
+  X: 33
   Y: 14
