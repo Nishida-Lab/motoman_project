@@ -40,15 +40,6 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
     ros::Duration(1.0).sleep();
   }
 
-  // std::cout << "(x, y, z) = ("
-  //           << transform.getOrigin().x()
-  //           << ", "
-  //           << transform.getOrigin().y()
-  //           << ", "
-  //           << transform.getOrigin().z()
-  //           << ")"
-  //           << std::endl;
-
   dhand_adapter_pos_[0] = transform_.getOrigin().x();
   dhand_adapter_pos_[1] = transform_.getOrigin().y();
   dhand_adapter_pos_[2] = transform_.getOrigin().z();
@@ -63,26 +54,29 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
     ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
   }
 
-
   // sensor_msgs::PointCloud2 → pcl::PointCloud
   pcl::PointCloud<PointXYZ> pcl_source;
   pcl::fromROSMsg(trans_pc, pcl_source);
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_source_ptr (new pcl::PointCloud<pcl::PointXYZ>(pcl_source));
   pcl::PointCloud<pcl::PointXYZ>::Ptr resized_pc_ptr (new pcl::PointCloud<pcl::PointXYZ>);
 
+  // 点群の点数を減らす
   pcl::ApproximateVoxelGrid<pcl::PointXYZ> approximate_voxel_filter;
   approximate_voxel_filter.setLeafSize (leaf_size_x_, leaf_size_y_, leaf_size_z_);
   approximate_voxel_filter.setInputCloud (pcl_source_ptr);
   approximate_voxel_filter.filter (*resized_pc_ptr);
 
+  // paramで与えられたしきい値で点群をクロップ
   CableRemove::CropBox(resized_pc_ptr, crop_min_, crop_max_);
 
+  // 外れ値除去
   pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
   sor.setInputCloud (resized_pc_ptr);
   sor.setMeanK (100);
   sor.setStddevMulThresh (0.1);
   sor.filter (*resized_pc_ptr);
 
+  //
   for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = resized_pc_ptr->points.begin(); pcl_source_ptr_i < resized_pc_ptr->points.end(); ++pcl_source_ptr_i){
     if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]){
       Eigen::Vector3f AB(dhand_adapter_pos_[0] - cable_start_pos_[0],
@@ -107,24 +101,9 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   sensor_msgs::PointCloud2 filtered_pc2;
   pcl::toROSMsg(*resized_pc_ptr, filtered_pc2);
 
-  // sensor_msgs::PointCloud2 trans_pc2;
-  // ros::Time now = filtered_pc2.header.stamp;
-  // try {
-  //   tf_.waitForTransform(transformed_frame_id_, frame_id_,
-  //                        now, ros::Duration(1.0));
-  //   pcl_ros::transformPointCloud(frame_id_, filtered_pc2, trans_pc2, tf_);
-  // } catch (tf::ExtrapolationException e) {
-  //   ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
-  // }
-
-  // trans_pc2.header.stamp = now;
-  // trans_pc2.header.frame_id = frame_id_;
-  // fileterd_cloud_pub_.publish(trans_pc2);
-
   filtered_pc2.header.stamp = ros::Time::now();
   filtered_pc2.header.frame_id = frame_id_;
   fileterd_cloud_pub_.publish(filtered_pc2);
-
   ROS_INFO("Cable remove point cloud published");
 }
 

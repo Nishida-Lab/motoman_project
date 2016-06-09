@@ -26,10 +26,10 @@ private:
 
 PointCloudMerger::PointCloudMerger(ros::NodeHandle &nh, ros::NodeHandle &privNh)
     : pointcloudSubscriber1(nh, privNh.param<std::string>(
-                            "/cloud_in_1", "/kinect_first/hd/points"),
+                            "/cloud_in_1", "/kinect_first/hd/resized_points"),
                             1),
       pointcloudSubscriber2(nh, privNh.param<std::string>(
-                            "/cloud_in_2", "/kinect_second/hd/points"),
+                            "/cloud_in_2", "/kinect_second/hd/resized_points"),
                             1),
       mergedPointcloudPublisher(nh.advertise<sensor_msgs::PointCloud2>(privNh.param<std::string>("/cloud_out", "/merged_cloud"), 1)),
       sync(MySyncPolicy(10), pointcloudSubscriber1, pointcloudSubscriber2)
@@ -48,6 +48,7 @@ void PointCloudMerger::callback(const sensor_msgs::PointCloud2::ConstPtr &msg1,c
 
   sensor_msgs::PointCloud2 cloud_merged;
   pcl::concatenatePointCloud(cloud_transformed, *msg2, cloud_merged);
+  //cloud_merged.header.stamp = ros::Time::now();
   mergedPointcloudPublisher.publish(cloud_merged);
   ROS_INFO("Point cloud published");
 }
