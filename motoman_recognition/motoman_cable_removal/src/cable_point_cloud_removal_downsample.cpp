@@ -54,11 +54,15 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   dhand_adapter_pos_[2] = transform_.getOrigin().z();
 
   sensor_msgs::PointCloud2 trans_pc;
+  ros::Time now = ros::Time::now();
   try {
+    tf_.waitForTransform(transformed_frame_id_, frame_id_,
+                         now, ros::Duration(1.0));
     pcl_ros::transformPointCloud(frame_id_, *source_pc, trans_pc, tf_);
   } catch (tf::ExtrapolationException e) {
     ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
   }
+
 
   // sensor_msgs::PointCloud2 → pcl::PointCloud
   pcl::PointCloud<PointXYZ> pcl_source;
@@ -96,16 +100,24 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   sensor_msgs::PointCloud2 filtered_pc2;
   pcl::toROSMsg(*resized_pc_ptr, filtered_pc2);
 
-  sensor_msgs::PointCloud2 trans_pc2;
-  try {
-    pcl_ros::transformPointCloud(frame_id_, filtered_pc2, trans_pc2, tf_);
-  } catch (tf::ExtrapolationException e) {
-    ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
-  }
+  // sensor_msgs::PointCloud2 trans_pc2;
+  // ros::Time now = filtered_pc2.header.stamp;
+  // try {
+  //   tf_.waitForTransform(transformed_frame_id_, frame_id_,
+  //                        now, ros::Duration(1.0));
+  //   pcl_ros::transformPointCloud(frame_id_, filtered_pc2, trans_pc2, tf_);
+  // } catch (tf::ExtrapolationException e) {
+  //   ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
+  // }
 
-  trans_pc2.header.stamp = ros::Time::now();
-  trans_pc2.header.frame_id = frame_id_;
-  fileterd_cloud_pub_.publish(trans_pc2);
+  // trans_pc2.header.stamp = now;
+  // trans_pc2.header.frame_id = frame_id_;
+  // fileterd_cloud_pub_.publish(trans_pc2);
+
+  filtered_pc2.header.stamp = ros::Time::now();
+  filtered_pc2.header.frame_id = frame_id_;
+  fileterd_cloud_pub_.publish(filtered_pc2);
+
   ROS_INFO("Cable remove point cloud published");
 }
 
