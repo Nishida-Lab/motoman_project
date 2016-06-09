@@ -76,6 +76,13 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   approximate_voxel_filter.filter (*resized_pc_ptr);
 
   CableRemove::CropBox(resized_pc_ptr, crop_min_, crop_max_);
+
+  pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+  sor.setInputCloud (resized_pc_ptr);
+  sor.setMeanK (100);
+  sor.setStddevMulThresh (0.1);
+  sor.filter (*resized_pc_ptr);
+
   for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = resized_pc_ptr->points.begin(); pcl_source_ptr_i < resized_pc_ptr->points.end(); ++pcl_source_ptr_i){
     if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]){
       Eigen::Vector3f AB(dhand_adapter_pos_[0] - cable_start_pos_[0],

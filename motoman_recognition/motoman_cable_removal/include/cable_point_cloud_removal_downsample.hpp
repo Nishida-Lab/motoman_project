@@ -9,13 +9,14 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 
-#include <pcl/filters/crop_box.h>
 #include <pcl_ros/impl/transforms.hpp>
-#include <pcl/point_types.h>
+
 #include <pcl_conversions/pcl_conversions.h>
-#include <pcl/registration/ndt.h>
+
 #include <pcl/filters/approximate_voxel_grid.h>
 #include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/filters/crop_box.h>
 
 #include <visualization_msgs/Marker.h>
 
