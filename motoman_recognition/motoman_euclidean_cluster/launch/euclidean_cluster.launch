@@ -13,7 +13,7 @@
     <param name="crop_z_min" value="0.035" />
     <param name="crop_z_max" value="1.2" />
 
-    <param name="clustering_min_height" value="0.2" />
+    <param name="clustering_min_height" value="0.1" />
 
     <param name="source_pc_topic_name" value="/kinect_first/qhd/points" />
     <param name="box_name" value="/clustering_result" />
