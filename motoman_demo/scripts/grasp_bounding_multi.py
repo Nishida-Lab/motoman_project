@@ -54,11 +54,7 @@ def cb_once(bbox_array_data):
         print trans[i].transform
         target_pose.position.x = trans[i].transform.translation.x
         target_pose.position.y = trans[i].transform.translation.y
-<<<<<<< HEAD
         target_pose.position.z = trans[i].transform.translation.z + 0.4
-=======
-        target_pose.position.z = trans[i].transform.translation.z + 0.5
->>>>>>> c6aa6b887cd80afd4c9f0fdba25d93214c5b5e08
         q = (trans[i].transform.rotation.x,
              trans[i].transform.rotation.y,
              trans[i].transform.rotation.z,
@@ -81,20 +77,6 @@ def cb_once(bbox_array_data):
         print "!! Grasping !!"
         rospy.sleep(0.5)
 
-<<<<<<< HEAD
-        print "Home Position"
-        # Go to Set Position
-        target_pose.position.x = 0.26439
-        target_pose.position.y = -0.401881
-        target_pose.position.z = 0.361824
-        target_pose.orientation.x = 0.183269
-        target_pose.orientation.y = 0.296633
-        target_pose.orientation.z = -0.6153
-        target_pose.orientation.w = 0.706985
-        arm.set_pose_target(target_pose)
-        arm.go()
-        arm.clear_pose_targets()
-=======
         # Go to Set Position
         # target_pose.position.x = -0.13683 + (i-1)*0.08
         # target_pose.position.y = -0.22166
@@ -106,7 +88,6 @@ def cb_once(bbox_array_data):
         # arm.set_pose_target(target_pose)
         # arm.go()
         # arm.clear_pose_targets()
->>>>>>> c6aa6b887cd80afd4c9f0fdba25d93214c5b5e08
 
         # # Release
         # print " !! Release !!"
