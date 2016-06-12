@@ -4,9 +4,15 @@
   <param name="cable_start_pos_y" value="0.00" />
   <param name="cable_start_pos_z" value="1.56" />
 
-  <node name="cable_point_cloud_removal" pkg="motoman_cable_removal" type="cable_point_cloud_removal_node" output="screen">
+  <node name="cable_point_cloud_removal_downsample" pkg="motoman_cable_removal" type="cable_point_cloud_removal_downsample_node" output="screen">
     <param name="loop_rate" value="10" />
-    <param name="source_pc_topic_name" value="/merged_cloud" />
+
+    <param name="filtered_pc_topic_name" value="/kinect_first/hd/resized_points" />
+    <param name="source_pc_topic_name" value="/kinect_first/hd/points" />
+    <param name="transformed_frame_id" value="/kinect_first_rgb_optical_frame" />
+    <param name="leaf_size_x" value="0.1" />
+    <param name="leaf_size_y" value="0.1" />
+    <param name="leaf_size_z" value="0.1" />
 
    <!-- 探索を行うエリア -->
     <param name="crop_x_min" value="-0.4" />

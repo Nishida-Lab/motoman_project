@@ -13,6 +13,7 @@ from jsk_recognition_msgs.msg import BoundingBox
 
 
 def get_tf_data(times):
+    print"tf here"
     # ========== TF Lister ========== #
     tf_buffer = tf2_ros.Buffer()
     tf_listner = tf2_ros.TransformListener(tf_buffer)
@@ -32,9 +33,10 @@ def get_tf_data(times):
     return trans
 
 def cb_once(bbox_array_data):
+    print "here"
     # ========== publisher to jamming gripper ========== #
     grasp_pub = rospy.Publisher('/jamming_grasp', Int32, queue_size=1)
-    
+
     # ========== Moveit init ========== #
     # moveit_commander init
     robot = moveit_commander.RobotCommander()
@@ -52,7 +54,11 @@ def cb_once(bbox_array_data):
         print trans[i].transform
         target_pose.position.x = trans[i].transform.translation.x
         target_pose.position.y = trans[i].transform.translation.y
+<<<<<<< HEAD
         target_pose.position.z = trans[i].transform.translation.z + 0.4
+=======
+        target_pose.position.z = trans[i].transform.translation.z + 0.5
+>>>>>>> c6aa6b887cd80afd4c9f0fdba25d93214c5b5e08
         q = (trans[i].transform.rotation.x,
              trans[i].transform.rotation.y,
              trans[i].transform.rotation.z,
@@ -75,6 +81,7 @@ def cb_once(bbox_array_data):
         print "!! Grasping !!"
         rospy.sleep(0.5)
 
+<<<<<<< HEAD
         print "Home Position"
         # Go to Set Position
         target_pose.position.x = 0.26439
@@ -87,11 +94,24 @@ def cb_once(bbox_array_data):
         arm.set_pose_target(target_pose)
         arm.go()
         arm.clear_pose_targets()
+=======
+        # Go to Set Position
+        # target_pose.position.x = -0.13683 + (i-1)*0.08
+        # target_pose.position.y = -0.22166
+        # target_pose.position.z = 0.40554
+        # target_pose.orientation.x = 0.00021057
+        # target_pose.orientation.y = 0.70092
+        # target_pose.orientation.z = 0.00030867
+        # target_pose.orientation.w = 0.71324
+        # arm.set_pose_target(target_pose)
+        # arm.go()
+        # arm.clear_pose_targets()
+>>>>>>> c6aa6b887cd80afd4c9f0fdba25d93214c5b5e08
 
-        # Release
-        print " !! Release !!"
-        grasp_pub.publish(0)
-        rospy.sleep(1)
+        # # Release
+        # print " !! Release !!"
+        # grasp_pub.publish(0)
+        # rospy.sleep(1)
 
     arm.set_pose_target(arm_initial_pose)
     arm.go()

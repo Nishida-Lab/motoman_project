@@ -15,7 +15,11 @@
 
     <param name="clustering_min_height" value="0.1" />
 
+<<<<<<< HEAD
     <param name="source_pc_topic_name" value="/move_group/filtered_cloud" />
+=======
+    <param name="source_pc_topic_name" value="/kinect_first/qhd/points" />
+>>>>>>> c6aa6b887cd80afd4c9f0fdba25d93214c5b5e08
     <param name="box_name" value="/clustering_result" />
     <param name="clustering_frame_id" value="world" />
   </node>
