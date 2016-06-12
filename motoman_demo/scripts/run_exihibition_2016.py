@@ -28,6 +28,9 @@ class Handring(object):
         self.grasp_msg.speed = 15
         self.grasp_msg.acceleration = 0.2
         self.grasp_msg.current_limit = 0.5
+
+        # ========= Listner ======== #
+        # self.
         
         # ========== Moveit init ========== #
         # moveit_commander init
@@ -36,8 +39,9 @@ class Handring(object):
         self.arm_initial_pose = self.arm.get_current_pose().pose
         self.target_pose = geometry_msgs.msg.Pose()
         # Set the planning time
-        self.arm.set_planning_time(10.0)
- 
+        self.arm.set_planner_id('RRTConnectkConfigDefault')
+        self.arm.set_planning_time(15.0)
+        
         # ========== TF ======== #
         # TF Listner #
         self.tf_buffer = tf2_ros.Buffer()
@@ -142,8 +146,8 @@ class Handring(object):
                 
         # Grasp
         print "!! Grasping !!"
-        self.grasp_msg.position = 7
-        # self.grasp_pub.publish(self.grasp_msg)
+        self.grasp_msg.position = 7.5
+        self.grasp_pub.publish(self.grasp_msg)
         rospy.sleep(0.5)
 
         print "Going up"
@@ -154,8 +158,8 @@ class Handring(object):
 
         # Release
         print "!! Release !!"
-        self.grasp_msg.position = 0.0
-        # self.grasp_pub.publish(self.grasp_msg)
+        self.grasp_msg.position = 0.5
+        self.grasp_pub.publish(self.grasp_msg)
         rospy.sleep(0.5)
 
         print "Go to Home Position"
@@ -164,5 +168,11 @@ class Handring(object):
 if __name__ == '__main__':
     rospy.init_node("run_exihibition_2016")
     handring = Handring()
-    handring.run(0)
+    handring.run(0,1)
+    rospy.sleep(5.0)
+    handring.run(0,0)
+    rospy.sleep(5.0)
+    handring.run(0,1)
+    rospy.sleep(5.0)
+    handring.run(0,)
     
