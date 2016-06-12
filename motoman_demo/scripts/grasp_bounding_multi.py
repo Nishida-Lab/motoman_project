@@ -52,7 +52,7 @@ def cb_once(bbox_array_data):
         print trans[i].transform
         target_pose.position.x = trans[i].transform.translation.x
         target_pose.position.y = trans[i].transform.translation.y
-        target_pose.position.z = trans[i].transform.translation.z + 0.2
+        target_pose.position.z = trans[i].transform.translation.z + 0.4
         q = (trans[i].transform.rotation.x,
              trans[i].transform.rotation.y,
              trans[i].transform.rotation.z,
@@ -74,15 +74,16 @@ def cb_once(bbox_array_data):
         grasp_pub.publish(1)
         print "!! Grasping !!"
         rospy.sleep(0.5)
-    
+
+        print "Home Position"
         # Go to Set Position
-        target_pose.position.x = -0.13683 + (i-1)*0.08
-        target_pose.position.y = -0.22166
-        target_pose.position.z = 0.40554
-        target_pose.orientation.x = 0.00021057
-        target_pose.orientation.y = 0.70092
-        target_pose.orientation.z = 0.00030867
-        target_pose.orientation.w = 0.71324
+        target_pose.position.x = 0.26439
+        target_pose.position.y = -0.401881
+        target_pose.position.z = 0.361824
+        target_pose.orientation.x = 0.183269
+        target_pose.orientation.y = 0.296633
+        target_pose.orientation.z = -0.6153
+        target_pose.orientation.w = 0.706985
         arm.set_pose_target(target_pose)
         arm.go()
         arm.clear_pose_targets()
@@ -95,7 +96,7 @@ def cb_once(bbox_array_data):
     arm.set_pose_target(arm_initial_pose)
     arm.go()
     arm.clear_pose_targets
-        
+
     subscriber.unregister()
 
 def main():
@@ -107,7 +108,7 @@ def main():
     sub_once = rospy.Subscriber('/clustering_result', BoundingBoxArray, cb_once, sub_once)
 
     rospy.spin()
-        
+
 if __name__ == '__main__':
     try:
         main()
