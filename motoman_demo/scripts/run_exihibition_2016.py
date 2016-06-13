@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 from math import *
-# Moveit 
+# Moveit
 import moveit_commander
 import geometry_msgs.msg
 import tf2_ros
@@ -15,8 +14,7 @@ from std_srvs.srv import Empty
 import rospy
 # D-Hand
 from dhand.msg import Servo_move
-
-
+from std_msgs.msg import String
 
 class Handring(object):
 
@@ -29,9 +27,10 @@ class Handring(object):
         self.grasp_msg.acceleration = 0.2
         self.grasp_msg.current_limit = 0.5
 
-        # ========= Listner ======== #
-        # self.
-        
+        # ========= Subscriber ======== #
+        # self.speech_sub_topic = rospy.get_param('/speech')
+        speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
+
         # ========== Moveit init ========== #
         # moveit_commander init
         self.robot = moveit_commander.RobotCommander()
@@ -41,7 +40,7 @@ class Handring(object):
         # Set the planning time
         self.arm.set_planner_id('RRTConnectkConfigDefault')
         self.arm.set_planning_time(15.0)
-        
+
         # ========== TF ======== #
         # TF Listner #
         self.tf_buffer = tf2_ros.Buffer()
@@ -65,6 +64,18 @@ class Handring(object):
         self.box_pose[1].orientation.w = 0.891869
 
 
+    # -------- Get message from pepper -------- #
+    def speechCallback(self, message):
+        rospy.loginfo("Receive message from pepper")
+        get_num_from_pepper = int(message.data)
+        object_num = get_num_from_pepper / 10 - 1
+        print "Object number = " + str(object_num)
+        box_num = get_num_from_pepper % 10 - 1
+        print "Box number = " + str(box_num)
+        self.run(object_num, box_num)
+        rospy.sleep(5.0)
+
+
     # -------- Get TF -------- #
     def get_tf_data(self, num):
         tf_time = rospy.Time(0)
@@ -72,9 +83,9 @@ class Handring(object):
         get_tf_flg = False
         while not get_tf_flg :
             try :
-                trans = self.tf_buffer.lookup_transform('world', target, tf_time, rospy.Duration(10)) 
+                trans = self.tf_buffer.lookup_transform('world', target, tf_time, rospy.Duration(10))
                 get_tf_flg = True
-                
+
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) :
                 continue
         return trans
@@ -87,7 +98,6 @@ class Handring(object):
             result()
         except rospy.ServiceException, e:
             rospy.logwarn("Couldn't Clear Octomap")
-        
 
     # -------- Plannning & Execution -------- #
     def set_plan(self, trans, z_offset):
@@ -133,7 +143,7 @@ class Handring(object):
         self.arm.go()
         rospy.sleep(0.5)
         self.arm.clear_pose_targets()
-        
+
     # -------- Run the Program -------- #
     def run(self, obj_num, box_num):
         trans = self.get_tf_data(obj_num)
@@ -143,7 +153,7 @@ class Handring(object):
         print "Go to Grasp."
         self.set_plan(trans, 0.4)
         self.set_plan(trans, 0.33)
-                
+
         # Grasp
         print "!! Grasping !!"
         self.grasp_msg.position = 7.5
@@ -164,15 +174,16 @@ class Handring(object):
 
         print "Go to Home Position"
         self.go_home()
-            
+
 if __name__ == '__main__':
     rospy.init_node("run_exihibition_2016")
     handring = Handring()
-    handring.run(0,1)
-    rospy.sleep(5.0)
-    handring.run(0,0)
-    rospy.sleep(5.0)
-    handring.run(0,1)
-    rospy.sleep(5.0)
-    handring.run(0,)
-    
+    rospy.spin()
+    # handring.run(0,1)
+    # rospy.sleep(5.0)
+    # handring.run(0,0)
+    # rospy.sleep(5.0)
+    # handring.run(0,1)
+    # rospy.sleep(5.0)
+    # handring.run(0,)
+
