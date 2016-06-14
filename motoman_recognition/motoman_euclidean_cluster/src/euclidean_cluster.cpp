@@ -206,7 +206,7 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
     // TFの名前付け
     std::stringstream ss;
     std::string object_name;
-    ss << cluster_cnt;
+    ss << cluster_cnt + 1;
     object_name = "object_" + ss.str();
 
     br_.sendTransform(tf::StampedTransform(

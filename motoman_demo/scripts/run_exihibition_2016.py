@@ -28,7 +28,7 @@ class Handring(object):
         self.grasp_msg.current_limit = 0.5
 
         # ========= Subscriber ======== #
-        # self.speech_sub_topic = rospy.get_param('/speech')
+        # self.speech_sub_topic = rospy.get_param('~speech')
         speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
 
         # ========== Moveit init ========== #
@@ -63,19 +63,35 @@ class Handring(object):
         self.box_pose[1].orientation.z = 0.155347
         self.box_pose[1].orientation.w = 0.891869
 
+        # ======== Object Info ======== #
+        self.diff = 0.11
+        self.offset = 0.45
+        # self.box_size = 0.14
+        # self.dhand_hight = 0.07
+        # self.base_hight = 0.20
+    
+
 
     # -------- Get message from pepper -------- #
     def speechCallback(self, message):
         rospy.loginfo("Receive message from pepper")
         get_num_from_pepper = int(message.data)
-        object_num = get_num_from_pepper / 10 - 1
-        print "Object number = " + str(object_num)
-        box_num = get_num_from_pepper % 10 - 1
-        print "Box number = " + str(box_num)
-        self.run(object_num, box_num)
-        rospy.sleep(5.0)
-
-
+        if get_num_from_pepper == 99 :
+            handring.run(1,1)
+            rospy.sleep(5.0)
+            handring.run(1,0)
+            rospy.sleep(5.0)
+            handring.run(1,1)
+            rospy.sleep(5.0)
+            handring.run(1,0)
+        else :
+            object_num = get_num_from_pepper / 10
+            print "Object number = " + str(object_num)
+            box_num = get_num_from_pepper % 10 - 1
+            print "Box number = " + str(box_num)
+            self.run(object_num, box_num)
+            rospy.sleep(5.0)
+            
     # -------- Get TF -------- #
     def get_tf_data(self, num):
         tf_time = rospy.Time(0)
@@ -118,7 +134,6 @@ class Handring(object):
         self.arm.set_pose_target(self.target_pose)
         print "Move !!"
         self.arm.go()
-        rospy.sleep(0.5)
         self.arm.clear_pose_targets()
 
     # -------- Go to Home Position -------- #
@@ -134,14 +149,12 @@ class Handring(object):
         init_pose[6] = 0.0
         self.arm.set_joint_value_target(init_pose)
         self.arm.go()
-        rospy.sleep(0.5)
         self.arm.clear_pose_targets()
 
     # -------- Go to Box Position -------- #
     def go_box(self, num):
         self.arm.set_pose_target(self.box_pose[num])
         self.arm.go()
-        rospy.sleep(0.5)
         self.arm.clear_pose_targets()
 
     # -------- Run the Program -------- #
@@ -151,8 +164,8 @@ class Handring(object):
         print trans.transform
 
         print "Go to Grasp."
-        self.set_plan(trans, 0.4)
-        self.set_plan(trans, 0.33)
+        self.set_plan(trans, self.offset)
+        self.set_plan(trans, self.offset - self.diff)
 
         # Grasp
         print "!! Grasping !!"
@@ -161,7 +174,7 @@ class Handring(object):
         rospy.sleep(0.5)
 
         print "Going up"
-        self.set_plan(trans, 0.5)
+        self.set_plan(trans, self.offset + 0.1)
 
         print "Go to Box"
         self.go_box(box_num)
@@ -179,11 +192,4 @@ if __name__ == '__main__':
     rospy.init_node("run_exihibition_2016")
     handring = Handring()
     rospy.spin()
-    # handring.run(0,1)
-    # rospy.sleep(5.0)
-    # handring.run(0,0)
-    # rospy.sleep(5.0)
-    # handring.run(0,1)
-    # rospy.sleep(5.0)
-    # handring.run(0,)
 

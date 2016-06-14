@@ -15,7 +15,7 @@
 
     <param name="clustering_min_height" value="0.1" />
 
-    <param name="source_pc_topic_name" value="/kinect_second/qhd/points" />
+    <param name="source_pc_topic_name" value="/kinect_first/qhd/points" />
     <param name="box_name" value="/clustering_result" />
     <param name="clustering_frame_id" value="world" />
   </node>
