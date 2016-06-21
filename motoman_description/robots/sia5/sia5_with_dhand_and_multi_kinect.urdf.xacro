@@ -13,7 +13,7 @@
 
   <!-- Joint -->
   <joint name="joint_kinect_first" type="fixed">
-	<origin xyz="1.0966 0.8845 0.4916" rpy="-0.0023 0.4544 -2.3328" />
+	<origin xyz=" 0.91881506129 -0.63904840004 0.547199354356 " rpy=" 0.00586550918238 0.572600688929 2.07762026701 "/>
     <parent link="base_link"/>
     <child link="kinect_first_link"/>
   </joint>
@@ -34,7 +34,7 @@
 
   <!-- Joint -->
   <joint name="joint_kinect_second" type="fixed">
-	<origin xyz="1.3967 -0.7631 0.5403" rpy="-0.0286 0.4706 2.4854" />
+	<origin xyz="1.0335 1.2465 0.5252" rpy="-0.0249 0.2883 -2.1046" />
     <parent link="base_link"/>
     <child link="kinect_second_link"/>
   </joint>
