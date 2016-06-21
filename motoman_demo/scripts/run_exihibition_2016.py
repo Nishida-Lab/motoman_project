@@ -69,7 +69,7 @@ class Handring(object):
         # self.box_size = 0.14
         # self.dhand_hight = 0.07
         # self.base_hight = 0.20
-    
+
 
 
     # -------- Get message from pepper -------- #
@@ -79,9 +79,9 @@ class Handring(object):
         if get_num_from_pepper == 99 :
             handring.run(1,1)
             rospy.sleep(5.0)
-            handring.run(1,0)
-            rospy.sleep(5.0)
             handring.run(1,1)
+            rospy.sleep(5.0)
+            handring.run(1,0)
             rospy.sleep(5.0)
             handring.run(1,0)
         else :
@@ -91,7 +91,7 @@ class Handring(object):
             print "Box number = " + str(box_num)
             self.run(object_num, box_num)
             rospy.sleep(5.0)
-            
+
     # -------- Get TF -------- #
     def get_tf_data(self, num):
         tf_time = rospy.Time(0)
