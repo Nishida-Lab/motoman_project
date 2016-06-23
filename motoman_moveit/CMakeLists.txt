@@ -32,12 +32,22 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
 add_executable(move_group_plan_single_target
   src/move_group_plan_single_target.cpp
   )
+add_executable(move_groupe_plan_single_target_remove_octomap
+  src/move_group_plan_single_target_remove_octomap.cpp
+  )
 
 target_link_libraries(move_group_plan_single_target
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${EIGEN_LIBRARIES}
   )
+
+target_link_libraries(move_groupe_plan_single_target_remove_octomap
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${EIGEN_LIBRARIES}
+  )
+
 
 find_package(roslaunch)
 roslaunch_add_file_check(test/sia5_moveit_planning_execution_launch_test.xml)

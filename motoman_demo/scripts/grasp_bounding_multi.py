@@ -54,7 +54,7 @@ def cb_once(bbox_array_data):
         print trans[i].transform
         target_pose.position.x = trans[i].transform.translation.x
         target_pose.position.y = trans[i].transform.translation.y
-        target_pose.position.z = trans[i].transform.translation.z + 0.5
+        target_pose.position.z = trans[i].transform.translation.z + 0.4
         q = (trans[i].transform.rotation.x,
              trans[i].transform.rotation.y,
              trans[i].transform.rotation.z,
