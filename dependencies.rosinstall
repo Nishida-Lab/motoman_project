@@ -1,15 +1,11 @@
 - git:
     local-name: motoman/
-    uri: https://github.com/RyodoTanaka/motoman.git
+    uri: https://github.com/Nishida-Lab/motoman.git
     version: indigo-devel
 - git:
     local-name: motoman_tools/iai_kinect2
     uri: https://github.com/code-iai/iai_kinect2.git
     version: master
-- git:
-    local-name: motoman_tools/fermi
-    uri: https://github.com/Ry0/fermi.git
-    version: indigo-devel
 - git:
     local-name: motoman_tools/ar_tools
     uri: https://github.com/RyodoTanaka/ar_tools.git

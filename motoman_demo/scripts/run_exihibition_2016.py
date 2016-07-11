@@ -9,7 +9,9 @@ import tf2_ros
 import tf
 # Octomap Service
 from std_srvs.srv import Empty
-
+# Get info clustering result
+from jsk_recognition_msgs.msg import BoundingBoxArray
+from jsk_recognition_msgs.msg import BoundingBox
 # ROS
 import rospy
 # D-Hand
@@ -66,6 +68,8 @@ class Handring(object):
         # ======== Object Info ======== #
         self.diff = 0.11
         self.offset = 0.45
+        box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
+        self.initial_box_num = 0
         # self.box_size = 0.14
         # self.dhand_hight = 0.07
         # self.base_hight = 0.20
@@ -77,13 +81,11 @@ class Handring(object):
         rospy.loginfo("Receive message from pepper")
         get_num_from_pepper = int(message.data)
         if get_num_from_pepper == 99 :
-            handring.run(1,1)
-            rospy.sleep(5.0)
-            handring.run(1,1)
-            rospy.sleep(5.0)
-            handring.run(1,0)
-            rospy.sleep(5.0)
-            handring.run(1,0)
+            rospy.loginfo("Called order99. Object num = %d", self.initial_box_num)
+            for x in xrange(0, self.initial_box_num):
+                # 置かれている物体の数分だけ箱1→0→1で取りに行く
+                handring.run(1,(x+1)%2)
+                rospy.sleep(5.0)
         else :
             object_num = get_num_from_pepper / 10
             print "Object number = " + str(object_num)
@@ -91,6 +93,10 @@ class Handring(object):
             print "Box number = " + str(box_num)
             self.run(object_num, box_num)
             rospy.sleep(5.0)
+
+    def bbArrayCallback(self, message):
+        self.initial_box_num = len(message.boxes)
+        # rospy.loginfo("box num = %d", self.initial_box_num)
 
     # -------- Get TF -------- #
     def get_tf_data(self, num):
@@ -192,4 +198,3 @@ if __name__ == '__main__':
     rospy.init_node("run_exihibition_2016")
     handring = Handring()
     rospy.spin()
-
