@@ -1,0 +1,15 @@
+<launch>
+  <arg name="planning_plugin" value="chomp_interface::CHOMPPlannerManager" />
+
+  <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints" />
+
+  <!-- <arg name="planning_adapters" value="" /> -->
+  <param name="planning_plugin" value="$(arg planning_plugin)" />
+  <param name="request_adapters" value="$(arg planning_adapters)" />
+
+  <param name="start_state_max_bounds_error" value="0.1" />
+
+  <rosparam command="load" file="$(find pr2_moveit_config)/config/kinematics.yaml"/>
+  <rosparam command="load" file="$(find motoman_sia5_moveit_config)/config/chomp_planning.yaml"/>
+
+</launch>
