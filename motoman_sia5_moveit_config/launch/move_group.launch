@@ -18,6 +18,8 @@
 	<arg name="octomap_frame_name" default="kinect2_link"/>
 	<arg name="octomap_resolution_value" default="0.05"/>
 	<arg name="sensor_max_range" default="4.5"/>
+	<arg name="planning_config" default="ompl"/>
+	<arg name="use_stomp" default="false"/>
 
 	<!-- Call planning context -->
 	<include file="$(find motoman_sia5_moveit_config)/launch/planning_context.launch" >
@@ -40,8 +42,7 @@
 	<arg if="$(arg info)" name="command_args" value="--debug" />
 
 	<!-- Planning Functionality -->
-	<include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/planning_pipeline.launch.xml">
-		<arg name="pipeline" value="ompl" />
+	<include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/$(arg planning_config)_planning_pipeline.launch.xml">
 	</include>
 
 	<!-- Trajectory Execution Functionality -->
@@ -49,7 +50,7 @@
 		<arg name="moveit_manage_controllers" value="true" />
 		<arg name="moveit_controller_manager" value="sia5" unless="$(arg fake_execution)"/>
 		<arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
-	<arg name="controllers_config" value="$(arg controllers_config)"/>
+		<arg name="controllers_config" value="$(arg controllers_config)"/>
 	</include>
 
 	<!-- Sensors Functionality -->
@@ -70,6 +71,8 @@
 		<param name="allow_trajectory_execution" value="$(arg allow_trajectory_execution)"/>
 		<param name="max_safe_path_cost" value="$(arg max_safe_path_cost)"/>
 		<param name="jiggle_fraction" value="$(arg jiggle_fraction)" />
+
+		<param name="collision_detector" value="IndustrialFCL" if="$(arg use_stomp)" />
 
 		<!-- MoveGroup capabilities to load -->
 		<param if="$(arg use_depth_sensor)" name="capabilities"
