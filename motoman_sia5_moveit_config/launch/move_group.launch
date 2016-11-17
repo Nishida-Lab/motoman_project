@@ -42,7 +42,8 @@
   <arg if="$(arg info)" name="command_args" value="--debug" />
 
   <!-- Planning Functionality -->
-  <include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/$(arg planning_config)_planning_pipeline.launch.xml">
+  <include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/planning_pipeline.launch.xml">
+    <arg name="pipeline" value="$(arg planning_config)" />
   </include>
 
   <!-- Trajectory Execution Functionality -->
