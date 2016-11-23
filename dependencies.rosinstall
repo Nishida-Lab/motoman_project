@@ -29,4 +29,4 @@
 - git:
     local-name: motoman_tools/srdfdom
     uri: https://github.com/ros-planning/srdfdom.git
-version: indigo-devel
+    version: indigo-devel
