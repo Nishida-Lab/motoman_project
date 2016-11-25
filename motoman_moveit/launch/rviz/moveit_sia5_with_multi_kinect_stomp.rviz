@@ -9,6 +9,8 @@ Panels:
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
         - /BoundingBoxArray1
+        - /Marker1
+        - /MarkerArray1
       Splitter Ratio: 0.5
     Tree Height: 721
   - Class: rviz/Selection
@@ -572,6 +574,22 @@ Visualization Manager:
       line width: 0.005
       only edge: false
       show coords: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /move_group/stomp_trajectory
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /stomp_trajectories
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -631,5 +649,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1871
-  X: 33
-  Y: 14
+  X: 144
+  Y: 94

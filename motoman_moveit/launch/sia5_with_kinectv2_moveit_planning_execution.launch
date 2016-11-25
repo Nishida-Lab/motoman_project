@@ -12,5 +12,8 @@
     <arg name="octomap_resolution_value" value="0.025"/>
     <arg name="sensor_max_range" value="4.5"/>
     <arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5_nishida_lab.rviz"/>
+    <!-- Configuration planning library -->
+    <arg name="planning_config" value="ompl"/>
+    <arg name="use_stomp" value="false"/>
   </include>
 </launch>

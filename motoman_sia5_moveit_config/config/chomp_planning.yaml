@@ -1,0 +1,5 @@
+use_pseudo_inverse: true
+obstacle_cost_weight: 5
+collision_clearance: 0.3
+max_iterations: 10000
+planning_time_limit: 120

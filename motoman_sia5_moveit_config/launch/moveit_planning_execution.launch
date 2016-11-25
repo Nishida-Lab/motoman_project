@@ -13,6 +13,8 @@
   <arg name="octomap_resolution_value" default="0.05"/>
   <arg name="sensor_max_range" default="4.5"/>
   <arg name="rviz_config" default="$(find motoman_sia5_moveit_config)/launch/moveit.rviz"/>
+  <arg name="planning_config" default="ompl"/>
+  <arg name="use_stomp" default="false"/>
 
   <!-- The planning and execution components of MoveIt! configured to -->
   <!-- publish the current configuration of the robot (simulated or real) -->
@@ -29,12 +31,14 @@
     <arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
     <arg name="octomap_resolution_value" value="$(arg octomap_resolution_value)"/>
     <arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
+    <arg name="planning_config" value="$(arg planning_config)"/>
+    <arg name="use_stomp" value="$(arg use_stomp)"/>
   </include>
 
   <!-- The visualization component of MoveIt! -->
   <include file="$(find motoman_sia5_moveit_config)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>
-	<arg name="rviz_config" value="$(arg rviz_config)"/>
-	<arg name="kinematics_config" value="$(arg kinematics_config)"/>
+    <arg name="rviz_config" value="$(arg rviz_config)"/>
+    <arg name="kinematics_config" value="$(arg kinematics_config)"/>
   </include>
 </launch>

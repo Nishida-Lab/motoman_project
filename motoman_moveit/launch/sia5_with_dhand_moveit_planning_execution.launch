@@ -8,5 +8,8 @@
     <arg name="controllers_config" value="$(find motoman_moveit)/config/sia5_with_dhand/controllers.yaml"/>
     <arg name="use_depth_sensor" value="false"/>
     <arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5.rviz"/>
+    <!-- Configuration planning library -->
+    <arg name="planning_config" value="chomp"/>
+    <arg name="use_stomp" value="false"/>
   </include>
 </launch>
