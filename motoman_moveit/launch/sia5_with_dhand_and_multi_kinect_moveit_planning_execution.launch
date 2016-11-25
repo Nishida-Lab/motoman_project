@@ -13,7 +13,12 @@
     <arg name="sensor_max_range" value="2.0"/>
     <arg name="rviz_config" value="$(find motoman_moveit)/launch/rviz/moveit_sia5_with_multi_kinect.rviz"/>
     <!-- Configuration planning library -->
-    <arg name="planning_config" value="stomp"/>
-    <arg name="use_stomp" value="true"/>
+    <arg name="ompl_config" default="$(find motoman_moveit)/config/sia5_with_dhand_and_multi_kinect/ompl_planning.yaml"/>
+    <!-- Choose planner [ompl|chomp|stomp] -->
+    <arg name="planning_config" default="ompl"/>
+    <!-- If you choose ompl, "use_ompl" is true. -->
+    <arg name="use_ompl" default="true"/>
+    <!-- If you choose stomp, "use_stomp" is true. -->
+    <arg name="use_stomp" default="false"/>
   </include>
 </launch>

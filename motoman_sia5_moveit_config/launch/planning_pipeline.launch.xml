@@ -1,10 +1,14 @@
 <launch>
 
-  <!-- This file makes it easy to include different planning pipelines; 
-       It is assumed that all planning pipelines are named XXX_planning_pipeline.launch  -->  
+  <!-- This file makes it easy to include different planning pipelines;
+       It is assumed that all planning pipelines are named XXX_planning_pipeline.launch  -->
 
   <arg name="pipeline" default="ompl" />
+  <arg name="ompl_planning_yaml" default="$(find motoman_sia5_moveit_config)/config/ompl_planning.yaml" />
+  <arg name="use_ompl" default="false"/>
 
-  <include file="$(find motoman_sia5_moveit_config)/launch/$(arg pipeline)_planning_pipeline.launch.xml" />
+  <include file="$(find motoman_sia5_moveit_config)/launch/$(arg pipeline)_planning_pipeline.launch.xml" >
+    <arg name="ompl_planning_yaml" value="$(arg ompl_planning_yaml)" if="$(arg use_ompl)" />
+  </include>
 
 </launch>
