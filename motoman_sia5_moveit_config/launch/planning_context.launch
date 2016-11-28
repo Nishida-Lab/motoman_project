@@ -13,7 +13,7 @@
 
   <!-- Kinematics file. -->
   <arg name="kinematics_config"/>
-  
+
   <!-- The name of the parameter under which the URDF is loaded -->
   <arg name="robot_description" default="robot_description"/>
 
