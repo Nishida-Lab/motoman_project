@@ -1,0 +1,22 @@
+<launch>
+  <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
+    <param name="loop_rate" value="5" />
+    <!-- クラスタリングのしきい値 -->
+    <param name="clusterTolerance" value="0.02" />
+    <param name="minSize" value="50" />
+    <param name="maxSize" value="25000" />
+    <!-- クラスタリングを行うエリア -->
+    <param name="crop_x_min" value="0.15" />
+    <param name="crop_x_max" value="0.55" />
+    <param name="crop_y_min" value="-0.33" />
+    <param name="crop_y_max" value="0.33" />
+    <param name="crop_z_min" value="0.035" />
+    <param name="crop_z_max" value="0.4" />
+
+    <param name="clustering_min_height" value="0.1" />
+
+    <param name="source_pc_topic_name" value="/kinect_second/qhd/points" />
+    <param name="box_name" value="/clustering_result" />
+    <param name="clustering_frame_id" value="world" />
+  </node>
+</launch>
