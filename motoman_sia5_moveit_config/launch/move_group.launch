@@ -89,12 +89,10 @@
               move_group/MoveGroupQueryPlannersService
               move_group/MoveGroupStateValidationService
               move_group/MoveGroupGetPlanningSceneService
-              move_group/ClearOctomapService
               " />
     <param unless="$(arg use_depth_sensor)" name="capabilities"
        value="move_group/MoveGroupCartesianPathService
               move_group/MoveGroupExecuteService
-              move_group/MoveGroupExecuteTrajectoryAction
               move_group/MoveGroupKinematicsService
               move_group/MoveGroupMoveAction
               move_group/MoveGroupPickPlaceAction
@@ -102,7 +100,6 @@
               move_group/MoveGroupQueryPlannersService
               move_group/MoveGroupStateValidationService
               move_group/MoveGroupGetPlanningSceneService
-              move_group/ApplyPlanningSceneService
               move_group/ClearOctomapService
               " />
 
