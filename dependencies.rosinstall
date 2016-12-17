@@ -3,10 +3,6 @@
     uri: https://github.com/Nishida-Lab/motoman.git
     version: indigo-devel
 - git:
-    local-name: motoman_tools/iai_kinect2
-    uri: https://github.com/code-iai/iai_kinect2.git
-    version: master
-- git:
     local-name: motoman_tools/ar_tools
     uri: https://github.com/RyodoTanaka/ar_tools.git
     version: master
@@ -14,3 +10,27 @@
     local-name: motoman_tools/dhand_ros_pkg
     uri: https://github.com/Nishida-Lab/dhand_ros_pkg.git
     version: master
+- git:
+    local-name: motoman_tools/iai_kinect2
+    uri: https://github.com/code-iai/iai_kinect2.git
+    version: master
+- git:
+    local-name: motoman_tools/industrial_moveit
+    uri: https://github.com/Nishida-Lab/industrial_moveit.git
+    version: delete_moveit_experimental
+- git:
+    local-name: motoman_tools/moveit
+    uri: https://github.com/ros-planning/moveit.git
+    version: indigo-devel
+- git:
+    local-name: motoman_tools/moveit_msgs
+    uri: https://github.com/ros-planning/moveit_msgs.git
+    version: indigo-devel
+- git:
+    local-name: motoman_tools/moveit_resources
+    uri: https://github.com/ros-planning/moveit_resources.git
+    version: master
+- git:
+    local-name: motoman_tools/srdfdom
+    uri: https://github.com/ros-planning/srdfdom.git
+    version: indigo-devel

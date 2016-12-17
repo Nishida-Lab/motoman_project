@@ -66,7 +66,7 @@ class Handring(object):
         self.box_pose[1].orientation.w = 0.891869
 
         # ======== Object Info ======== #
-        self.diff = 0.11
+        self.diff = 0.13
         self.offset = 0.45
         box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
@@ -175,7 +175,7 @@ class Handring(object):
 
         # Grasp
         print "!! Grasping !!"
-        self.grasp_msg.position = 7.5
+        self.grasp_msg.position = 7.0
         self.grasp_pub.publish(self.grasp_msg)
         rospy.sleep(0.5)
 

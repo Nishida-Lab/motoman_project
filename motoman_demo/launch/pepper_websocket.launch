@@ -1,3 +1,5 @@
 <launch>
-  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+	<param name="address" value="192.168.12.100"/>
+  </include>
 </launch>
