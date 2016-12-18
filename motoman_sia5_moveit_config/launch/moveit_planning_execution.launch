@@ -47,5 +47,5 @@
   </include>
 
   <!-- Run the DB server -->
-  <include file="$(find motoman_sia5_moveit_config)/launch/warehouse.launch">
+  <include file="$(find motoman_sia5_moveit_config)/launch/warehouse.launch"/>
 </launch>
