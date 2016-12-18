@@ -45,4 +45,7 @@
     <arg name="rviz_config" value="$(arg rviz_config)"/>
     <arg name="kinematics_config" value="$(arg kinematics_config)"/>
   </include>
+
+  <!-- Run the DB server -->
+  <include file="$(find motoman_sia5_moveit_config)/launch/warehouse.launch">
 </launch>
