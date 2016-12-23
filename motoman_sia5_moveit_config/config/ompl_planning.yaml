@@ -70,6 +70,7 @@ gripper:
     - PRMstarkConfigDefault
 arm:
   default_planner_config: RRTConnectkConfigDefault
+  projection_evaluator: joints(joint_s,joint_l)
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
