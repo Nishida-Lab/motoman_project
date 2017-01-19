@@ -40,7 +40,7 @@ set(SOURCE_FILES
 
 add_library(motoman_rviz_plugins ${SOURCE_FILES} ${UIC_FILES})
 target_link_libraries(motoman_rviz_plugins ${QT_LIBRARIES} ${catkin_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
-add_dependencies(motoman_rviz_plugins motoman_rviz_plugins_generate_messages_cpp ${PROJECT_NAME}_gencpp)
+add_dependencies(motoman_rviz_plugins motoman_viz_msgs_generate_messages_cpp ${PROJECT_NAME}_gencpp ${catkin_EXPORTED_TARGETS})
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set_target_properties(motoman_rviz_plugins PROPERTIES LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -z defs")
