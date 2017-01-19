@@ -9,8 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
   FILES 
-  EuclideanJointTrajectory.msg
-  EuclideanJointTrajectoryPoint.msg
+  EuclideanLinkTrajectory.msg
+  EuclideanLinkTrajectoryPoint.msg
   )
 
 generate_messages(
