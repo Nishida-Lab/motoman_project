@@ -1,0 +1,9 @@
+<library path="lib/libmotoman_rviz_plugins">
+  <class name="motoman_rviz_plugin/EuclideanLinkTrajectory"
+         type="motoman_rviz_plugins::EuclideanLinkTrajectory"
+         base_class_type="rviz::Display">
+    <description>
+	  Display the trajectory of Euclidean Link Trajectory message.
+    </description>
+  </class>
+</library>
