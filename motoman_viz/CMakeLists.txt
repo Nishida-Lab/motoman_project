@@ -6,6 +6,9 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_move_group
   moveit_msgs
   motoman_viz_msgs
+  tf
+  tf_conversions
+  eigen_conversions
   )
 
 catkin_package(
@@ -23,12 +26,12 @@ include_directories(
   )
 
 ## Declare a C++ executable
-add_executable(forward_kinematics src/forward_kinematics.cpp)
+add_executable(forward_kinematics_solver src/forward_kinematics_solver.cpp)
 
-add_dependencies(forward_kinematics forward_kinematics_generate_messages_cpp)
-add_dependencies(forward_kinematics ${catkin_EXPORTED_TARGETS})
+add_dependencies(forward_kinematics_solver forward_kinematics_generate_messages_cpp)
+add_dependencies(forward_kinematics_solver ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(forward_kinematics
+target_link_libraries(forward_kinematics_solver
   ${catkin_LIBRARIES}
   )
