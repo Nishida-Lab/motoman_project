@@ -17,6 +17,9 @@ import rospy
 # D-Hand
 from dhand.msg import Servo_move
 from std_msgs.msg import String
+# basic
+import sys
+import copy
 
 class Handring(object):
 
@@ -140,12 +143,45 @@ class Handring(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         plan = self.arm.plan()
+        rospy.sleep(0.25)
         print "Move !!"
-        rospy.sleep(0.1)
         self.arm.execute(plan)
-        #self.arm.go()
         self.arm.clear_pose_targets()
 
+    def set_cartesian_plan(self, trans, z_offset):
+        waypoints = []
+        self.target_pose.position.x = trans.transform.translation.x
+        self.target_pose.position.y = trans.transform.translation.y
+        self.target_pose.position.z = trans.transform.translation.z
+        q = (trans.transform.rotation.x,
+             trans.transform.rotation.y,
+             trans.transform.rotation.z,
+             trans.transform.rotation.w)
+        (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
+        pitch += pi/2.0
+        tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
+        self.target_pose.orientation.x = tar_q[0]
+        self.target_pose.orientation.y = tar_q[1]
+        self.target_pose.orientation.z = tar_q[2]
+        self.target_pose.orientation.w = tar_q[3]
+        waypoints.append(self.target_pose)
+        
+        wpose = geometry_msgs.msg.Pose()
+        wpose.position = self.target_pose.position
+        wpose.orientation = self.target_pose.orientation
+        wpose.position.z = self.target_pose.position.z + z_offset
+        waypoints.append(copy.deepcopy(wpose))
+
+        (plan, fraction) = self.arm.compute_cartesian_path(
+                             waypoints,   # waypoints to follow
+                             0.01,        # eef_step
+                             0.0)         # jump_threshold
+        rospy.sleep(0.4)
+        print "Move !!"
+        self.arm.execute(plan)
+        self.arm.clear_pose_targets()
+
+        
     # -------- Go to Home Position -------- #
     def go_home(self):
         # Go to Initial Pose
@@ -158,13 +194,20 @@ class Handring(object):
         init_pose[5] = 0.0
         init_pose[6] = 0.0
         self.arm.set_joint_value_target(init_pose)
-        self.arm.go()
+        plan = self.arm.plan()
+        rospy.sleep(0.25)
+        print "Move !!"
+        self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
     # -------- Go to Box Position -------- #
     def go_box(self, num):
         self.arm.set_pose_target(self.box_pose[num])
         self.arm.go()
+        # plan = self.arm.plan()
+        # rospy.sleep(0.5)
+        # print "Move !!"
+        # self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
     # -------- Run the Program -------- #
@@ -175,7 +218,7 @@ class Handring(object):
 
         print "Go to Grasp."
         self.set_plan(trans, self.offset)
-        self.set_plan(trans, self.offset - self.diff)
+        self.set_cartesian_plan(trans, self.offset - self.diff)
 
         # Grasp
         print "!! Grasping !!"
@@ -184,7 +227,7 @@ class Handring(object):
         rospy.sleep(0.5)
 
         print "Going up"
-        self.set_plan(trans, self.offset + 0.1)
+        self.set_cartesian_plan(trans, self.offset +0.1)
 
         print "Go to Box"
         self.go_box(box_num)
