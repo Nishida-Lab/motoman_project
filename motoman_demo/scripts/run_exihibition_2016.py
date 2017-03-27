@@ -28,6 +28,7 @@ class Handring(object):
         self.grasp_msg.speed = 15
         self.grasp_msg.acceleration = 0.2
         self.grasp_msg.current_limit = 0.5
+        self.grasp_pub.publish(self.grasp_msg)
 
         # ========= Subscriber ======== #
         # self.speech_sub_topic = rospy.get_param('~speech')
@@ -138,8 +139,11 @@ class Handring(object):
         self.target_pose.orientation.z = tar_q[2]
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
+        plan = self.arm.plan()
         print "Move !!"
-        self.arm.go()
+        rospy.sleep(0.1)
+        self.arm.execute(plan)
+        #self.arm.go()
         self.arm.clear_pose_targets()
 
     # -------- Go to Home Position -------- #
