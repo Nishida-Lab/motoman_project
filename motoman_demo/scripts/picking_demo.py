@@ -28,7 +28,7 @@ class Handring(object):
         self.grasp_pub = rospy.Publisher('/dhand_grasp', Servo_move, queue_size=1)
         self.grasp_msg = Servo_move()
         self.grasp_msg.position = 0.0
-        self.grasp_msg.speed = 15
+        self.grasp_msg.speed = 20
         self.grasp_msg.acceleration = 0.2
         self.grasp_msg.current_limit = 0.5
         self.grasp_pub.publish(self.grasp_msg)
@@ -45,7 +45,7 @@ class Handring(object):
         self.target_pose = geometry_msgs.msg.Pose()
         # Set the planning time
         self.arm.set_planner_id('RRTConnectkConfigDefault')
-        self.arm.set_planning_time(15.0)
+        self.arm.set_planning_time(10.0)
 
         # ========== TF ======== #
         # TF Listner #
@@ -70,13 +70,10 @@ class Handring(object):
         self.box_pose[1].orientation.w = 0.891869
 
         # ======== Object Info ======== #
-        self.diff = 0.13
+        self.diff = 0.12
         self.offset = 0.45
         box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
-        # self.box_size = 0.14
-        # self.dhand_hight = 0.07
-        # self.base_hight = 0.20
 
 
 
@@ -89,14 +86,14 @@ class Handring(object):
             for x in xrange(0, self.initial_box_num):
                 # 置かれている物体の数分だけ箱1→0→1で取りに行く
                 handring.run(1,(x+1)%2)
-                rospy.sleep(1.0)
+            rospy.loginfo("(^O^) !!!! Task finished !!!! (^O^)")
         else :
             object_num = get_num_from_pepper / 10
             print "Object number = " + str(object_num)
             box_num = get_num_from_pepper % 10 - 1
             print "Box number = " + str(box_num)
             self.run(object_num, box_num)
-            rospy.sleep(1.0)
+            rospy.loginfo("(^O^) !!!! Task finished !!!! (^O^)")
 
     def bbArrayCallback(self, message):
         self.initial_box_num = len(message.boxes)
@@ -216,25 +213,25 @@ class Handring(object):
 
         print "Go to Grasp."
         self.set_plan(trans, self.offset,0)
-        self.set_cartesian_plan(trans, self.offset - self.diff, 0.6)
+        self.set_cartesian_plan(trans, self.offset - self.diff, 0)
 
         # Grasp
         print "!! Grasping !!"
         self.grasp_msg.position = 7.0
         self.grasp_pub.publish(self.grasp_msg)
-        rospy.sleep(0.5)
+        rospy.sleep(0.3)
 
         print "Going up"
         self.set_cartesian_plan(trans, self.offset +0.1,0)
 
         print "Go to Box"
-        self.go_box(box_num,0.6)
+        self.go_box(box_num,0)
 
         # Release
         print "!! Release !!"
         self.grasp_msg.position = 0.5
         self.grasp_pub.publish(self.grasp_msg)
-        rospy.sleep(0.5)
+        rospy.sleep(0.3)
 
         print "Go to Home Position"
         self.go_home()
