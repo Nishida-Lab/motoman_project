@@ -75,8 +75,6 @@ class Handring(object):
         box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
 
-
-
     # -------- Get message from pepper -------- #
     def speechCallback(self, message):
         rospy.loginfo("Receive message from pepper")
@@ -96,8 +94,7 @@ class Handring(object):
             rospy.loginfo("(^O^) !!!! Task finished !!!! (^O^)")
 
     def bbArrayCallback(self, message):
-        self.initial_box_num = len(message.boxes)
-        # rospy.loginfo("box num = %d", self.initial_box_num)
+        self.initial_box_num = len(message.
 
     # -------- Get TF -------- #
     def get_tf_data(self, num):
