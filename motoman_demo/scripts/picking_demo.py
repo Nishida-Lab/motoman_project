@@ -89,14 +89,14 @@ class Handring(object):
             for x in xrange(0, self.initial_box_num):
                 # 置かれている物体の数分だけ箱1→0→1で取りに行く
                 handring.run(1,(x+1)%2)
-                rospy.sleep(5.0)
+                rospy.sleep(1.0)
         else :
             object_num = get_num_from_pepper / 10
             print "Object number = " + str(object_num)
             box_num = get_num_from_pepper % 10 - 1
             print "Box number = " + str(box_num)
             self.run(object_num, box_num)
-            rospy.sleep(5.0)
+            rospy.sleep(1.0)
 
     def bbArrayCallback(self, message):
         self.initial_box_num = len(message.boxes)
@@ -126,8 +126,7 @@ class Handring(object):
             rospy.logwarn("Couldn't Clear Octomap")
 
     # -------- Plannning & Execution -------- #
-    def set_plan(self, trans, z_offset):
-        rospy.sleep(0.5)
+    def set_plan(self, trans, z_offset, time):
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
         self.target_pose.position.z = trans.transform.translation.z + z_offset
@@ -143,13 +142,13 @@ class Handring(object):
         self.target_pose.orientation.z = tar_q[2]
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
+        rospy.sleep(time)
         plan = self.arm.plan()
         print "Move !!"
         self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
-    def set_cartesian_plan(self, trans, z_offset):
-        rospy.sleep(0.5)
+    def set_cartesian_plan(self, trans, z_offset, time):
         waypoints = []
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
@@ -173,6 +172,7 @@ class Handring(object):
         wpose.position.z = self.target_pose.position.z + z_offset
         waypoints.append(copy.deepcopy(wpose))
 
+        rospy.sleep(time)
         (plan, fraction) = self.arm.compute_cartesian_path(
                              waypoints,   # waypoints to follow
                              0.01,        # eef_step
@@ -185,7 +185,6 @@ class Handring(object):
     # -------- Go to Home Position -------- #
     def go_home(self):
         # Go to Initial Pose
-        rospy.sleep(0.5)
         init_pose = self.arm.get_current_joint_values()
         init_pose[0] = 0.0
         init_pose[1] = 0.0
@@ -201,14 +200,12 @@ class Handring(object):
         self.arm.clear_pose_targets()
 
     # -------- Go to Box Position -------- #
-    def go_box(self, num):
-        rospy.sleep(0.5)
+    def go_box(self, num, time):
         self.arm.set_pose_target(self.box_pose[num])
-        self.arm.go()
-        # plan = self.arm.plan()
-        # rospy.sleep(0.5)
+        plan = self.arm.plan()
+        rospy.sleep(time)
         # print "Move !!"
-        # self.arm.execute(plan)
+        self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
     # -------- Run the Program -------- #
@@ -218,8 +215,8 @@ class Handring(object):
         print trans.transform
 
         print "Go to Grasp."
-        self.set_plan(trans, self.offset)
-        self.set_cartesian_plan(trans, self.offset - self.diff)
+        self.set_plan(trans, self.offset,0)
+        self.set_cartesian_plan(trans, self.offset - self.diff, 0.6)
 
         # Grasp
         print "!! Grasping !!"
@@ -228,10 +225,10 @@ class Handring(object):
         rospy.sleep(0.5)
 
         print "Going up"
-        self.set_cartesian_plan(trans, self.offset +0.1)
+        self.set_cartesian_plan(trans, self.offset +0.1,0)
 
         print "Go to Box"
-        self.go_box(box_num)
+        self.go_box(box_num,0.6)
 
         # Release
         print "!! Release !!"
