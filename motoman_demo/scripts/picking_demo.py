@@ -149,7 +149,7 @@ class Handring(object):
         self.arm.clear_pose_targets()
 
     def set_cartesian_plan(self, trans, z_offset):
-         rospy.sleep(0.5)
+        rospy.sleep(0.5)
         waypoints = []
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
