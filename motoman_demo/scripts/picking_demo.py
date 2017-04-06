@@ -127,6 +127,7 @@ class Handring(object):
 
     # -------- Plannning & Execution -------- #
     def set_plan(self, trans, z_offset):
+        rospy.sleep(0.5)
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
         self.target_pose.position.z = trans.transform.translation.z + z_offset
@@ -143,12 +144,12 @@ class Handring(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         plan = self.arm.plan()
-        rospy.sleep(0.25)
         print "Move !!"
         self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
     def set_cartesian_plan(self, trans, z_offset):
+         rospy.sleep(0.5)
         waypoints = []
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
@@ -176,7 +177,6 @@ class Handring(object):
                              waypoints,   # waypoints to follow
                              0.01,        # eef_step
                              0.0)         # jump_threshold
-        rospy.sleep(0.4)
         print "Move !!"
         self.arm.execute(plan)
         self.arm.clear_pose_targets()
@@ -185,6 +185,7 @@ class Handring(object):
     # -------- Go to Home Position -------- #
     def go_home(self):
         # Go to Initial Pose
+        rospy.sleep(0.5)
         init_pose = self.arm.get_current_joint_values()
         init_pose[0] = 0.0
         init_pose[1] = 0.0
@@ -195,13 +196,13 @@ class Handring(object):
         init_pose[6] = 0.0
         self.arm.set_joint_value_target(init_pose)
         plan = self.arm.plan()
-        rospy.sleep(0.25)
         print "Move !!"
         self.arm.execute(plan)
         self.arm.clear_pose_targets()
 
     # -------- Go to Box Position -------- #
     def go_box(self, num):
+        rospy.sleep(0.5)
         self.arm.set_pose_target(self.box_pose[num])
         self.arm.go()
         # plan = self.arm.plan()
