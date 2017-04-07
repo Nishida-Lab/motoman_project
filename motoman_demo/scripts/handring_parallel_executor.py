@@ -1,23 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Moveit
-import moveit_commander
-import geometry_msgs.msg
-from motoman_msgs.msg import DisplayTrajectory
-# Octomap Service
-from std_srvs.srv import Empty
-# ROS
-import rospy
-# D-Hand
-from dhand.msg import Servo_move
-from std_msgs.msg import String
 # Basic
 import sys
 import copy
 from math import *
-
-
+# ROS
+import rospy
+# Moveit
+import moveit_commander
+# == Messages ==
+# for execution
+from motoman_demo_msgs.msg import HandringPlan
+# for D-Hand
+from dhand.msg import Servo_move
 
 class HandringExecutor(object):
 
@@ -33,28 +29,41 @@ class HandringExecutor(object):
 
         # ========== Moveit init ========== #
         # moveit_commander init
-        self.robot = moveit_commander.RobotCommander()
         self.arm = moveit_commander.MoveGroupCommander("arm")
 
         # ======== Subscriber ======== #
-        plan_sub = rospy.Subscriber('/move_group/display_planned_path', DisplayTrajectory, self.executeCallback
+        plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
 
-    # -------- Clear Octomap -------- #
-    def clear_octomap(self):
-        rospy.wait_for_service('clear_octomap')
-        try:
-            result = rospy.ServiceProxy('clear_octomap', Empty)
-            result()
-        except rospy.ServiceException, e:
-            rospy.logwarn("Couldn't Clear Octomap")
+        # task queue
+        self.task_q = []
 
     # -------- Plannning & Execution -------- #
-    def executeCallback(self, plan):
-        self.arm.execute(plan.trajectory.joint_trajectory)
-        rospy.loginfo("!! Execute !!")
-        self.arm.clear_pose_targets()
+    def planCallback(self, plan):
+        self.task_q.append(plan)
 
+    def execute(self):
+        self.arm.execute(self.task_q.trajectory)
+        self.task_q.pop(0)
+
+    def isTask(self):
+        if not self.task_q:
+            return False
+        return True
+
+    def shutdown(self):
+        self.arm.stop()
+        rospy.logwarn("(xOx) Aborted (xOx)")
+    
+                                    
 if __name__ == '__main__':
     rospy.init_node("handring_parallel_executor")
+    rate = rospy.Rate(10)
     handring_executor = HandringExecutor()
     rospy.spin()
+    while not rospy.is_shutdown():
+        if handring_executor.isTask():
+            handring_executor.execute()
+        rospy.spin()
+        rate.sleep()
+    
+    rospy.on_shutdown(handring_executor.shutdown)
