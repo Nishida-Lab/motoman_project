@@ -42,7 +42,8 @@ class HandringExecutor(object):
         self.task_q.append(plan)
 
     def execute(self):
-        self.arm.execute(self.task_q.trajectory)
+        plan = self.task_q[0]
+        self.arm.execute(plan.trajectory)
         self.task_q.pop(0)
 
     def isTask(self):
@@ -57,13 +58,10 @@ class HandringExecutor(object):
                                     
 if __name__ == '__main__':
     rospy.init_node("handring_parallel_executor")
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
     handring_executor = HandringExecutor()
-    rospy.spin()
     while not rospy.is_shutdown():
         if handring_executor.isTask():
             handring_executor.execute()
-        rospy.spin()
-        rate.sleep()
     
     rospy.on_shutdown(handring_executor.shutdown)
