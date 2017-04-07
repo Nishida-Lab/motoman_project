@@ -1,23 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Moveit
-import moveit_commander
-import geometry_msgs.msg
-from trajectory_msgs.msg import JointTrajectory
-import tf2_ros
-import tf
-# Octomap Service
-from std_srvs.srv import Empty
-# Get info clustering result
-from jsk_recognition_msgs.msg import BoundingBoxArray
-from jsk_recognition_msgs.msg import BoundingBox
-# ROS
-import rospy
-# basic
+# Basic
 import sys
 import copy
 from math import *
+# ROS
+import rospy
+import rosparam
+# Moveit
+import moveit_commander
+# TF
+import tf2_ros
+import tf
+# == Messages ==
+# for Cartesian path
+from geometry_msgs.msg import Pose
+# for Pepper message
+from std_msgs.msg import String
+# for Start state
+from moveit_msgs.msg import RobotState
+# for Planned path
+from motoman_demo_msgs.msg import HandringPlan
+from sensor_msgs.msg import JointState
+# for object bounding box
+from jsk_recognition_msgs.msg import BoundingBoxArray
+from jsk_recognition_msgs.msg import BoundingBox
+# == Service ==
+# for cleaning the Octomap
+from std_srvs.srv import Empty
 
 class HandringPlanner(object):
 
@@ -30,8 +41,7 @@ class HandringPlanner(object):
         # moveit_commander init
         self.robot = moveit_commander.RobotCommander()
         self.arm = moveit_commander.MoveGroupCommander("arm")
-        self.arm_initial_pose = self.arm.get_current_pose().pose
-        self.target_pose = geometry_msgs.msg.Pose()
+        self.target_pose = Pose()
         # Set the planning time
         self.arm.set_planner_id('RRTConnectkConfigDefault')
         self.arm.set_planning_time(10.0)
@@ -41,47 +51,38 @@ class HandringPlanner(object):
         self.tf_buffer = tf2_ros.Buffer()
         self.tf_listner = tf2_ros.TransformListener(self.tf_buffer)
 
+        # ========== Handring Plan publisher ======== #
+        self.hp_pub = rospy.Publisher('~handring_plan', HandringPlan, queue_size=6)
+
         # ========= Box Poses ======== #
-        self.box_pose = [geometry_msgs.msg.Pose(), geometry_msgs.msg.Pose()]
-        self.box_pose[0].position.x = 0.347605
-        self.box_pose[0].position.y = -0.337682
-        self.box_pose[0].position.z = 0.605245
-        self.box_pose[0].orientation.x = -0.189665
-        self.box_pose[0].orientation.y = 0.658327
-        self.box_pose[0].orientation.z = -0.181423
-        self.box_pose[0].orientation.w = 0.705491
-        self.box_pose[1].position.x = 0.596435
-        self.box_pose[1].position.y = 0.237905
-        self.box_pose[1].position.z = 0.506382
-        self.box_pose[1].orientation.x = 0.0204865
-        self.box_pose[1].orientation.y = 0.424285
-        self.box_pose[1].orientation.z = 0.155347
-        self.box_pose[1].orientation.w = 0.891869
+        self.box_pose = []
+        box_joint_map = {}
+        box_joint_map["joint_s"] = 0.33417996764183044
+        box_joint_map["joint_l"] = 0.8119770288467407
+        box_joint_map["joint_e"] = 0.5257301330566406
+        box_joint_map["joint_u"] = 0.32670751214027405
+        box_joint_map["joint_r"] = -2.0849075317382812
+        box_joint_map["joint_b"] = 0.8547547459602356
+        box_joint_map["joint_t"] = 0.0
+        self.box_pose.append(box_joint_map)
+        box_joint_map["joint_s"] = 0.5441074967384338
+        box_joint_map["joint_l"] = 0.5769590139389038
+        box_joint_map["joint_e"] = -1.396013617515564
+        box_joint_map["joint_u"] = -0.6198193430900574
+        box_joint_map["joint_r"] = 2.984351873397827
+        box_joint_map["joint_b"] = 0.25569218397140503
+        box_joint_map["joint_t"] = 0.0
+        self.box_pose.append(box_joint_map)
 
         # ======== Object Info ======== #
-        self.diff = 0.12
-        self.offset = 0.45
+        self.diff = 0.12      # diff from offset to grasp the object
+        self.offset = 0.45    # offset from top of the object
         box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
 
-    # -------- Get message from pepper -------- #
-    def speechCallback(self, message):
-        rospy.loginfo("Receive message from pepper")
-        get_num_from_pepper = int(message.data)
-        if get_num_from_pepper == 99 :
-            rospy.loginfo("Called order99. Object num = %d", self.initial_box_num)
-            for x in xrange(0, self.initial_box_num):
-                # 置かれている物体の数分だけ箱1→0→1で取りに行く
-                handring.run(1,(x+1)%2)
-            rospy.loginfo("(^O^) !!!! Task finished !!!! (^O^)")
-        else :
-            object_num = get_num_from_pepper / 10
-            print "Object number = " + str(object_num)
-            box_num = get_num_from_pepper % 10 - 1
-            print "Box number = " + str(box_num)
-            self.run(object_num, box_num)
-            rospy.loginfo("(^O^) !!!! Task finished !!!! (^O^)")
-
+        rospy.loginfo("HPP Initialized")
+        
+    # -------- Bounding Box Array call back -------- #
     def bbArrayCallback(self, message):
         self.initial_box_num = len(message.boxes)
 
@@ -97,7 +98,7 @@ class HandringPlanner(object):
 
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) :
                 continue
-        return trans
+        return trans 
 
     # -------- Clear Octomap -------- #
     def clear_octomap(self):
@@ -109,7 +110,12 @@ class HandringPlanner(object):
             rospy.logwarn("Couldn't Clear Octomap")
 
     # -------- Plannning & Execution -------- #
-    def set_plan(self, trans, z_offset, time):
+    def get_plan(self, trans, z_offset, start_state, grasp):
+        # Set argument start state
+        moveit_start_state = RobotState()
+        moveit_start_state.joint_state = start_state
+        self.arm.set_start_state(moveit_start_state)
+        # Calculate goal pose
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
         self.target_pose.position.z = trans.transform.translation.z + z_offset
@@ -125,15 +131,27 @@ class HandringPlanner(object):
         self.target_pose.orientation.z = tar_q[2]
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
-        rospy.sleep(time)
+        # plan
         plan = self.arm.plan()
-        pub_plan = JointTrajectory()
-        pub_plan = plan
-        print "Move !!"
-        # self.arm.execute(plan)
+        rospy.loginfo("!! Got a plan !!")
         self.arm.clear_pose_targets()
+        # publish the plan
+        pub_msg = HandringPlan()
+        pub_msg.grasp = grasp
+        pub_msg.trajectory = plan
+        self.hp_pub.publish(pub_msg)
+        # return goal state from generated trajectory
+        goal_state = JointState()
+        goal_state.name = plan.joint_trajectory.joint_names[:]
+        goal_state.position = plan.joint_trajectory.points[-1].positions[:]
+        return goal_state
 
-    def set_cartesian_plan(self, trans, z_offset, time):
+    def get_cartesian_plan(self, trans, z_offset, start_state, grasp):
+        # set argument start state
+        moveit_start_state = RobotState()
+        moveit_start_state.joint_state = start_state
+        self.arm.set_start_state(moveit_start_state)
+        # set waypoints
         waypoints = []
         self.target_pose.position.x = trans.transform.translation.x
         self.target_pose.position.y = trans.transform.translation.y
@@ -150,25 +168,37 @@ class HandringPlanner(object):
         self.target_pose.orientation.z = tar_q[2]
         self.target_pose.orientation.w = tar_q[3]
         waypoints.append(self.target_pose)
-        
-        wpose = geometry_msgs.msg.Pose()
+        wpose = Pose()
         wpose.position = self.target_pose.position
         wpose.orientation = self.target_pose.orientation
         wpose.position.z = self.target_pose.position.z + z_offset
         waypoints.append(copy.deepcopy(wpose))
-        rospy.sleep(time)
+        # plan
         (plan, fraction) = self.arm.compute_cartesian_path(
                              waypoints,   # waypoints to follow
                              0.01,        # eef_step
                              0.0)         # jump_threshold
-        print "Move !!"
-        # self.arm.execute(plan)
+        rospy.loginfo("!! Got a cartesian plan !!")
         self.arm.clear_pose_targets()
+        # publish the plan
+        pub_msg = HandringPlan()
+        pub_msg.grasp = grasp
+        pub_msg.trajectory = plan
+        self.hp_pub.publish(pub_msg)
+        # return goal state from generated trajectory
+        goal_state = JointState()
+        goal_state.name = plan.joint_trajectory.joint_names[:]
+        goal_state.position = plan.joint_trajectory.points[-1].positions[:]
+        return goal_state
 
         
     # -------- Go to Home Position -------- #
-    def go_home(self):
-        # Go to Initial Pose
+    def get_home_plan(self, start_state, grasp):
+        # Set argument start state
+        moveit_start_state = RobotState()
+        moveit_start_state.joint_state = start_state
+        self.arm.set_start_state(moveit_start_state)
+        # Calculate goal pose
         init_pose = self.arm.get_current_joint_values()
         init_pose[0] = 0.0
         init_pose[1] = 0.0
@@ -178,52 +208,90 @@ class HandringPlanner(object):
         init_pose[5] = 0.0
         init_pose[6] = 0.0
         self.arm.set_joint_value_target(init_pose)
+        # plan
         plan = self.arm.plan()
-        print "Move !!"
-        # self.arm.execute(plan)
+        rospy.loginfo("!! Got a home plan !!")
         self.arm.clear_pose_targets()
-
+        # publish the plan
+        pub_msg = HandringPlan()
+        pub_msg.grasp = grasp
+        pub_msg.trajectory = plan
+        self.hp_pub.publish(pub_msg)
+        # return goal state from generated trajectory
+        goal_state = JointState()
+        goal_state.name = plan.joint_trajectory.joint_names[:]
+        goal_state.position = plan.joint_trajectory.points[-1].positions[:]
+        return goal_state
+    
     # -------- Go to Box Position -------- #
-    def go_box(self, num, time):
-        self.arm.set_pose_target(self.box_pose[num])
+    def get_box_plan(self, num, start_state, grasp):
+        # Set argument start state
+        moveit_start_state = RobotState()
+        moveit_start_state.joint_state = start_state
+        self.arm.set_start_state(moveit_start_state)
+        # Calculate goal pose
+        print "box_number :", num
+        self.arm.set_joint_value_target(self.box_pose[num])
+        # plan
         plan = self.arm.plan()
-        rospy.sleep(time)
-        # print "Move !!"
-        # self.arm.execute(plan)
+        rospy.loginfo("!! Got a box plan !!")
         self.arm.clear_pose_targets()
+        # publish the plan
+        pub_msg = HandringPlan()
+        pub_msg.grasp = grasp
+        pub_msg.trajectory = plan
+        self.hp_pub.publish(pub_msg)
+        # return goal state from generated trajectory
+        goal_state = JointState()
+        goal_state.name = plan.joint_trajectory.joint_names[:]
+        goal_state.position = plan.joint_trajectory.points[-1].positions[:]
+        return goal_state
 
+    # -------- Get message from pepper -------- #
+    def speechCallback(self, message):
+        rospy.loginfo("(-O-) Task start (-O-)")
+        # initialize
+        start_state = JointState()
+        start_state.name = rosparam.get_param("/controller_joint_names")
+        for i in range(len(start_state.name)):
+            start_state.position.append(0.)
+        get_num_from_pepper = int(message.data)
+
+        # do the planning depending on the order number
+        if get_num_from_pepper == 99 :
+            rospy.loginfo("Called order 99")
+            trans = []
+            box_num = self.initial_box_num
+            rospy.loginfo("%d objects detected...", box_num)
+            for x in xrange(1, box_num+1):
+                trans.append(self.get_tf_data(x))
+            for x in xrange(0, box_num):
+                self.run(1, (x+1)%2, start_state, trans[x])
+                rospy.loginfo("No.%i task finished.", x+1)
+            rospy.loginfo("(^O^) All task finished (^O^)")
+            
+        else :
+            object_num = get_num_from_pepper / 10
+            box_num = get_num_from_pepper % 10 - 1
+            trans = self.get_tf_data(object_num)
+            self.run(object_num, box_num, start_state, trans)
+            rospy.loginfo("(^O^) All task finished (^O^)")
+    
     # -------- Run the Program -------- #
-    def run(self, obj_num, box_num):
-        trans = self.get_tf_data(obj_num)
-        print "world -> object_" + str(obj_num)
-        print trans.transform
-
-        print "Go to Grasp."
-        self.set_plan(trans, self.offset,0)
-        self.set_cartesian_plan(trans, self.offset - self.diff, 0)
-
-        # Grasp
-        print "!! Grasping !!"
-        self.grasp_msg.position = 7.0
-        self.grasp_pub.publish(self.grasp_msg)
-        rospy.sleep(0.3)
-
-        print "Going up"
-        self.set_cartesian_plan(trans, self.offset +0.1,0)
-
-        print "Go to Box"
-        self.go_box(box_num,0)
-
-        # Release
-        print "!! Release !!"
-        self.grasp_msg.position = 0.5
-        self.grasp_pub.publish(self.grasp_msg)
-        rospy.sleep(0.3)
-
-        print "Go to Home Position"
-        self.go_home()
+    def run(self, obj_num, box_num, start_state, trans):
+        # Go to Grasp
+        state = self.get_plan(trans, self.offset, start_state, False)
+        state = self.get_cartesian_plan(trans, self.offset - self.diff, state, True)
+        # Back to upper side
+        state = self.get_cartesian_plan(trans, self.offset +0.1, state, True)
+        # Back to home
+        state = self.get_home_plan(state, True)
+        # Go to Box
+        state = self.get_box_plan(box_num, state, False)
+        # Go to home
+        self.get_home_plan(state, False)
 
 if __name__ == '__main__':
-    rospy.init_node("run_exihibition_2016")
-    handring = Handring()
+    rospy.init_node("handring_parallel_planner")
+    handring_planner = HandringPlanner()
     rospy.spin()
