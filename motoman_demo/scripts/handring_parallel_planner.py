@@ -23,6 +23,7 @@ from moveit_msgs.msg import RobotState
 # for Planned path
 from motoman_demo_msgs.msg import HandringPlan
 from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
 # for object bounding box
 from jsk_recognition_msgs.msg import BoundingBoxArray
 from jsk_recognition_msgs.msg import BoundingBox
@@ -108,7 +109,7 @@ class HandringPlanner(object):
             result()
         except rospy.ServiceException, e:
             rospy.logwarn("Couldn't Clear Octomap")
-
+            
     # -------- Plannning & Execution -------- #
     def get_plan(self, trans, z_offset, start_state, grasp):
         # Set argument start state
@@ -142,6 +143,8 @@ class HandringPlanner(object):
         self.hp_pub.publish(pub_msg)
         # return goal state from generated trajectory
         goal_state = JointState()
+        goal_state.header = Header()
+        goal_state.header.stamp = rospy.Time.now()
         goal_state.name = plan.joint_trajectory.joint_names[:]
         goal_state.position = plan.joint_trajectory.points[-1].positions[:]
         return goal_state
@@ -187,6 +190,8 @@ class HandringPlanner(object):
         self.hp_pub.publish(pub_msg)
         # return goal state from generated trajectory
         goal_state = JointState()
+        goal_state.header = Header()
+        goal_state.header.stamp = rospy.Time.now()
         goal_state.name = plan.joint_trajectory.joint_names[:]
         goal_state.position = plan.joint_trajectory.points[-1].positions[:]
         return goal_state
@@ -219,6 +224,8 @@ class HandringPlanner(object):
         self.hp_pub.publish(pub_msg)
         # return goal state from generated trajectory
         goal_state = JointState()
+        goal_state.header = Header()
+        goal_state.header.stamp = rospy.Time.now()
         goal_state.name = plan.joint_trajectory.joint_names[:]
         goal_state.position = plan.joint_trajectory.points[-1].positions[:]
         return goal_state
@@ -230,7 +237,6 @@ class HandringPlanner(object):
         moveit_start_state.joint_state = start_state
         self.arm.set_start_state(moveit_start_state)
         # Calculate goal pose
-        print "box_number :", num
         self.arm.set_joint_value_target(self.box_pose[num])
         # plan
         plan = self.arm.plan()
@@ -243,6 +249,8 @@ class HandringPlanner(object):
         self.hp_pub.publish(pub_msg)
         # return goal state from generated trajectory
         goal_state = JointState()
+        goal_state.header = Header()
+        goal_state.header.stamp = rospy.Time.now()
         goal_state.name = plan.joint_trajectory.joint_names[:]
         goal_state.position = plan.joint_trajectory.points[-1].positions[:]
         return goal_state
@@ -252,6 +260,8 @@ class HandringPlanner(object):
         rospy.loginfo("(-O-) Task start (-O-)")
         # initialize
         start_state = JointState()
+        start_state.header = Header()
+        start_state.header.stamp = rospy.Time.now()
         start_state.name = rosparam.get_param("/controller_joint_names")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
@@ -267,6 +277,9 @@ class HandringPlanner(object):
                 trans.append(self.get_tf_data(x))
             for x in xrange(0, box_num):
                 self.run(1, (x+1)%2, start_state, trans[x])
+                if rospy.is_shutdown():
+                    rospy.on_shutdown(self.shutdown)
+                    break
                 rospy.loginfo("No.%i task finished.", x+1)
             rospy.loginfo("(^O^) All task finished (^O^)")
             
@@ -275,21 +288,40 @@ class HandringPlanner(object):
             box_num = get_num_from_pepper % 10 - 1
             trans = self.get_tf_data(object_num)
             self.run(object_num, box_num, start_state, trans)
+            if rospy.is_shutdown():
+                rospy.on_shutdown(self.shutdown)
             rospy.loginfo("(^O^) All task finished (^O^)")
-    
+
+    # -------- Shutdown -------- #
+    def shutdown(self):
+        rospy.logwarn("(xOx) Aborted (xOx)")
+            
     # -------- Run the Program -------- #
     def run(self, obj_num, box_num, start_state, trans):
         # Go to Grasp
         state = self.get_plan(trans, self.offset, start_state, False)
+        if rospy.is_shutdown():
+            return
         state = self.get_cartesian_plan(trans, self.offset - self.diff, state, True)
+        if rospy.is_shutdown():
+            return
         # Back to upper side
         state = self.get_cartesian_plan(trans, self.offset +0.1, state, True)
+        if rospy.is_shutdown():
+            return
         # Back to home
         state = self.get_home_plan(state, True)
+        if rospy.is_shutdown():
+            return
         # Go to Box
         state = self.get_box_plan(box_num, state, False)
+        if rospy.is_shutdown():
+            return
         # Go to home
         self.get_home_plan(state, False)
+        if rospy.is_shutdown():
+            return
+
 
 if __name__ == '__main__':
     rospy.init_node("handring_parallel_planner")
