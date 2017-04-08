@@ -14,6 +14,8 @@ protected:
   
   actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> as_;
   std::string action_name_;
+
+  control_msgs::FollowJointTrajectoryResult result_;
   
   trajectory_msgs::JointTrajectory goal_;
 
@@ -31,9 +33,6 @@ public:
 	sub_joint_state = nh_.subscribe<sensor_msgs::JointState>("/joint_states", 1, &SIA5Arm::JointStateCallback, this);
 	
     pub_move_arm_ = nh_.advertise<trajectory_msgs::JointTrajectory>("/joint_path_command", 1, this);
-
-	ros::Time::init();
-	
     as_.start();
   }
 
@@ -46,6 +45,15 @@ public:
 	pub_move_arm_.publish(goal_);
 	ROS_INFO("Moving...");
 	ros::Duration tfs = goal_.points[goal_.points.size()-1].time_from_start;
+	tfs.sec++;
+	// tfs.nsec += 750000000;
+	// if(tfs.nsec >= 1000000000){
+	//   tfs.sec++;
+	//   tfs.nsec -= 1000000000;
+	// }
+	tfs.sleep();
+	result_.error_code = result_.SUCCESSFUL;
+	as_.setSucceeded(result_);
 	ROS_INFO("Task Done !!");	
   }
 
