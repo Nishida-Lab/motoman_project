@@ -7,8 +7,10 @@ import copy
 from math import *
 # ROS
 import rospy
-# Moveit
-import moveit_commander
+# == Action lib client ==
+import actionlib
+from control_msgs.msg import FollowJointTrajectoryAction
+from control_msgs.msg import FollowJointTrajectoryGoal
 # == Messages ==
 # for execution
 from motoman_demo_msgs.msg import HandringPlan
@@ -27,15 +29,19 @@ class HandringExecutor(object):
         self.grasp_msg.current_limit = 0.5
         self.grasp_pub.publish(self.grasp_msg)
 
-        # ========== Moveit init ========== #
-        # moveit_commander init
-        self.arm = moveit_commander.MoveGroupCommander("arm")
+        # ========== Action lib client init ========== #
+        self.client = actionlib.SimpleActionClient('sia5_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        self.client.wait_for_server()
+
 
         # ======== Subscriber ======== #
         plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
 
         # task queue
         self.task_q = []
+        
+        rospy.loginfo("(^O^) Ready (^O^)")
+        
 
     # -------- Plannning & Execution -------- #
     def planCallback(self, plan):
@@ -43,8 +49,9 @@ class HandringExecutor(object):
 
     def execute(self):
         plan = self.task_q[0]
-        self.arm.execute(plan.trajectory)
-        rospy.sleep(1)
+        goal = FollowJointTrajectoryGoal(trajectory=plan.trajectory.joint_trajectory)
+        self.client.send_goal(goal)
+        self.client.wait_for_result()
         self.task_q.pop(0)
 
     def isTask(self):
