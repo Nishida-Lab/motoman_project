@@ -1,3 +1,4 @@
+
 #include <ros/ros.h>
 #include <ros/time.h>
 #include <trajectory_msgs/JointTrajectory.h>
@@ -26,11 +27,12 @@ public:
     action_name_(name)
   {
     as_.registerGoalCallback(boost::bind(&SIA5Arm::goalCB, this));
-    as_.registerPreemptCallback(boost::bind(&SIA5Arm::preemptCB, this));
 
 	sub_joint_state = nh_.subscribe<sensor_msgs::JointState>("/joint_states", 1, &SIA5Arm::JointStateCallback, this);
 	
     pub_move_arm_ = nh_.advertise<trajectory_msgs::JointTrajectory>("/joint_path_command", 1, this);
+
+	ros::Time::init();
 	
     as_.start();
   }
@@ -42,13 +44,11 @@ public:
 	  goal_.points[0].positions[i] = js_map_[goal_.joint_names[i]];
 	ROS_INFO("Goal Recieived");
 	pub_move_arm_.publish(goal_);
+	ROS_INFO("Moving...");
+	ros::Duration tfs = goal_.points[goal_.points.size()-1].time_from_start;
+	ROS_INFO("Task Done !!");	
   }
 
-  void preemptCB()
-  {
-    ROS_INFO("%s: Preempted", action_name_.c_str());
-    as_.setPreempted();
-  }
 
 private:
   std::map<std::string, double> js_map_;
