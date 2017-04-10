@@ -39,20 +39,35 @@ class HandringExecutor(object):
 
         # task queue
         self.task_q = []
+        self.grasp_ = [False, False]
         
         rospy.loginfo("(^O^) Ready (^O^)")
-        
 
     # -------- Plannning & Execution -------- #
     def planCallback(self, plan):
         self.task_q.append(plan)
 
+    def executeGrasp(self, grasp):
+        if grasp:
+            self.grasp_msg.position = 7.0
+        else:
+            self.grasp_msg.position = 0.0
+            
+        self.grasp_pub.publish(self.grasp_msg)
+        rospy.sleep(0.3)
+        
     def execute(self):
-        plan = self.task_q[0]
-        goal = FollowJointTrajectoryGoal(trajectory=plan.trajectory.joint_trajectory)
+        rospy.loginfo("Start Task")
+        plan = self.task_q[0].trajectory
+        self.grasp_[0] = self.task_q[0].grasp
+        goal = FollowJointTrajectoryGoal(trajectory=plan.joint_trajectory)
         self.client.send_goal(goal)
         self.client.wait_for_result()
+        if self.grasp_[0] != self.grasp_[1]:
+            self.executeGrasp(self.grasp_[0])
+        self.grasp_[1] = self.grasp_[0]
         self.task_q.pop(0)
+        rospy.loginfo("End Task")
 
     def isTask(self):
         if not self.task_q:
@@ -60,13 +75,14 @@ class HandringExecutor(object):
         return True
 
     def shutdown(self):
-        self.arm.stop()
+        self.grasp_msg.position = 0.0
+        rospy.sleep(2.0)
         rospy.logwarn("(xOx) Aborted (xOx)")
     
                                     
 if __name__ == '__main__':
     rospy.init_node("handring_parallel_executor")
-    rate = rospy.Rate(5)
+    rate = rospy.Rate(10)
     handring_executor = HandringExecutor()
     while not rospy.is_shutdown():
         if handring_executor.isTask():
