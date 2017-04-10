@@ -39,19 +39,30 @@ public:
   void goalCB()
   {
 	goal_ = as_.acceptNewGoal()->trajectory;
+	ros::spinOnce();
 	for(int i=0; i<goal_.joint_names.size(); i++)
 	  goal_.points[0].positions[i] = js_map_[goal_.joint_names[i]];
 	ROS_INFO("Goal Recieived");
-	pub_move_arm_.publish(goal_);
 	ROS_INFO("Moving...");
-	ros::Duration tfs = goal_.points[goal_.points.size()-1].time_from_start;
-	tfs.sec++;
-	// tfs.nsec += 750000000;
-	// if(tfs.nsec >= 1000000000){
-	//   tfs.sec++;
-	//   tfs.nsec -= 1000000000;
-	// }
-	tfs.sleep();
+	ros::Duration(1, 0).sleep();
+	pub_move_arm_.publish(goal_);
+
+
+	std::map<std::string, double> goal_js;
+	for(int i=0; i<goal_.joint_names.size(); i++)
+	  goal_js[goal_.joint_names[i]] = goal_.points[goal_.points.size()-1].positions[i];
+
+	double js_error;
+	do{
+	  js_error = 0;
+	  for(int i=0; i<goal_.joint_names.size(); i++)
+		js_error += fabs(goal_js[goal_.joint_names[i]] - js_map_[goal_.joint_names[i]]);
+	  js_error /= double(goal_.joint_names.size());
+	  ros::spinOnce();
+	} while(js_error > 2e-4);
+	std::cout << "wait" << std::endl;
+	ros::Duration(1, 0).sleep();
+	
 	result_.error_code = result_.SUCCESSFUL;
 	as_.setSucceeded(result_);
 	ROS_INFO("Task Done !!");	
