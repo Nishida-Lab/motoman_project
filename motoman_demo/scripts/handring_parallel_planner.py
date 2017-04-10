@@ -182,6 +182,7 @@ class HandringPlanner(object):
                              0.01,        # eef_step
                              0.0)         # jump_threshold
         rospy.loginfo("!! Got a cartesian plan !!")
+        print plan.joint_trajectory.points[-1].time_from_start
         self.arm.clear_pose_targets()
         # publish the plan
         pub_msg = HandringPlan()
@@ -253,8 +254,10 @@ class HandringPlanner(object):
         goal_state.header.stamp = rospy.Time.now()
         goal_state.name = plan.joint_trajectory.joint_names[:]
         goal_state.position = plan.joint_trajectory.points[-1].positions[:]
-        return goal_state
+        return [goal_state, plan]
 
+    # def set_plan(self, plan, grasp):
+    
     # -------- Get message from pepper -------- #
     def speechCallback(self, message):
         rospy.loginfo("(-O-) Task start (-O-)")
@@ -314,7 +317,7 @@ class HandringPlanner(object):
         if rospy.is_shutdown():
             return
         # Go to Box
-        state = self.get_box_plan(box_num, state, False)
+        [state, plan] = self.get_box_plan(box_num, state, False)
         if rospy.is_shutdown():
             return
         # Go to home
