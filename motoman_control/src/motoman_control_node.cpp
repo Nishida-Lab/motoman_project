@@ -1,3 +1,4 @@
+
 #include <ros/ros.h>
 #include <ros/time.h>
 #include <trajectory_msgs/JointTrajectory.h>
@@ -13,6 +14,8 @@ protected:
   
   actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> as_;
   std::string action_name_;
+
+  control_msgs::FollowJointTrajectoryResult result_;
   
   trajectory_msgs::JointTrajectory goal_;
 
@@ -26,29 +29,45 @@ public:
     action_name_(name)
   {
     as_.registerGoalCallback(boost::bind(&SIA5Arm::goalCB, this));
-    as_.registerPreemptCallback(boost::bind(&SIA5Arm::preemptCB, this));
 
 	sub_joint_state = nh_.subscribe<sensor_msgs::JointState>("/joint_states", 1, &SIA5Arm::JointStateCallback, this);
 	
     pub_move_arm_ = nh_.advertise<trajectory_msgs::JointTrajectory>("/joint_path_command", 1, this);
-	
     as_.start();
   }
 
   void goalCB()
   {
 	goal_ = as_.acceptNewGoal()->trajectory;
+	ros::spinOnce();
 	for(int i=0; i<goal_.joint_names.size(); i++)
 	  goal_.points[0].positions[i] = js_map_[goal_.joint_names[i]];
 	ROS_INFO("Goal Recieived");
+	ROS_INFO("Moving...");
+	ros::Duration(1, 0).sleep();
 	pub_move_arm_.publish(goal_);
+
+
+	std::map<std::string, double> goal_js;
+	for(int i=0; i<goal_.joint_names.size(); i++)
+	  goal_js[goal_.joint_names[i]] = goal_.points[goal_.points.size()-1].positions[i];
+
+	double js_error;
+	do{
+	  js_error = 0;
+	  for(int i=0; i<goal_.joint_names.size(); i++)
+		js_error += fabs(goal_js[goal_.joint_names[i]] - js_map_[goal_.joint_names[i]]);
+	  js_error /= double(goal_.joint_names.size());
+	  ros::spinOnce();
+	} while(js_error > 2e-4);
+	std::cout << "wait" << std::endl;
+	ros::Duration(1, 0).sleep();
+	
+	result_.error_code = result_.SUCCESSFUL;
+	as_.setSucceeded(result_);
+	ROS_INFO("Task Done !!");	
   }
 
-  void preemptCB()
-  {
-    ROS_INFO("%s: Preempted", action_name_.c_str());
-    as_.setPreempted();
-  }
 
 private:
   std::map<std::string, double> js_map_;
