@@ -49,7 +49,7 @@ class HandringExecutor(object):
 
     def executeGrasp(self, grasp):
         if grasp:
-            self.grasp_msg.position = 7.0
+            self.grasp_msg.position = 9.0
         else:
             self.grasp_msg.position = 0.0
             
