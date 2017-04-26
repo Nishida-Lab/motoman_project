@@ -135,12 +135,12 @@ class HandringPlanner(object):
         # plan
         plan = self.arm.plan()
         rospy.loginfo("!! Got a plan !!")
-        self.arm.clear_pose_targets()
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
+        self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
         goal_state.header = Header()
@@ -183,12 +183,12 @@ class HandringPlanner(object):
                              0.0)         # jump_threshold
         rospy.loginfo("!! Got a cartesian plan !!")
         print plan.joint_trajectory.points[-1].time_from_start
-        self.arm.clear_pose_targets()
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
+        self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
         goal_state.header = Header()
@@ -217,12 +217,12 @@ class HandringPlanner(object):
         # plan
         plan = self.arm.plan()
         rospy.loginfo("!! Got a home plan !!")
-        self.arm.clear_pose_targets()
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
+        self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
         goal_state.header = Header()
@@ -241,13 +241,16 @@ class HandringPlanner(object):
         self.arm.set_joint_value_target(self.box_pose[num])
         # plan
         plan = self.arm.plan()
-        rospy.loginfo("!! Got a box plan !!")
         self.arm.clear_pose_targets()
+        plan = self.arm.plan()
+        
+        rospy.loginfo("!! Got a box plan !!")
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
+
         # return goal state from generated trajectory
         goal_state = JointState()
         goal_state.header = Header()
@@ -266,6 +269,7 @@ class HandringPlanner(object):
         start_state.header = Header()
         start_state.header.stamp = rospy.Time.now()
         start_state.name = rosparam.get_param("/controller_joint_names")
+        #start_state.name = rosparam.get_param("/sia5_controller/joints")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
         get_num_from_pepper = int(message.data)
@@ -301,7 +305,7 @@ class HandringPlanner(object):
             
     # -------- Run the Program -------- #
     def run(self, obj_num, box_num, start_state, trans):
-        # Go to Grasp
+        # # Go to Grasp
         state = self.get_plan(trans, self.offset, start_state, False)
         if rospy.is_shutdown():
             return
@@ -312,7 +316,7 @@ class HandringPlanner(object):
         state = self.get_cartesian_plan(trans, self.offset +0.1, state, True)
         if rospy.is_shutdown():
             return
-        # Back to home
+        # # Back to home
         state = self.get_home_plan(state, True)
         if rospy.is_shutdown():
             return
