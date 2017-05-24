@@ -20,6 +20,7 @@ from geometry_msgs.msg import Pose
 from std_msgs.msg import String
 # for Start state
 from moveit_msgs.msg import RobotState
+from moveit_msgs.msg import RobotTrajectory
 # for Planned path
 from motoman_demo_msgs.msg import HandringPlan
 from sensor_msgs.msg import JointState
@@ -45,7 +46,7 @@ class HandringPlanner(object):
         self.target_pose = Pose()
         # Set the planning time
         self.arm.set_planner_id('RRTConnectkConfigDefault')
-        self.arm.set_planning_time(10.0)
+        self.arm.set_planning_time(5.0)
 
         # ========== TF ======== #
         # TF Listner #
@@ -56,24 +57,23 @@ class HandringPlanner(object):
         self.hp_pub = rospy.Publisher('~handring_plan', HandringPlan, queue_size=6)
 
         # ========= Box Poses ======== #
-        self.box_pose = []
-        box_joint_map = {}
-        box_joint_map["joint_s"] = 0.33417996764183044
-        box_joint_map["joint_l"] = 0.8119770288467407
-        box_joint_map["joint_e"] = 0.5257301330566406
-        box_joint_map["joint_u"] = 0.32670751214027405
-        box_joint_map["joint_r"] = -2.0849075317382812
-        box_joint_map["joint_b"] = 0.8547547459602356
-        box_joint_map["joint_t"] = 0.0
-        self.box_pose.append(box_joint_map)
-        box_joint_map["joint_s"] = 0.5441074967384338
-        box_joint_map["joint_l"] = 0.5769590139389038
-        box_joint_map["joint_e"] = -1.396013617515564
-        box_joint_map["joint_u"] = -0.6198193430900574
-        box_joint_map["joint_r"] = 2.984351873397827
-        box_joint_map["joint_b"] = 0.25569218397140503
-        box_joint_map["joint_t"] = 0.0
-        self.box_pose.append(box_joint_map)
+        self.box_pose = [{}, {}]
+        # Box 0 pose
+        self.box_pose[0]["joint_s"] = 0.33417996764183044
+        self.box_pose[0]["joint_l"] = 0.8119770288467407
+        self.box_pose[0]["joint_e"] = 0.5257301330566406
+        self.box_pose[0]["joint_u"] = 0.32670751214027405
+        self.box_pose[0]["joint_r"] = -2.0849075317382812
+        self.box_pose[0]["joint_b"] = 0.8547547459602356
+        self.box_pose[0]["joint_t"] = 0.0
+        # Box 1 pose
+        self.box_pose[1]["joint_s"] = 0.5441074967384338
+        self.box_pose[1]["joint_l"] = 0.5769590139389038
+        self.box_pose[1]["joint_e"] = -1.396013617515564
+        self.box_pose[1]["joint_u"] = -0.6198193430900574
+        self.box_pose[1]["joint_r"] = 2.984351873397827
+        self.box_pose[1]["joint_b"] = 0.25569218397140503
+        self.box_pose[1]["joint_t"] = 0.0
 
         # ======== Object Info ======== #
         self.diff = 0.12      # diff from offset to grasp the object
@@ -133,7 +133,9 @@ class HandringPlanner(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         # plan
-        plan = self.arm.plan()
+        plan = RobotTrajectory()
+        while len(plan.joint_trajectory.points) == 0 :
+            plan = self.arm.plan()
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
         pub_msg = HandringPlan()
@@ -170,19 +172,21 @@ class HandringPlanner(object):
         self.target_pose.orientation.y = tar_q[1]
         self.target_pose.orientation.z = tar_q[2]
         self.target_pose.orientation.w = tar_q[3]
-        waypoints.append(self.target_pose)
+        waypoints.append(copy.deepcopy(self.target_pose))
         wpose = Pose()
-        wpose.position = self.target_pose.position
-        wpose.orientation = self.target_pose.orientation
-        wpose.position.z = self.target_pose.position.z + z_offset
-        waypoints.append(copy.deepcopy(wpose))
+        wpose.position = copy.deepcopy(self.target_pose.position)
+        wpose.orientation = copy.deepcopy(self.target_pose.orientation)
+        wpose.position.z = copy.deepcopy(self.target_pose.position.z + z_offset)
+        waypoints.append(wpose)
+        print waypoints
         # plan
-        (plan, fraction) = self.arm.compute_cartesian_path(
-                             waypoints,   # waypoints to follow
-                             0.01,        # eef_step
-                             0.0)         # jump_threshold
+        plan = RobotTrajectory()
+        while len(plan.joint_trajectory.points) == 0 :
+            (plan, fraction) = self.arm.compute_cartesian_path(
+                waypoints,   # waypoints to follow
+                0.01,        # eef_step
+                0.0)         # jump_threshold
         rospy.loginfo("!! Got a cartesian plan !!")
-        print plan.joint_trajectory.points[-1].time_from_start
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
@@ -215,7 +219,9 @@ class HandringPlanner(object):
         init_pose[6] = 0.0
         self.arm.set_joint_value_target(init_pose)
         # plan
-        plan = self.arm.plan()
+        plan = RobotTrajectory()
+        while len(plan.joint_trajectory.points) == 0 :
+            plan = self.arm.plan()
         rospy.loginfo("!! Got a home plan !!")
         # publish the plan
         pub_msg = HandringPlan()
@@ -240,16 +246,16 @@ class HandringPlanner(object):
         # Calculate goal pose
         self.arm.set_joint_value_target(self.box_pose[num])
         # plan
-        plan = self.arm.plan()
-        self.arm.clear_pose_targets()
-        plan = self.arm.plan()
-        
+        plan = RobotTrajectory()
+        while len(plan.joint_trajectory.points) == 0 :
+            plan = self.arm.plan()
         rospy.loginfo("!! Got a box plan !!")
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
+        self.arm.clear_pose_targets()
 
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -268,8 +274,8 @@ class HandringPlanner(object):
         start_state = JointState()
         start_state.header = Header()
         start_state.header.stamp = rospy.Time.now()
-        start_state.name = rosparam.get_param("/controller_joint_names")
-        #start_state.name = rosparam.get_param("/sia5_controller/joints")
+        #start_state.name = rosparam.get_param("/controller_joint_names")
+        start_state.name = rosparam.get_param("/sia5_controller/joints")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
         get_num_from_pepper = int(message.data)
