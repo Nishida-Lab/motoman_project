@@ -13,6 +13,9 @@ catkin_package(
   CATKIN_DEPENDS actionlib_msgs
   )
 
+add_definitions("-std=c++11")
+
+
 find_package(roslaunch)
 roslaunch_add_file_check(test/sia5_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_launch_test.xml)

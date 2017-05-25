@@ -4,6 +4,8 @@ find_package(catkin REQUIRED
   rospy
   moveit_commander
   tf
+  motoman_demo_msgs
+  sensor_msgs
   )
 
 
