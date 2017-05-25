@@ -38,7 +38,7 @@ class HandringPlanner(object):
     def __init__(self):
         # ========= Subscriber ======== #
         # self.speech_sub_topic = rospy.get_param('~speech')
-        speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
+        self.speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
 
         # ========== Moveit init ========== #
         # moveit_commander init
@@ -81,7 +81,7 @@ class HandringPlanner(object):
         # ======== Object Info ======== #
         self.diff = 0.03     # diff from offset to grasp the object
         self.offset = 0.45    # offset from top of the object
-        box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
+        self.box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
 
         rospy.loginfo("HPP Initialized")
