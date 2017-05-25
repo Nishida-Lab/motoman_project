@@ -36,7 +36,10 @@ class HandringExecutor(object):
 
 
         # ======== Subscriber ======== #
-        plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
+        self.plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
+
+        # Execution Speed
+        self.exe_speed = 1.2
 
         # task queue
         self.task_q = []
