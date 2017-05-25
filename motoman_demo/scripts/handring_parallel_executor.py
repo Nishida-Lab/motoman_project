@@ -31,6 +31,7 @@ class HandringExecutor(object):
 
         # ========== Action lib client init ========== #
         self.client = actionlib.SimpleActionClient('sia5_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        # self.client = actionlib.SimpleActionClient('joint_trajectory_action', FollowJointTrajectoryAction)
         self.client.wait_for_server()
 
 
