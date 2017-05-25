@@ -39,12 +39,6 @@
 		  pkg="motoman_driver" type="motion_streaming_interface" >
 	  <remap from="/joint_states" to="/sia5/joint_states"/>
 	</node>
-	
-	<node if="$(arg version0)" name="joint_trajectory_action"
-		pkg="industrial_robot_client" type="joint_trajectory_action" />
-	<node unless="$(arg version0)" name="joint_trajectory_action"
-		pkg="motoman_driver" type="motoman_driver_joint_trajectory_action" />
-
 
 	<node if="$(arg use_bswap)" name="joint_state" 
 		  pkg="motoman_driver" type="robot_state_bswap" >
