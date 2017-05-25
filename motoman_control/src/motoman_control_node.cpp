@@ -1,4 +1,3 @@
-
 #include <ros/ros.h>
 #include <ros/time.h>
 #include <trajectory_msgs/JointTrajectory.h>
@@ -44,26 +43,24 @@ public:
 
 	goal_ = as_.acceptNewGoal()->trajectory;
 	
-	ros::spinOnce();
-	for(auto i=0; i<goal_.joint_names.size(); i++){
-	  goal_.points[0].positions[i] = js_map_[goal_.joint_names[i]];
+	for(auto i=0; i<goal_.joint_names.size(); i++)
 	  goal_map[goal_.joint_names[i]] = goal_.points[goal_.points.size()-1].positions[i];
-	}
 
 	// Send the Trajectory & Wait the Execution
 	ROS_INFO("Moving...");
 	pub_move_arm_.publish(goal_);
 
 	// Wait the Execution
-	double start_pos_tol = 5e-4;
+	double start_pos_tol = 1e-3;
 	std::map<std::string, double> cur_map;
 	do{
 	  ros::spinOnce();
 	  for(auto itr=goal_map.begin(); itr!=goal_map.end(); itr++)
 		cur_map[itr->first] = js_map_[itr->first];
+	  ros::spinOnce();
 	}
 	while( !isWithinRange(cur_map, goal_map, start_pos_tol) );
-	ros::Duration(0.1).sleep();
+	//	ros::Duration(0.1).sleep();
 	result_.error_code = result_.SUCCESSFUL;
 	as_.setSucceeded(result_);
 	ROS_INFO("Task Done !!");	
@@ -93,8 +90,6 @@ bool SIA5Arm::isWithinRange(std::map<std::string, double> lhs,
   
   if(lhs.size()!=rhs.size())
 	return false;
-  // else if(lhs.size() == rhs.size() == 0)
-  // 	return true;
   
   for(auto lhs_itr=lhs.begin(); lhs_itr!=lhs.end(); lhs_itr++){
 	if(fabs(lhs_itr->second - rhs[lhs_itr->first]) >= threshold)
