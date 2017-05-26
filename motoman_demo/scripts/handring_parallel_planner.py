@@ -21,7 +21,6 @@ from std_msgs.msg import String
 # for Start state
 from moveit_msgs.msg import RobotState
 from moveit_msgs.msg import RobotTrajectory
-from moveit_msgs.msg import DisplayTrajectory
 # for Planned path
 from motoman_demo_msgs.msg import HandringPlan
 from sensor_msgs.msg import JointState
@@ -57,7 +56,6 @@ class HandringPlanner(object):
 
         # ========== Handring Plan publisher ======== #
         self.hp_pub = rospy.Publisher('~handring_plan', HandringPlan, queue_size=6)
-        self.display_hp_pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=6)
         
         # ========= Box Poses ======== #
         self.box_pose = [{}, {}]
@@ -152,11 +150,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -212,12 +205,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
-
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -261,12 +248,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
-
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -300,11 +281,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
         self.arm.clear_pose_targets()
 
         # return goal state from generated trajectory
