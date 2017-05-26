@@ -14,6 +14,10 @@ from control_msgs.msg import FollowJointTrajectoryGoal
 # == Messages ==
 # for execution
 from motoman_demo_msgs.msg import HandringPlan
+from moveit_msgs.msg import RobotState
+from moveit_msgs.msg import DisplayTrajectory
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
 # for D-Hand
 from dhand.msg import Servo_move
 
@@ -38,6 +42,10 @@ class HandringExecutor(object):
         # ======== Subscriber ======== #
         self.plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
 
+        # ======== Publisher ======== #
+        self.display_hp_pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=6)
+        
+        
         # Execution Speed
         self.exe_speed_rate = 2.05
 
@@ -61,19 +69,40 @@ class HandringExecutor(object):
         rospy.sleep(0.3)
         
     def execute(self):
-        rospy.loginfo("Start Task")
+        # Get latest task plan
         plan = self.task_q[0].trajectory
         for points in plan.joint_trajectory.points:
             tfs = points.time_from_start.to_sec()
             tfs /= self.exe_speed_rate
             points.time_from_start = rospy.Duration(tfs)
         self.grasp_[0] = self.task_q[0].grasp
+
+        # Display the Trajectory
+        start_state = JointState()
+        start_state.header = Header()
+        start_state.header.stamp = rospy.Time.now()
+        start_state.name =  plan.joint_trajectory.joint_names[:]
+        start_state.position = plan.joint_trajectory.points[-1].positions[:]
+        moveit_start_state = RobotState()
+        moveit_start_state.joint_state = start_state 
+        pub_display_msg = DisplayTrajectory()
+        pub_display_msg.model_id = "sia5"
+        pub_display_msg.trajectory.append(plan)
+        pub_display_msg.trajectory_start = moveit_start_state
+        self.display_hp_pub.publish(pub_display_msg)
+
+        # Send Action and Wait result
         goal = FollowJointTrajectoryGoal(trajectory=plan.joint_trajectory)
+        rospy.loginfo("Start Task")
         self.client.send_goal(goal)
         self.client.wait_for_result()
+
+        # Grasping
         if self.grasp_[0] != self.grasp_[1]:
             self.executeGrasp(self.grasp_[0])
         self.grasp_[1] = self.grasp_[0]
+
+        # Update the task queue
         self.task_q.pop(0)
         rospy.loginfo("End Task")
 
