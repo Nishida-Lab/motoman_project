@@ -39,7 +39,7 @@ class HandringExecutor(object):
         self.plan_sub = rospy.Subscriber('/handring_parallel_planner/handring_plan', HandringPlan, self.planCallback)
 
         # Execution Speed
-        self.exe_speed = 1.2
+        self.exe_speed_rate = 2.05
 
         # task queue
         self.task_q = []
@@ -63,6 +63,10 @@ class HandringExecutor(object):
     def execute(self):
         rospy.loginfo("Start Task")
         plan = self.task_q[0].trajectory
+        for points in plan.joint_trajectory.points:
+            tfs = points.time_from_start.to_sec()
+            tfs /= self.exe_speed_rate
+            points.time_from_start = rospy.Duration(tfs)
         self.grasp_[0] = self.task_q[0].grasp
         goal = FollowJointTrajectoryGoal(trajectory=plan.joint_trajectory)
         self.client.send_goal(goal)
