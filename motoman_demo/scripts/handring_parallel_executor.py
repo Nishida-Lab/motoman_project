@@ -47,7 +47,7 @@ class HandringExecutor(object):
         
         
         # Execution Speed
-        self.exe_speed_rate = 2.05
+        self.exe_speed_rate = 2.075
 
         # task queue
         self.task_q = []
