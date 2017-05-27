@@ -51,7 +51,7 @@ public:
 	pub_move_arm_.publish(goal_);
 
 	// Wait the Execution
-	double start_pos_tol = 1e-3;
+	double start_pos_tol = 25e-4;
 	std::map<std::string, double> cur_map;
 	do{
 	  ros::spinOnce();
