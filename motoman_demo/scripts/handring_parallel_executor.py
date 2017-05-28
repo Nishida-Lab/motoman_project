@@ -47,7 +47,8 @@ class HandringExecutor(object):
         
         
         # Execution Speed
-        self.exe_speed_rate = 2.075
+        self.exe_speed_rate = rospy.get_param('~exe_speed_rate', 2.075)
+        print self.exe_speed_rate
 
         # task queue
         self.task_q = []
