@@ -21,7 +21,6 @@ from std_msgs.msg import String
 # for Start state
 from moveit_msgs.msg import RobotState
 from moveit_msgs.msg import RobotTrajectory
-from moveit_msgs.msg import DisplayTrajectory
 # for Planned path
 from motoman_demo_msgs.msg import HandringPlan
 from sensor_msgs.msg import JointState
@@ -38,7 +37,7 @@ class HandringPlanner(object):
     def __init__(self):
         # ========= Subscriber ======== #
         # self.speech_sub_topic = rospy.get_param('~speech')
-        speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
+        self.speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
 
         # ========== Moveit init ========== #
         # moveit_commander init
@@ -57,7 +56,6 @@ class HandringPlanner(object):
 
         # ========== Handring Plan publisher ======== #
         self.hp_pub = rospy.Publisher('~handring_plan', HandringPlan, queue_size=6)
-        self.display_hp_pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=6)
         
         # ========= Box Poses ======== #
         self.box_pose = [{}, {}]
@@ -79,9 +77,9 @@ class HandringPlanner(object):
         self.box_pose[1]["joint_t"] = 0.0
 
         # ======== Object Info ======== #
-        self.diff = 0.03     # diff from offset to grasp the object
-        self.offset = 0.45    # offset from top of the object
-        box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
+        self.diff = rospy.get_param('~diff_from_object', 0.03)     # diff from offset to grasp the object
+        self.offset = rospy.get_param('~offset', 0.45)    # offset from top of the object
+        self.box_sub = rospy.Subscriber('/clustering_result', BoundingBoxArray, self.bbArrayCallback)
         self.initial_box_num = 0
 
         rospy.loginfo("HPP Initialized")
@@ -152,11 +150,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -212,12 +205,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
-
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -261,12 +248,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
-
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
         goal_state = JointState()
@@ -300,11 +281,6 @@ class HandringPlanner(object):
         pub_msg.grasp = grasp
         pub_msg.trajectory = plan
         self.hp_pub.publish(pub_msg)
-        pub_display_msg = DisplayTrajectory()
-        pub_display_msg.model_id = "sia5"
-        pub_display_msg.trajectory.append(plan)
-        pub_display_msg.trajectory_start = moveit_start_state
-        self.display_hp_pub.publish(pub_display_msg)
         self.arm.clear_pose_targets()
 
         # return goal state from generated trajectory
@@ -324,8 +300,8 @@ class HandringPlanner(object):
         start_state = JointState()
         start_state.header = Header()
         start_state.header.stamp = rospy.Time.now()
-        start_state.name = rosparam.get_param("/controller_joint_names")
-        #start_state.name = rosparam.get_param("/sia5_controller/joints")
+        # start_state.name = rosparam.get_param("/controller_joint_names")
+        start_state.name = rosparam.get_param("/sia5_controller/joints")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
         get_num_from_pepper = int(message.data)
