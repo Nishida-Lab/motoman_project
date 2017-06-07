@@ -300,8 +300,8 @@ class HandringPlanner(object):
         start_state = JointState()
         start_state.header = Header()
         start_state.header.stamp = rospy.Time.now()
-        # start_state.name = rosparam.get_param("/controller_joint_names")
-        start_state.name = rosparam.get_param("/sia5_controller/joints")
+        start_state.name = rosparam.get_param("/controller_joint_names")
+        # start_state.name = rosparam.get_param("/sia5_controller/joints")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
         get_num_from_pepper = int(message.data)
