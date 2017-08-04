@@ -6,27 +6,6 @@
   <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_with_dhand.urdf.xacro"/>
 
   <!-- add Kinect V2 -->
-  <!-- Kinect_first -->
-  <!-- Link -->
-  <xacro:kinect2_link_box_v0 name="kinect_first_link"/>
-  <link name="kinect_first_rgb_optical_frame"/>
-
-  <!-- Joint -->
-  <joint name="joint_kinect_first" type="fixed">
-    <origin xyz="0.8794 -0.6445 0.5804" rpy="-0.035 0.3421 2.0509" />
-    <parent link="base_link"/>
-    <child link="kinect_first_link"/>
-  </joint>
-
-  <joint name="joint_rgb_kinect_first" type="fixed">
-    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
-    <parent link="kinect_first_link"/>
-    <child link="kinect_first_rgb_optical_frame"/>
-  </joint>
-
-  <!-- Gazebo -->
-  <xacro:kinect_gazebo name="kinect_first"/>
-
   <!-- Kinect_second -->
   <!-- Link -->
   <xacro:kinect2_link_box_v0 name="kinect_second_link"/>
@@ -34,7 +13,7 @@
 
   <!-- Joint -->
   <joint name="joint_kinect_second" type="fixed">
-	<origin xyz="1.448 0.3215 0.3881" rpy="0.0666 0.381 -2.898" />
+	<origin xyz="1.4828 0.0827 0.3932" rpy="-0.0031 0.4431 3.14" />
     <parent link="base_link"/>
     <child link="kinect_second_link"/>
   </joint>
@@ -48,4 +27,28 @@
   <!-- Gazebo -->
   <xacro:kinect_gazebo name="kinect_second"/>
 
+  <!-- Kinect_hand -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_hand_link"/>
+  <link name="kinect_hand_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_kinect_hand" type="fixed">
+	<origin xyz="0.09 0 -0.035" rpy="${M_PI} 0 0" />
+    <parent link="link_t"/>
+    <child link="kinect_hand_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_hand" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_hand_link"/>
+    <child link="kinect_hand_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_hand"/>
+
+
+
+  
 </robot>
