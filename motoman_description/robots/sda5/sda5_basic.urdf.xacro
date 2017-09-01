@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<robot name="sda5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/urdf/common.xacro" />
+  <xacro:include filename="$(find motoman_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sda5/body.urdf.xacro" />
+
+  <!-- Hard ware limits -->
+  <!-- Range limits -->
+  <xacro:property name="torso_joint_upper_limit" value="${170*M_PI/180}"/>
+  <xacro:property name="torso_joint_lower_limit" value="-${torso_joint_upper_limit}"/>
+  <xacro:property name="joint_s_upper_limit" value="${270*M_PI/180}"/>
+  <xacro:property name="joint_s_lower_limit" value="${-90*M_PI/180}"/>
+  <xacro:property name="joint_l_upper_limit" value="${110*M_PI/180*0.95}"/>
+  <xacro:property name="joint_l_lower_limit" value="-${joint_l_upper_limit}"/>
+  <xacro:property name="joint_e_upper_limit" value="${170*M_PI/180}"/>
+  <xacro:property name="joint_e_lower_limit" value="-${joint_e_upper_limit}"/>
+  <xacro:property name="joint_u_upper_limit" value="${115*M_PI/180}"/>
+  <xacro:property name="joint_u_lower_limit" value="${-90*M_PI/180}"/>
+  <xacro:property name="joint_r_upper_limit" value="${180*0.95*M_PI/180.0}"/>
+  <xacro:property name="joint_r_lower_limit" value="-${joint_r_upper_limit}"/>
+  <xacro:property name="joint_b_upper_limit" value="${110*M_PI/180}"/>
+  <xacro:property name="joint_b_lower_limit" value="-${joint_b_upper_limit}"/>
+  <xacro:property name="joint_t_upper_limit" value="${180*0.95*M_PI/180}"/>
+  <xacro:property name="joint_t_lower_limit" value="-${joint_t_upper_limit}"/>
+  <!-- Velocity limits -->
+  <xacro:property name="torso_joint_velocity_limit" value="3.14"/>
+  <xacro:property name="joint_s_velocity_limit" value="3.49"/>
+  <xacro:property name="joint_l_velocity_limit" value="3.49"/>
+  <xacro:property name="joint_e_velocity_limit" value="3.49"/>
+  <xacro:property name="joint_u_velocity_limit" value="3.49"/>
+  <xacro:property name="joint_r_velocity_limit" value="3.49"/>
+  <xacro:property name="joint_b_velocity_limit" value="4.01"/>
+  <xacro:property name="joint_t_velocity_limit" value="6.11"/>
+
+  <!-- Add Macro -->
+  <xacro:macro name="root_link_v0" params="name *joint_origin">
+    <link name="${name}"/>
+    <xacro:base_link_v0 parent="${name}">
+      <insert_block name="joint_origin"/>
+    </xacro:base_link_v0>
+  </xacro:macro>
+
+  <!-- Add Link & Joint -->
+  <!-- TORSO Link -->
+  <xacro:torso_link_v0 parent="base_link">
+    <origin xyz="0.045 0 0.6646"/>
+    <limit effort="30.0" lower="${torso_joint_lower_limit}"
+           upper="${torso_joint_upper_limit}" velocity="${torso_joint_velocity_limit}"/>
+  </xacro:torso_link_v0>
+
+  <!-- Link Left Parts -->
+  <!-- Link LS -->
+  <xacro:link_v2 prefix="l" suffix="s" parent="torso_link" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0.15 0.11225 0.2293" rpy="${-M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_s_lower_limit}"
+           upper="${joint_s_upper_limit}" velocity="${joint_s_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LL -->
+  <xacro:link_v2 prefix="l" suffix="l" parent="link_l_s" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 0.03575 0.13" rpy="${-M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_l_lower_limit}"
+           upper="${joint_l_upper_limit}" velocity="${joint_l_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LE -->
+  <xacro:link_v2 prefix="l" suffix="e" parent="link_l_l" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 -0.18225 -0.0365" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_e_lower_limit}"
+           upper="${joint_e_upper_limit}" velocity="${joint_e_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LU -->
+  <xacro:link_v2 prefix="l" suffix="u" parent="link_l_e" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0.085 -0.02928 0.087" rpy="0 ${M_PI/2} ${-M_PI/2}"/>
+    <limit effort="30.0" lower="${joint_u_lower_limit}"
+           upper="${joint_u_upper_limit}" velocity="${joint_u_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LR -->
+  <xacro:link_v2 prefix="l" suffix="r" parent="link_l_u" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="-0.06 0.14428 -0.03" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_r_lower_limit}"
+           upper="${joint_r_upper_limit}" velocity="${joint_r_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LB -->
+  <xacro:link_v2 prefix="l" suffix="b" parent="link_l_r" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 -0.0392 -0.125" rpy="${-M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_b_lower_limit}"
+           upper="${joint_b_upper_limit}" velocity="${joint_b_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link LT -->
+  <xacro:link_v2 prefix="l" suffix="t" parent="link_l_b" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 0.1365 0.0392" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_t_lower_limit}"
+           upper="${joint_t_upper_limit}" velocity="${joint_t_velocity_limit}"/>
+  </xacro:link_v2>
+
+
+  <!-- Link Right Parts -->
+  <!-- Link RS -->
+  <xacro:link_v2 prefix="r" suffix="s" parent="torso_link" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0.15 -0.11225 0.2293" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_s_lower_limit}"
+           upper="${joint_s_upper_limit}" velocity="${joint_s_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RL -->
+  <xacro:link_v2 prefix="r" suffix="l" parent="link_r_s" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 0.03575 0.13" rpy="${-M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_l_lower_limit}"
+           upper="${joint_l_upper_limit}" velocity="${joint_l_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RE -->
+  <xacro:link_v2 prefix="r" suffix="e" parent="link_r_l" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 -0.18225 -0.0365" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_e_lower_limit}"
+           upper="${joint_e_upper_limit}" velocity="${joint_e_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RU -->
+  <xacro:link_v2 prefix="r" suffix="u" parent="link_r_e" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0.085 -0.02928 0.087" rpy="0 ${M_PI/2} ${-M_PI/2}"/>
+    <limit effort="30.0" lower="${joint_u_lower_limit}"
+           upper="${joint_u_upper_limit}" velocity="${joint_u_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RR -->
+  <xacro:link_v2 prefix="r" suffix="r" parent="link_r_u" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="-0.06 0.14428 -0.03" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_r_lower_limit}"
+           upper="${joint_r_upper_limit}" velocity="${joint_r_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RB -->
+  <xacro:link_v2 prefix="r" suffix="b" parent="link_r_r" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 -0.0392 -0.125" rpy="${-M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_b_lower_limit}"
+           upper="${joint_b_upper_limit}" velocity="${joint_b_velocity_limit}"/>
+  </xacro:link_v2>
+  <!-- Link RT -->
+  <xacro:link_v2 prefix="r" suffix="t" parent="link_r_b" mass="8.36956521739">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.1285284" ixy="0" ixz="0"
+             iyy="0.127697251956" iyz="0" izz="0.0186623672464"/>
+    <origin xyz="0 0.1365 0.0392" rpy="${M_PI/2} 0 0"/>
+    <limit effort="30.0" lower="${joint_t_lower_limit}"
+           upper="${joint_t_upper_limit}" velocity="${joint_t_velocity_limit}"/>
+  </xacro:link_v2>
+  
+  <!-- Add Transmission -->
+  <xacro:torso_trans_v0 reduction="300"/>  
+  <xacro:trans_v0 prefix="l" suffix="s" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="l" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="e" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="u" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="r" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="b" reduction="300"/>
+  <xacro:trans_v0 prefix="l" suffix="t" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="s" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="l" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="e" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="u" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="r" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="b" reduction="300"/>
+  <xacro:trans_v0 prefix="r" suffix="t" reduction="300"/>
+  
+  <!-- Add Gazebo -->
+  <xacro:torso_gazebo_v1/>
+  <xacro:gazebo_v1 prefix="l" suffix="s"/>
+  <xacro:gazebo_v1 prefix="l" suffix="l"/>
+  <xacro:gazebo_v1 prefix="l" suffix="e"/>
+  <xacro:gazebo_v1 prefix="l" suffix="u"/>
+  <xacro:gazebo_v1 prefix="l" suffix="r"/>
+  <xacro:gazebo_v1 prefix="l" suffix="b"/>
+  <xacro:gazebo_v1 prefix="l" suffix="t"/>
+  <xacro:gazebo_v1 prefix="r" suffix="s"/>
+  <xacro:gazebo_v1 prefix="r" suffix="l"/>
+  <xacro:gazebo_v1 prefix="r" suffix="e"/>
+  <xacro:gazebo_v1 prefix="r" suffix="u"/>
+  <xacro:gazebo_v1 prefix="r" suffix="r"/>
+  <xacro:gazebo_v1 prefix="r" suffix="b"/>
+  <xacro:gazebo_v1 prefix="r" suffix="t"/>
+  
+  
+  <!-- Add Gazebo plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+</robot>
