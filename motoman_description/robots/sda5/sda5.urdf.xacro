@@ -4,7 +4,7 @@
   <xacro:include filename="$(find motoman_description)/robots/sda5/sda5_basic.urdf.xacro" />
 
   <xacro:root_link_v0 name="world">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.005" rpy="0 0 0"/>
   </xacro:root_link_v0>
 
 </robot>
