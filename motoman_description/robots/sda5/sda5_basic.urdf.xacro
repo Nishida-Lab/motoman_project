@@ -11,17 +11,17 @@
   <xacro:property name="torso_joint_lower_limit" value="-${torso_joint_upper_limit}"/>
   <xacro:property name="joint_s_upper_limit" value="${270*M_PI/180}"/>
   <xacro:property name="joint_s_lower_limit" value="${-90*M_PI/180}"/>
-  <xacro:property name="joint_l_upper_limit" value="${110*M_PI/180*0.95}"/>
+  <xacro:property name="joint_l_upper_limit" value="${110*M_PI/180}"/>
   <xacro:property name="joint_l_lower_limit" value="-${joint_l_upper_limit}"/>
   <xacro:property name="joint_e_upper_limit" value="${170*M_PI/180}"/>
   <xacro:property name="joint_e_lower_limit" value="-${joint_e_upper_limit}"/>
   <xacro:property name="joint_u_upper_limit" value="${115*M_PI/180}"/>
   <xacro:property name="joint_u_lower_limit" value="${-90*M_PI/180}"/>
-  <xacro:property name="joint_r_upper_limit" value="${180*0.95*M_PI/180.0}"/>
+  <xacro:property name="joint_r_upper_limit" value="${180*M_PI/180}"/>
   <xacro:property name="joint_r_lower_limit" value="-${joint_r_upper_limit}"/>
   <xacro:property name="joint_b_upper_limit" value="${110*M_PI/180}"/>
   <xacro:property name="joint_b_lower_limit" value="-${joint_b_upper_limit}"/>
-  <xacro:property name="joint_t_upper_limit" value="${180*0.95*M_PI/180}"/>
+  <xacro:property name="joint_t_upper_limit" value="${180*M_PI/180}"/>
   <xacro:property name="joint_t_lower_limit" value="-${joint_t_upper_limit}"/>
   <!-- Velocity limits -->
   <xacro:property name="torso_joint_velocity_limit" value="3.14"/>
