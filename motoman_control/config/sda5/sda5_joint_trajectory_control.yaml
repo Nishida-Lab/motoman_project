@@ -1,0 +1,55 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+  
+sda5_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - torso_joint
+    - joint_l_s
+    - joint_l_l
+    - joint_l_e
+    - joint_l_u
+    - joint_l_r
+    - joint_l_b
+    - joint_l_t
+    - joint_r_s
+    - joint_r_l
+    - joint_r_e
+    - joint_r_u
+    - joint_r_r
+    - joint_r_b
+    - joint_r_t
+  constraints:
+    goal_time: &goal_time_constraint 2.0
+    torso_joint:
+      goal: &goal_pos_constraint 0.3
+    joint_l_s:
+      goal: *goal_pos_constraint
+    joint_l_l:
+      goal: *goal_pos_constraint
+    joint_l_e:
+      goal: *goal_pos_constraint
+    joint_l_u:
+      goal: *goal_pos_constraint
+    joint_l_r:
+      goal: *goal_pos_constraint
+    joint_l_b:
+      goal: *goal_pos_constraint
+    joint_l_t:
+      goal: *goal_pos_constraint
+    joint_r_s:
+      goal: *goal_pos_constraint
+    joint_r_l:
+      goal: *goal_pos_constraint
+    joint_r_e:
+      goal: *goal_pos_constraint
+    joint_r_u:
+      goal: *goal_pos_constraint
+    joint_r_r:
+      goal: *goal_pos_constraint
+    joint_r_b:
+      goal: *goal_pos_constraint
+    joint_r_t:
+      goal: *goal_pos_constraint
