@@ -18,9 +18,9 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="9.23913043478"/>
-        <inertia ixx="0.0378685009058" ixy="0" ixz="0"
-                 iyy="0.0465867830616" iyz="0" izz="0.0514065294384"/>
+        <mass value="40.0"/>
+        <inertia ixx="5.28" ixy="0.00" ixz="0.47"
+                 iyy="5.30" iyz="0.00" izz="0.28"/>
       </inertial>
     </link>
 
@@ -46,9 +46,9 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="9.23913043478"/>
-        <inertia ixx="0.0378685009058" ixy="0" ixz="0"
-                 iyy="0.0465867830616" iyz="0" izz="0.0514065294384"/>
+        <mass value="30.0"/>
+        <inertia ixx="1.12" ixy="0.00" ixz="0.58"
+                 iyy="1.47" iyz="0.00" izz="0.49"/>
       </inertial>
     </link>
 
@@ -76,7 +76,7 @@
                                       suffix
                                       parent
                                       mass
-                                      *inertial_origin
+                                      *inertia_origin
                                       *inertia
                                       *joint_origin
                                       *joint_limit">
@@ -92,7 +92,7 @@
         </geometry>
       </collision>
       <inertial>
-        <insert_block name="inertial_origin"/>
+        <insert_block name="inertia_origin"/>
         <mass value="${mass}"/>
         <insert_block name="inertia"/>
       </inertial>
