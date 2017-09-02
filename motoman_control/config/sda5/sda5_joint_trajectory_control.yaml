@@ -1,0 +1,39 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+  
+sda5_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - torso_joint
+    - joint_l_s
+    - joint_l_l
+    - joint_l_e
+    - joint_l_u
+    - joint_l_r
+    - joint_l_b
+    - joint_l_t
+    - joint_r_s
+    - joint_r_l
+    - joint_r_e
+    - joint_r_u
+    - joint_r_r
+    - joint_r_b
+    - joint_r_t
+  gains:
+    torso_joint: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_s: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_l: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_e: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_u: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_r: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_b: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_t: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_s: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_l: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_e: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_u: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_r: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_b: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_t: {p: 50, i: 200, d: 0, i_clamp: 0}

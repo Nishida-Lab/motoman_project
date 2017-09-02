@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="sda5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/robots/sda5/sda5_basic.urdf.xacro" />
+
+  <xacro:root_link_v0 name="world">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:root_link_v0>
+
+</robot>
