@@ -21,35 +21,19 @@ sda5_controller:
     - joint_r_r
     - joint_r_b
     - joint_r_t
-  constraints:
-    goal_time: &goal_time_constraint 2.0
-    torso_joint:
-      goal: &goal_pos_constraint 0.3
-    joint_l_s:
-      goal: *goal_pos_constraint
-    joint_l_l:
-      goal: *goal_pos_constraint
-    joint_l_e:
-      goal: *goal_pos_constraint
-    joint_l_u:
-      goal: *goal_pos_constraint
-    joint_l_r:
-      goal: *goal_pos_constraint
-    joint_l_b:
-      goal: *goal_pos_constraint
-    joint_l_t:
-      goal: *goal_pos_constraint
-    joint_r_s:
-      goal: *goal_pos_constraint
-    joint_r_l:
-      goal: *goal_pos_constraint
-    joint_r_e:
-      goal: *goal_pos_constraint
-    joint_r_u:
-      goal: *goal_pos_constraint
-    joint_r_r:
-      goal: *goal_pos_constraint
-    joint_r_b:
-      goal: *goal_pos_constraint
-    joint_r_t:
-      goal: *goal_pos_constraint
+  gains:
+    torso_joint: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_s: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_l: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_e: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_u: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_r: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_b: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_l_t: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_s: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_l: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_e: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_u: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_r: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_b: {p: 50, i: 200, d: 0, i_clamp: 0}
+    joint_r_t: {p: 50, i: 200, d: 0, i_clamp: 0}
