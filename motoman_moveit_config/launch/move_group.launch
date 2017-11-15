@@ -1,0 +1,115 @@
+<launch>
+
+  <!-- move_group settings -->
+  <arg name="allow_trajectory_execution" default="true"/>
+  <arg name="fake_execution" default="false"/>
+  <arg name="max_safe_path_cost" default="1"/>
+  <arg name="jiggle_fraction" default="0.05" />
+  <arg name="publish_monitored_planning_scene" default="true"/>
+  <!-- From here, there are original arguments -->
+  <arg name="load_robot_description" default="true"/>
+  <arg name="urdf_model" default="$(find motoman_description)/robots/sia5/sia5.urdf.xacro"/>
+  <arg name="srdf_model" default="$(find motoman_moveit)/config/sia5/sia5.srdf"/>
+  <arg name="joint_limits_config" default="$(find motoman_moveit)/config/sia5/joint_limits.yaml"/>
+  <arg name="kinematics_config" default="$(find motoman_moveit)/config/sia5/kinematics.yaml"/>
+  <arg name="controllers_config" default="$(find motoman_moveit)/config/sia5/controllers.yaml"/>
+  <arg name="moveit_controller_manager" default="sia5"/>
+  <arg name="use_depth_sensor" default="false"/>
+  <arg name="sensor_config" default="$(find motoman_moveit)/config/sia5_with_kinectv2/kinect2.yaml"/>
+  <arg name="octomap_frame_name" default="kinect2_link"/>
+  <arg name="octomap_resolution_value" default="0.05"/>
+  <arg name="sensor_max_range" default="4.5"/>
+  <arg name="planning_config" default="ompl"/>
+  <arg name="ompl_config" default="$(find motoman_moveit)/config/sia5/ompl_planning.yaml"/>
+  <arg name="use_ompl" default="true"/>
+  <arg name="use_stomp" default="false"/>
+
+  <!-- Call planning context -->
+  <include file="$(find motoman_moveit_config)/launch/planning_context.launch" >
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+    <arg name="urdf_model" value="$(arg urdf_model)"/>
+    <arg name="srdf_model" value="$(arg srdf_model)"/>
+    <arg name="joint_limits_config" value="$(arg joint_limits_config)"/>
+    <arg name="kinematics_config" value="$(arg kinematics_config)"/>
+  </include>
+
+  <!-- GDB Debug Option -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg if="$(arg debug)" name="launch_prefix"
+     value="gdb -x $(find motoman_moveit_config)/launch/gdb_settings.gdb --ex run --args" />
+
+  <!-- Verbose Mode Option -->
+  <arg name="info" default="$(arg debug)" />
+  <arg unless="$(arg info)" name="command_args" value="" />
+  <arg if="$(arg info)" name="command_args" value="--debug" />
+
+  <!-- Planning Functionality -->
+  <include ns="move_group" file="$(find motoman_moveit_config)/launch/planning_pipeline.launch.xml">
+    <arg name="pipeline" value="$(arg planning_config)" />
+    <arg name="ompl_config" value="$(arg ompl_config)" if="$(arg use_ompl)" />
+    <arg name="use_ompl" value="$(arg use_ompl)"/>
+  </include>
+
+  <!-- Trajectory Execution Functionality -->
+  <include ns="move_group" file="$(find motoman_moveit_config)/launch/trajectory_execution.launch.xml" if="$(arg allow_trajectory_execution)">
+    <arg name="moveit_manage_controllers" value="true" />
+    <arg name="moveit_controller_manager" value="$(arg moveit_controller_manager)" unless="$(arg fake_execution)"/>
+    <arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
+    <arg name="controllers_config" value="$(arg controllers_config)"/>
+  </include>
+
+  <!-- Sensors Functionality -->
+  <include ns="move_group" file="$(find motoman_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg use_depth_sensor)">
+    <arg name="moveit_sensor_manager" value="$(arg moveit_controller_manager)" />
+    <arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
+    <arg name="sensor_config" value="$(arg sensor_config)"/>
+    <arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+    <arg name="octomap_resolution_value" value="$(arg octomap_resolution_value)"/>
+    <arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
+    <arg name="moveit_sensor_manager" value="$(arg moveit_sensor_manager)"/>
+  </include>
+
+  <!-- Start the actual move_group node/action server -->
+  <node name="move_group" launch-prefix="$(arg launch_prefix)" pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="$(arg command_args)">
+    <!-- Set the display variable, in case OpenGL code is used internally -->
+    <env name="DISPLAY" value="$(optenv DISPLAY :0)" />
+
+    <param name="allow_trajectory_execution" value="$(arg allow_trajectory_execution)"/>
+    <param name="max_safe_path_cost" value="$(arg max_safe_path_cost)"/>
+    <param name="jiggle_fraction" value="$(arg jiggle_fraction)" />
+    <param name="collision_detector" value="IndustrialFCL" if="$(arg use_stomp)" />
+
+    <!-- MoveGroup capabilities to load -->
+    <param if="$(arg use_depth_sensor)" name="capabilities"
+       value="move_group/MoveGroupCartesianPathService
+              move_group/MoveGroupExecuteService
+              move_group/MoveGroupKinematicsService
+              move_group/MoveGroupMoveAction
+              move_group/MoveGroupPickPlaceAction
+              move_group/MoveGroupPlanService
+              move_group/MoveGroupQueryPlannersService
+              move_group/MoveGroupStateValidationService
+              move_group/MoveGroupGetPlanningSceneService
+              " />
+    <param unless="$(arg use_depth_sensor)" name="capabilities"
+       value="move_group/MoveGroupCartesianPathService
+              move_group/MoveGroupExecuteService
+              move_group/MoveGroupKinematicsService
+              move_group/MoveGroupMoveAction
+              move_group/MoveGroupPickPlaceAction
+              move_group/MoveGroupPlanService
+              move_group/MoveGroupQueryPlannersService
+              move_group/MoveGroupStateValidationService
+              move_group/MoveGroupGetPlanningSceneService
+              move_group/ClearOctomapService
+              " />
+
+    <!-- Publish the planning scene of the physical robot so that rviz plugin can know actual robot -->
+    <param name="planning_scene_monitor/publish_planning_scene" value="$(arg publish_monitored_planning_scene)" />
+    <param name="planning_scene_monitor/publish_geometry_updates" value="$(arg publish_monitored_planning_scene)" />
+    <param name="planning_scene_monitor/publish_state_updates" value="$(arg publish_monitored_planning_scene)" />
+    <param name="planning_scene_monitor/publish_transforms_updates" value="$(arg publish_monitored_planning_scene)" />
+  </node>
+
+</launch>

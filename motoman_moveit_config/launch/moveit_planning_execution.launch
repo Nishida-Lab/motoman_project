@@ -1,0 +1,57 @@
+<launch>
+
+  <!-- Arguments for move_group -->
+  <arg name="load_robot_description" default="true"/>
+  <arg name="urdf_model" default="$(find motoman_description)/robots/sia5/urdf/sia5.urdf"/>
+  <arg name="srdf_model" default="$(find motoman_moveit)/config/sia5/sia5.srdf"/>
+  <arg name="joint_limits_config" default="$(find motoman_moveit)/config/sia5/joint_limits.yaml"/>
+  <arg name="kinematics_config" default="$(find motoman_moveit)/config/sia5/kinematics.yaml"/>
+  <arg name="controllers_config" default="$(find motoman_moveit)/config/sia5/controllers.yaml"/>
+  <arg name="moveit_controller_manager" default="sia5"/>
+  <arg name="use_depth_sensor" default="false"/>
+  <arg name="sensor_config" default="$(find motoman_moveit)/config/sia5_with_kinectv2/kinect2.yaml"/>
+  <arg name="octomap_frame_name" default="kinect2_link"/>
+  <arg name="octomap_resolution_value" default="0.05"/>
+  <arg name="sensor_max_range" default="4.5"/>
+  <arg name="planning_config" default="ompl"/>
+  <arg name="rviz_config"/>
+  <arg name="ompl_config" default="$(find motoman_moveit_config)/config/ompl_planning.yaml"/>
+  <arg name="use_ompl" default="false"/>
+  <arg name="use_stomp" default="false"/>
+
+
+  <!-- The planning and execution components of MoveIt! configured to -->
+  <!-- publish the current configuration of the robot (simulated or real) -->
+  <!-- and the current state of the world as seen by the planner -->
+  <include file="$(find motoman_moveit_config)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+    <arg name="urdf_model" value="$(arg urdf_model)"/>
+    <arg name="srdf_model" value="$(arg srdf_model)"/>
+    <arg name="joint_limits_config" value="$(arg joint_limits_config)"/>
+    <arg name="kinematics_config" value="$(arg kinematics_config)"/>
+    <arg name="controllers_config" value="$(arg controllers_config)"/>
+    <arg name="moveit_controller_manager" default="$(arg moveit_controller_manager)"/>
+    <arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
+    <arg name="sensor_config" value="$(arg sensor_config)"/>
+    <arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+    <arg name="octomap_resolution_value" value="$(arg octomap_resolution_value)"/>
+    <arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
+    <arg name="ompl_config" value="$(arg ompl_config)"/>
+    <arg name="planning_config" value="$(arg planning_config)"/>
+    <arg name="use_ompl" value="$(arg use_ompl)"/>
+    <arg name="use_stomp" value="$(arg use_stomp)"/>
+  </include>
+
+  <!-- The visualization component of MoveIt! -->
+  <include file="$(find motoman_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+    <arg name="rviz_config" value="$(arg rviz_config)"/>
+    <arg name="kinematics_config" value="$(arg kinematics_config)"/>
+  </include>
+
+  <!-- Run the DB server -->
+  <include file="$(find motoman_moveit_config)/launch/warehouse.launch"/>
+</launch>
+
+
