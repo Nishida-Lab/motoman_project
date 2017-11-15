@@ -1,0 +1,36 @@
+controller_list:
+  - name: fake_r_arm_controller
+    joints:
+      - joint_r_s
+      - joint_r_l
+      - joint_r_e
+      - joint_r_u
+      - joint_r_r
+      - joint_r_b
+      - joint_r_t
+  - name: fake_l_arm_controller
+    joints:
+      - joint_l_s
+      - joint_l_l
+      - joint_l_e
+      - joint_l_u
+      - joint_l_r
+      - joint_l_b
+      - joint_l_t
+  # - name: fake_arms_controller
+  #   joints:
+  #     - torso_joint
+  #     - joint_l_s
+  #     - joint_l_l
+  #     - joint_l_e
+  #     - joint_l_u
+  #     - joint_l_r
+  #     - joint_l_b
+  #     - joint_l_t
+  #     - joint_r_s
+  #     - joint_r_l
+  #     - joint_r_e
+  #     - joint_r_u
+  #     - joint_r_r
+  #     - joint_r_b
+  #     - joint_r_t

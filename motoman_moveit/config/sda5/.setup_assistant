@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: motoman_description
+    relative_path: robots/sda5/sda5.urdf
+  SRDF:
+    relative_path: config/sda5.srdf
+  CONFIG:
+    author_name: RyodoTanaka
+    author_email: groadpg@gmail.com
+    generated_timestamp: 1510715241
