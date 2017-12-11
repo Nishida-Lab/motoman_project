@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find motoman_description)/urdf/sda5/body.transmission.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sda5/body.gazebo.xacro"/>
+
+  <xacro:macro name="base_link_v0" params="parent
+                                           *joint_origin">
+    <link name="base_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/visual/base_link/base_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/collision/base_link.STL"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="40.0"/>
+        <inertia ixx="5.28" ixy="0.00" ixz="0.47"
+                 iyy="5.30" iyz="0.00" izz="0.28"/>
+      </inertial>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+      <insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="torso_link_v0" params="parent
+                                            *joint_origin
+                                            *joint_limit">
+    <link name="torso_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/visual/torso_link/torso_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/collision/torso_link.STL"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="30.0"/>
+        <inertia ixx="1.12" ixy="0.00" ixz="0.58"
+                 iyy="1.47" iyz="0.00" izz="0.49"/>
+      </inertial>
+    </link>
+
+    <joint name="torso_joint" type="revolute">
+      <insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="torso_link"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7" friction="0.7"/>
+      <insert_block name="joint_limit"/>
+    </joint>
+  </xacro:macro>
+  
+  <xacro:macro name="link_tool_v0" params="parent
+                                           *joint_origin">
+    <link name="tool_link"/>
+    <joint name="tool_joint" type="fixed">
+      <insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="tool_link"/>
+    </joint>
+  </xacro:macro>
+  
+  <xacro:macro name="link_v2" params="prefix
+                                      suffix
+                                      parent
+                                      mass
+                                      *inertia_origin
+                                      *inertia
+                                      *joint_origin
+                                      *joint_limit">
+    <link name="link_${prefix}_${suffix}">
+      <visual>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/visual/link_${suffix}/link_${suffix}.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://motoman_description/meshes/sda5/collision/link_${suffix}.STL"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <insert_block name="inertia_origin"/>
+        <mass value="${mass}"/>
+        <insert_block name="inertia"/>
+      </inertial>
+    </link>
+
+    <joint name="joint_${prefix}_${suffix}" type="revolute">
+      <insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="link_${prefix}_${suffix}"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7" friction="0.7"/>
+      <insert_block name="joint_limit"/>
+    </joint>
+  </xacro:macro>
+</robot>

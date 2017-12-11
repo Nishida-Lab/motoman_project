@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:macro name="trans_v0" params="prefix
+                                       suffix
+                                       reduction">
+    <transmission name="trans_${prefix}_${suffix}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_${prefix}_${suffix}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="actuator_${prefix}_${suffix}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>${reduction}</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:macro name="torso_trans_v0" params="reduction">
+    <transmission name="trans_torso">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="torso_joint">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="torso_actuator">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>${reduction}</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+
+
+  
+</robot>

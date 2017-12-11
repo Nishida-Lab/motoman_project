@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="gazebo_v1" params="prefix suffix">
+    <gazebo reference="link_${prefix}_${suffix}">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="torso_gazebo_v1">
+    <gazebo reference="torso_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+  </xacro:macro>
+
+</robot>
