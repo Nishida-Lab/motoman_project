@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="tf" type="static_transform_publisher" name="exactly_kinect_linker" args="0.1 0.1 0 0 0 0 /kinect_first_link /exactly_kinect_link 100"/>
+  <node pkg="motoman_calib" type="motoman_calib" name="motoman_calib" output="screen"/>
+</launch>
