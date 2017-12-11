@@ -166,7 +166,9 @@ public:
     mesh_pointcloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/mesh_cloud", 1);
     shifted_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/shifted_cloud",1);
     corrected_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/corrected_cloud",1);
-    kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_first/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
+    // kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_first/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
+    // kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_center/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
+    kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_right/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
 	frame_timer_ = nh_.createTimer(ros::Duration(0.01), boost::bind(&MotomanMeshCloud::frameCallback, this, _1));
   }
   ~MotomanMeshCloud()
@@ -230,16 +232,25 @@ public:
                pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered)
   {
     pcl::PassThrough<pcl::PointXYZ> passthrough_filter;
-	passthrough_filter.setInputCloud(cloud);
+	// axis to x
+    passthrough_filter.setInputCloud(cloud);
   	passthrough_filter.setFilterFieldName("x");
-    passthrough_filter.setFilterLimits(-1.0, -0.1);
+    passthrough_filter.setFilterLimits(-1.0, -0.5);
   	//passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
+    // // axis to y
+    // passthrough_filter.setInputCloud(cloud);
+  	// passthrough_filter.setFilterFieldName("y");
+    // passthrough_filter.setFilterLimits(-0.1, 0.1);
+  	// //passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
+    // passthrough_filter.setFilterLimitsNegative (true);
+    // passthrough_filter.filter (*cloud);
+    //axis to z
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("z");
-    //passthrough_filter.setFilterLimits(-1.0, 0.1); //initial position
-	passthrough_filter.setFilterLimits(-1.0, 0.0);
+    passthrough_filter.setFilterLimits(-1.0, 0.1); //initial position
+	// passthrough_filter.setFilterLimits(-1.0, 0.0);
   	// passthrough_filter.setFilterLimits(-5.0, -0.2); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
