@@ -102,21 +102,21 @@ Visualization Manager:
           Value: false
         fixed_kinect_frame:
           Value: true
-        kinect_first_link:
-          Value: true
-        kinect_first_rgb_optical_frame:
-          Value: true
         kinect_center_link:
           Value: true
         kinect_center_rgb_optical_frame:
           Value: true
-        kinect_right_link:
+        kinect_hand_link:
           Value: true
-        kinect_right_rgb_optical_frame:
+        kinect_hand_rgb_optical_frame:
           Value: true
         kinect_left_link:
           Value: true
         kinect_left_rgb_optical_frame:
+          Value: true
+        kinect_right_link:
+          Value: true
+        kinect_right_rgb_optical_frame:
           Value: true
         link_b:
           Value: true
@@ -144,17 +144,14 @@ Visualization Manager:
       Tree:
         world:
           base_link:
-            kinect_first_link:
-              kinect_first_rgb_optical_frame:
-                {}
             kinect_center_link:
               kinect_center_rgb_optical_frame:
                 {}
-            kinect_right_link:
-              kinect_right_rgb_optical_frame:
-                {}
             kinect_left_link:
               kinect_left_rgb_optical_frame:
+                {}
+            kinect_right_link:
+              kinect_right_rgb_optical_frame:
                 {}
             link_s:
               link_l:
@@ -163,6 +160,9 @@ Visualization Manager:
                     link_r:
                       link_b:
                         link_t:
+                          kinect_hand_link:
+                            kinect_hand_rgb_optical_frame:
+                              {}
                           tool0:
                             dhand_adapter_link:
                               dhand_base_link:
@@ -349,7 +349,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.53069
+      Distance: 7.4846
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -361,10 +361,10 @@ Visualization Manager:
         Z: 0.455528
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.114796
+      Pitch: 0.339796
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.7619
+      Yaw: 3.81191
     Saved: ~
 Window Geometry:
   Displays:
@@ -382,5 +382,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 937
-  X: 35
+  X: 1910
   Y: 14

@@ -33,8 +33,8 @@ uniform_deviate (int seed)
 }
 
 inline void
-randomPointTriangle (float a1, float a2, float a3, float b1, float b2, float b3, float c1, float c2, float c3,
-                     Eigen::Vector4f& p)
+randomPointTriangle(float a1, float a2, float a3, float b1, float b2, float b3, float c1, float c2, float c3,
+                 Eigen::Vector4f& p)
 {
   float r1 = static_cast<float> (uniform_deviate (rand ()));
   float r2 = static_cast<float> (uniform_deviate (rand ()));
@@ -166,7 +166,8 @@ public:
     mesh_pointcloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/mesh_cloud", 1);
     shifted_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/shifted_cloud",1);
     corrected_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/corrected_cloud",1);
-    kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_first/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
+    //kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_first/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
+    kinect_subscriber_ = nh_.subscribe<sensor_msgs::PointCloud2>("/kinect_left/hd/points", 10, boost::bind(&MotomanMeshCloud::pointCloudCallback, this, _1));
 	frame_timer_ = nh_.createTimer(ros::Duration(0.01), boost::bind(&MotomanMeshCloud::frameCallback, this, _1));
   }
   ~MotomanMeshCloud()
@@ -243,7 +244,7 @@ public:
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
 	std::cout << "===================================" << std::endl;
-	std::cout << cloud->points.size() << std::endl;
+	std::cout << "filtered cloud point size : " << cloud->points.size() << std::endl;
 
     pcl::search::KdTree<pcl::PointXYZ> kdtree;
     kdtree.setInputCloud(cloud);
@@ -306,9 +307,9 @@ public:
 		std::cout << "kinect :" << kinect_pointcloud->data.size() << std::endl;
 		Eigen::Affine3f eigen_affine_transform(eigen_transform);
 		pcl::transformPointCloud(*pcl_pc, *pcl_shifted_cloud_, eigen_affine_transform);
-		
-		//this->cropBox(pcl_shifted_cloud_, pcl_shifted_cloud_);
-		//this->downSampling(pcl_shifted_cloud_, pcl_shifted_cloud_);
+
+		this->cropBox(pcl_shifted_cloud_, pcl_shifted_cloud_);
+		this->downSampling(pcl_shifted_cloud_, pcl_shifted_cloud_);
 		ROS_INFO_STREAM("shifted_cloud size : " << pcl_shifted_cloud_->points.size());
 		sensor_msgs::PointCloud2 ros_shifted_cloud;
 		pcl::toROSMsg(*pcl_shifted_cloud_, ros_shifted_cloud); //pclで処理したやつをros形式へ変換
@@ -363,7 +364,7 @@ public:
 		  icp.align(Final, init_guess);
 		  ROS_INFO_STREAM("has converged : " << icp.hasConverged());
 		  ROS_INFO_STREAM("score : " << icp.getFitnessScore());
-		  try{
+		  /*try{
 			tf::StampedTransform transform;   // icpかました後のカメラ位置推定処理
 			tf_.lookupTransform("/base_link", "kinect_first_link",
 								ros::Time::now(), transform);
@@ -385,12 +386,36 @@ public:
 					  << euler_angles(0) << "\" />" << std::endl;
 		  }catch(...){
 			ROS_ERROR("tf fail");
-		  }
+		  }*/
+      try{
+      tf::StampedTransform transform;   // icpかました後のカメラ位置推定処理
+      tf_.lookupTransform("/base_link", "kinect_left_link",
+                ros::Time::now(), transform);
+      Eigen::Affine3d kinect_to_world_transform;
+      tf::transformTFToEigen(transform, kinect_to_world_transform);
+      Eigen::Matrix4d world_to_corrected = (icp.getFinalTransformation()).cast<double>(); //最終的に得られたICPによる変換行列を変数として置く
+      Eigen::Matrix4d matrix_kinect_to_world = kinect_to_world_transform.matrix(); //kinectからワールド座標系への変換行列の定義
+      Eigen::Matrix4d kinect_left_to_corrected = world_to_corrected*matrix_kinect_to_world; //座標変換
+      kinect_left_to_corrected = kinect_left_to_corrected.normalized(); //正規化失敗はここ？
+      Eigen::Affine3d eigen_affine3d(kinect_left_to_corrected);
+      tf::transformEigenToTF(eigen_affine3d, fixed_kinect_frame_);
+      Eigen::Matrix3d rotation_matrix = kinect_left_to_corrected.block(0, 0, 3, 3); //←なにこれ？（笑）
+      Eigen::Vector3d euler_angles = rotation_matrix.eulerAngles(2, 1, 0); //回転行列からオイラー角を計算
+      std::cout << "<origin xyz=\"" << kinect_left_to_corrected(0, 3) << " "
+            << kinect_left_to_corrected(1, 3) << " "
+            << kinect_left_to_corrected(2, 3) << "\" rpy=\""
+            << euler_angles(2) << " "
+            << euler_angles(1) << " "
+            << euler_angles(0) << "\" />" << std::endl;
+      }catch(...){
+      ROS_ERROR("tf fail");
+      }
 		  sensor_msgs::PointCloud2 ros_corrected_cloud;
 		  pcl::toROSMsg(Final, ros_corrected_cloud); //ICPこの関数の最初で定義した点群を新しい文字に代入
 		  ros_corrected_cloud.header.stamp = ros::Time::now();
 		  ros_corrected_cloud.header.frame_id = "/base_link";
 		  corrected_cloud_publisher_.publish(ros_corrected_cloud); //変換した点群をpublish
+    }
 		ros::spinOnce();
 		rate_.sleep();
 	  }

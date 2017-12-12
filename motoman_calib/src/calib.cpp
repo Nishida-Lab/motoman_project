@@ -235,22 +235,22 @@ public:
 	// axis to x
     passthrough_filter.setInputCloud(cloud);
   	passthrough_filter.setFilterFieldName("x");
-    passthrough_filter.setFilterLimits(-1.0, -0.5);
-  	//passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
+    passthrough_filter.setFilterLimits(-1.0, -0.1); //initial
+  	// passthrough_filter.setFilterLimits(-1.0, 0.08); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
-    // // axis to y
+    // axis to y
     // passthrough_filter.setInputCloud(cloud);
   	// passthrough_filter.setFilterFieldName("y");
-    // passthrough_filter.setFilterLimits(-0.1, 0.1);
-  	// //passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
-    // passthrough_filter.setFilterLimitsNegative (true);
+    // passthrough_filter.setFilterLimits(0.1, 1.0);
+  	// // passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
+    // // passthrough_filter.setFilterLimitsNegative (true);
     // passthrough_filter.filter (*cloud);
-    //axis to z
+    // axis to z
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("z");
     passthrough_filter.setFilterLimits(-1.0, 0.1); //initial position
-	// passthrough_filter.setFilterLimits(-1.0, 0.0);
+	// passthrough_filter.setFilterLimits(-1.0, 1.0);
   	// passthrough_filter.setFilterLimits(-5.0, -0.2); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
@@ -379,27 +379,40 @@ public:
 		  ROS_INFO_STREAM("score : " << icp.getFitnessScore());
 		  try{
 			tf::StampedTransform transform;   // icpかました後のカメラ位置推定処理
-			tf_.lookupTransform("/base_link", "kinect_first_link",
+			// tf_.lookupTransform("/base_link", "kinect_first_link",
+            tf_.lookupTransform("/base_link", "kinect_right_link",
 								ros::Time::now(), transform);
 			Eigen::Affine3d kinect_to_world_transform;
 			tf::transformTFToEigen(transform, kinect_to_world_transform);
 			Eigen::Matrix4d world_to_corrected = (icp.getFinalTransformation()).cast<double>();
 			Eigen::Matrix4d matrix_kinect_to_world = kinect_to_world_transform.matrix();
-			Eigen::Matrix4d kinect_first_to_corrected = world_to_corrected*matrix_kinect_to_world;
+			// Eigen::Matrix4d kinect_first_to_corrected = world_to_corrected*matrix_kinect_to_world;
+            Eigen::Matrix4d kinect_right_to_corrected = world_to_corrected*matrix_kinect_to_world;
 			std::cout << "transformation to corrected :\"" << std::endl;
-			std::cout << kinect_first_to_corrected << std::endl;
-			kinect_first_to_corrected = kinect_first_to_corrected.normalized(); //外せない奴
+			// std::cout << kinect_first_to_corrected << std::endl;
+            std::cout << kinect_right_to_corrected << std::endl;
+			// kinect_first_to_corrected = kinect_first_to_corrected.normalized(); //外せない奴
+            kinect_right_to_corrected = kinect_right_to_corrected.normalized(); //外せない奴
 			//kinect_first_to_corrected = -1 * kinect_first_to_corrected;
-			Eigen::Affine3d eigen_affine3d(kinect_first_to_corrected);
+			// Eigen::Affine3d eigen_affine3d(kinect_first_to_corrected);
+            Eigen::Affine3d eigen_affine3d(kinect_right_to_corrected);
 			tf::transformEigenToTF(eigen_affine3d, fixed_kinect_frame_);
-			Eigen::Matrix3d rotation_matrix = kinect_first_to_corrected.block(0, 0, 3, 3);
+			// Eigen::Matrix3d rotation_matrix = kinect_first_to_corrected.block(0, 0, 3, 3);
+            Eigen::Matrix3d rotation_matrix = kinect_right_to_corrected.block(0, 0, 3, 3);
 			Eigen::Vector3d euler_angles = rotation_matrix.eulerAngles(2, 1, 0);
-			std::cout << "<origin xyz=\"" << kinect_first_to_corrected(0, 3) << " "
-					  << kinect_first_to_corrected(1, 3) << " "
-					  << kinect_first_to_corrected(2, 3) << "\" rpy=\""
+			// std::cout << "<origin xyz=\"" << kinect_first_to_corrected(0, 3) << " "
+			// 		  << kinect_first_to_corrected(1, 3) << " "
+			// 		  << kinect_first_to_corrected(2, 3) << "\" rpy=\""
+			// 		  << euler_angles(2) << " "
+			// 		  << euler_angles(1) << " "
+			// 		  << euler_angles(0) << "\" />" << std::endl;
+            std::cout << "<origin xyz=\"" << kinect_right_to_corrected(0, 3) << " "
+					  << kinect_right_to_corrected(1, 3) << " "
+					  << kinect_right_to_corrected(2, 3) << "\" rpy=\""
 					  << euler_angles(2) << " "
 					  << euler_angles(1) << " "
 					  << euler_angles(0) << "\" />" << std::endl;
+
 		  }catch(...){
 			ROS_ERROR("tf fail");
 		  }

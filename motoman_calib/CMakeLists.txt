@@ -21,7 +21,8 @@ include_directories(
 ${catkin_INCLUDE_DIRS})
 
 ## Declare a C++ executable
-add_executable(motoman_calib src/calib.cpp)
+##add_executable(motoman_calib src/calib.cpp)
+add_executable(motoman_calib src/calib_yuji.cpp)
 
 
 
