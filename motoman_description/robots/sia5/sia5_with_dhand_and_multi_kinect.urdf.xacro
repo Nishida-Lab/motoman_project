@@ -76,7 +76,10 @@
 
   <!-- Joint -->
   <joint name="joint_left_right" type="fixed">
-  <origin xyz="-0.496 1.0085 0.756" rpy="0.0126 0.2924 -0.6483" />
+  <origin xyz="-0.513 1.0085 0.756" rpy="0.0126 0.2924 -0.634" /> <!-- Calibrated position -->
+  <!--  -->
+  <!-- <origin xyz="-0.600 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
+  <!-- <origin xyz="-0.500 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
     <parent link="base_link"/>
     <child link="kinect_left_link"/>
   </joint>

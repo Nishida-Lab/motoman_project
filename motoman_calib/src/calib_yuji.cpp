@@ -21,7 +21,7 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/impl/transforms.hpp>
 
-const int sampling_points = 10000;
+const int sampling_points = 5000;
 
 // #define gazebo
 
@@ -162,7 +162,7 @@ public:
 
 
     this->transformMesh();
-
+    // ### Node Handles ###
     mesh_pointcloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/mesh_cloud", 1);
     shifted_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/shifted_cloud",1);
     corrected_cloud_publisher_ = nh_.advertise<sensor_msgs::PointCloud2>("/corrected_cloud",1);
@@ -233,18 +233,24 @@ public:
     pcl::PassThrough<pcl::PointXYZ> passthrough_filter;
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("z");
-    passthrough_filter.setFilterLimits(-1.0, 0.1);
-  	// passthrough_filter.setFilterLimits(-5.0, -0.2); //other position
+    // passthrough_filter.setFilterLimits(-1.0, 0.1); // init for left
+    passthrough_filter.setFilterLimits(0.05, 1.0); //other position
+    passthrough_filter.setFilterLimitsNegative (false);
+    passthrough_filter.filter (*cloud);
+    passthrough_filter.setInputCloud(cloud);
+    passthrough_filter.setFilterFieldName("x");
+    // passthrough_filter.setFilterLimits(-1.0, -0.1); // init for left
+    passthrough_filter.setFilterLimits(-1.0, -0.1); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
-  	passthrough_filter.setInputCloud(cloud);
-  	passthrough_filter.setFilterFieldName("x");
-    passthrough_filter.setFilterLimits(-1.0, -0.1);
-  	//passthrough_filter.setFilterLimits(-5.0, -0.5); //other position
-    passthrough_filter.setFilterLimitsNegative (true);
-    passthrough_filter.filter (*cloud);
-	std::cout << "===================================" << std::endl;
-	std::cout << "filtered cloud point size : " << cloud->points.size() << std::endl;
+    passthrough_filter.setInputCloud(cloud);
+    /*passthrough_filter.setFilterFieldName("y");
+    // passthrough_filter.setFilterLimits(-1.0, -0.1); // init for left
+    passthrough_filter.setFilterLimits(0.0, 0.5); //other position
+    passthrough_filter.setFilterLimitsNegative (false);
+    passthrough_filter.filter (*cloud);*/
+    std::cout << "------------------------------------" << std::endl;
+    std::cout << "filtered cloud point size : " << cloud->points.size() << std::endl;
 
     pcl::search::KdTree<pcl::PointXYZ> kdtree;
     kdtree.setInputCloud(cloud);
@@ -264,6 +270,7 @@ public:
       extractor.setNegative(false);
       extractor.filter(*cloud_filtered);
     }
+    std::cout << "Passthrough filtering..." << std::endl;
   }
 
   void downSampling(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
@@ -273,6 +280,7 @@ public:
 	sor.setInputCloud (cloud);
 	sor.setLeafSize (0.01f, 0.01f, 0.01f);
 	sor.filter (*cloud_filtered);
+  std::cout << "Down sampling..." << std::endl;
   }
 
   pcl::PointCloud<pcl::PointXYZ> shiftPointCloud(pcl::PointCloud<pcl::PointXYZ> points, double x, double y, double z, double roll, double pitch, double yaw)
@@ -303,13 +311,18 @@ public:
 		tf_.lookupTransform("/base_link", kinect_pointcloud->header.frame_id, ros::Time(0), transform);
 		Eigen::Matrix4f eigen_transform;
 		pcl_ros::transformAsMatrix(transform, eigen_transform);
+
+    std::cout << "----Initial position--------------------" << std::endl;
 		std::cout << eigen_transform << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
 		std::cout << "kinect :" << kinect_pointcloud->data.size() << std::endl;
+
 		Eigen::Affine3f eigen_affine_transform(eigen_transform);
 		pcl::transformPointCloud(*pcl_pc, *pcl_shifted_cloud_, eigen_affine_transform);
 
 		this->cropBox(pcl_shifted_cloud_, pcl_shifted_cloud_);
 		this->downSampling(pcl_shifted_cloud_, pcl_shifted_cloud_);
+
 		ROS_INFO_STREAM("shifted_cloud size : " << pcl_shifted_cloud_->points.size());
 		sensor_msgs::PointCloud2 ros_shifted_cloud;
 		pcl::toROSMsg(*pcl_shifted_cloud_, ros_shifted_cloud); //pclで処理したやつをros形式へ変換
@@ -340,14 +353,14 @@ public:
 		mesh_pointcloud_.header.stamp = ros::Time::now();
 		mesh_pointcloud_.header.frame_id = "/base_link";
 		mesh_pointcloud_publisher_.publish(mesh_pointcloud_);
-
+    // ### ICP Argolithm ####
 		pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
 		pcl::PointCloud<pcl::PointXYZ>::Ptr sia5_ptr(new pcl::PointCloud<pcl::PointXYZ>(sia5_cloud_));
 		std::vector<int> nan_index;
 		pcl::removeNaNFromPointCloud(*pcl_shifted_cloud_, *pcl_shifted_cloud_, nan_index);
 		pcl::removeNaNFromPointCloud(*sia5_ptr, *sia5_ptr, nan_index);
 
-		icp.setMaximumIterations(10000);
+		//icp.setMaximumIterations(1000);
 		if(pcl_shifted_cloud_->points.size() != 0){
 		  pcl::PointCloud<pcl::PointXYZ> Final;
 		  Eigen::Vector4f c_sia5, c_kinect;
@@ -359,8 +372,9 @@ public:
 		  ROS_INFO_STREAM("Matching Start!!!");
 		  icp.setInputSource(pcl_shifted_cloud_);
 		  icp.setInputTarget(sia5_ptr);
-		  icp.setTransformationEpsilon (1e-12);
-		  icp.setEuclideanFitnessEpsilon (1e-9);
+      icp.setMaximumIterations(1000);
+		  icp.setTransformationEpsilon (1e-13);
+		  icp.setEuclideanFitnessEpsilon (1e-10);
 		  icp.align(Final, init_guess);
 		  ROS_INFO_STREAM("has converged : " << icp.hasConverged());
 		  ROS_INFO_STREAM("score : " << icp.getFitnessScore());
@@ -392,14 +406,23 @@ public:
       tf_.lookupTransform("/base_link", "kinect_left_link",
                 ros::Time::now(), transform);
       Eigen::Affine3d kinect_to_world_transform;
-      tf::transformTFToEigen(transform, kinect_to_world_transform);
-      Eigen::Matrix4d world_to_corrected = (icp.getFinalTransformation()).cast<double>(); //最終的に得られたICPによる変換行列を変数として置く
+      tf::transformTFToEigen(transform, kinect_to_world_transform); // Initial position
       Eigen::Matrix4d matrix_kinect_to_world = kinect_to_world_transform.matrix(); //kinectからワールド座標系への変換行列の定義
-      Eigen::Matrix4d kinect_left_to_corrected = world_to_corrected*matrix_kinect_to_world; //座標変換
-      kinect_left_to_corrected = kinect_left_to_corrected.normalized(); //正規化失敗はここ？
-      Eigen::Affine3d eigen_affine3d(kinect_left_to_corrected);
+      Eigen::Matrix4d kinect_to_corrected = (icp.getFinalTransformation()).cast<double>(); //最終的に得られたICPによる変換行列を変数として置く
+      std::cout << "----ICP's matrix------------------------" << std::endl;
+      std::cout << kinect_to_corrected << std::endl;
+      std::cout << "----------------------------------------" << std::endl;
+      /*Eigen::Matrix4d kinect_left_to_corrected = world_to_corrected*matrix_kinect_to_world; //座標変換*/
+      Eigen::Matrix4d kinect_left_to_corrected = kinect_to_corrected*matrix_kinect_to_world;
+
+      std::cout << "----Corrected position------------------" << std::endl;
+      std::cout << kinect_left_to_corrected << std::endl;
+      std::cout << "----------------------------------------" << std::endl;
+
+      Eigen::Matrix4d kinect_left_corrected = kinect_left_to_corrected.normalized(); //正規化失敗はここ？
+      Eigen::Affine3d eigen_affine3d(kinect_left_corrected);
       tf::transformEigenToTF(eigen_affine3d, fixed_kinect_frame_);
-      Eigen::Matrix3d rotation_matrix = kinect_left_to_corrected.block(0, 0, 3, 3); //←なにこれ？（笑）
+      Eigen::Matrix3d rotation_matrix = kinect_left_to_corrected.block(0, 0, 3, 3); // matrix of 3 times 3 started from (0,0)
       Eigen::Vector3d euler_angles = rotation_matrix.eulerAngles(2, 1, 0); //回転行列からオイラー角を計算
       std::cout << "<origin xyz=\"" << kinect_left_to_corrected(0, 3) << " "
             << kinect_left_to_corrected(1, 3) << " "
@@ -418,6 +441,7 @@ public:
     }
 		ros::spinOnce();
 		rate_.sleep();
+    std::cout << "===================================" << std::endl;
 	  }
   }
 private:
