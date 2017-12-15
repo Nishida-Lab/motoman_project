@@ -21,7 +21,7 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/impl/transforms.hpp>
 
-const int sampling_points = 5000;
+const int sampling_points = 10000;
 
 // #define gazebo
 
@@ -137,19 +137,23 @@ public:
     for(int i = 0; i < link_names_.size(); ++i){
       this->getMesh(ros::package::getPath("motoman_description")+"/meshes/sia5/collision/STL/"+link_names_[i], frame_names_[i]);
     }
-	frame_names_.push_back("dhand_adapter_link");
-	frame_names_.push_back("dhand_base_link");
-	frame_names_.push_back("dhand_finger_base_left_link");
-	frame_names_.push_back("dhand_finger_base_middle_link");
+
+    frame_names_.push_back("/kinect_hand_link");
+    this->getMesh(ros::package::getPath("motoman_description")+"/meshes/sensor/visual/COLLADA/kinectv2.stl", "kinect_hand_link");
+
+    frame_names_.push_back("dhand_adapter_link");
+    frame_names_.push_back("dhand_base_link");
+    frame_names_.push_back("dhand_finger_base_left_link");
+    frame_names_.push_back("dhand_finger_base_middle_link");
     frame_names_.push_back("dhand_finger_base_right_link");
-	frame_names_.push_back("dhand_finger_middle_left_link");
-	frame_names_.push_back("dhand_finger_middle_middle_link");
+    frame_names_.push_back("dhand_finger_middle_left_link");
+    frame_names_.push_back("dhand_finger_middle_middle_link");
     frame_names_.push_back("dhand_finger_middle_right_link");
-	frame_names_.push_back("dhand_finger_top_left_link");
+    frame_names_.push_back("dhand_finger_top_left_link");
     frame_names_.push_back("dhand_finger_top_middle_link");
     frame_names_.push_back("dhand_finger_top_right_link");
     this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/adapter.STL", "dhand_adapter_link");
-	this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/base.STL", "dhand_base_link");
+  this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/base.STL", "dhand_base_link");
 	this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/finger/finger_base.STL", "dhand_finger_base_left_link");
 	this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/finger/finger_base.STL", "dhand_finger_base_middle_link");
 	this->getMesh(ros::package::getPath("dhand_description")+"/meshes/collision/finger/finger_base.STL", "dhand_finger_base_right_link");
@@ -234,13 +238,13 @@ public:
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("z");
     // passthrough_filter.setFilterLimits(-1.0, 0.1); // init for left
-    passthrough_filter.setFilterLimits(0.05, 1.0); //other position
+    passthrough_filter.setFilterLimits(0.1, 1.5); //other position
     passthrough_filter.setFilterLimitsNegative (false);
     passthrough_filter.filter (*cloud);
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("x");
-    // passthrough_filter.setFilterLimits(-1.0, -0.1); // init for left
-    passthrough_filter.setFilterLimits(-1.0, -0.1); //other position
+    passthrough_filter.setFilterLimits(-1.0, -0.1); // init for left
+    // passthrough_filter.setFilterLimits(-0.1, 0.9); //other position
     passthrough_filter.setFilterLimitsNegative (true);
     passthrough_filter.filter (*cloud);
     passthrough_filter.setInputCloud(cloud);
