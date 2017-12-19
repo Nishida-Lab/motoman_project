@@ -238,7 +238,7 @@ public:
     passthrough_filter.setInputCloud(cloud);
     passthrough_filter.setFilterFieldName("z");
     // passthrough_filter.setFilterLimits(-1.0, 0.1); // init for left
-    passthrough_filter.setFilterLimits(0.1, 1.5); //other position
+    passthrough_filter.setFilterLimits(0.1, 1.0); //other position
     passthrough_filter.setFilterLimitsNegative (false);
     passthrough_filter.filter (*cloud);
     passthrough_filter.setInputCloud(cloud);
