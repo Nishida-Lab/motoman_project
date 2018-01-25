@@ -1,5 +1,7 @@
 /*********************************************************************
- *  The BoundingBoxDisplay::updateColoring() function is:
+ *  The BoundingBoxDisplay::updateColoring() 
+ *  The BoundingBoxDisplay::BoundingBoxDisplay()
+ *  functions are:
  *  Software License Agreement (BSD License)
  *
  *  Copyright (c) 2018, Ryodo Tanaka and Nishida Takeshi Lab at Kyutech
@@ -83,6 +85,7 @@ namespace motoman_rviz_plugins
     coloring_property_->addOption("Flat color", 0);
     coloring_property_->addOption("Label", 1);
     coloring_property_->addOption("Value", 2);
+    coloring_property_->addOption("Tag", 3);
 
     color_property_ = new rviz::ColorProperty(
       "color", QColor(25, 255, 0),
