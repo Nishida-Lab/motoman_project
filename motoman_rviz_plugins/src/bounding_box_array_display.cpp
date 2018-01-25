@@ -85,7 +85,7 @@ namespace motoman_rviz_plugins
     coloring_property_->addOption("Flat color", 1);
     coloring_property_->addOption("Label", 2);
     coloring_property_->addOption("Value", 3);
-    coloring_property_->addoption("Tag", 4);
+    coloring_property_->addOption("Tag", 4);
 
     color_property_ = new rviz::ColorProperty(
       "color", QColor(25, 255, 0),
