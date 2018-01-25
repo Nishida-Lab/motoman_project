@@ -1,5 +1,7 @@
 /*********************************************************************
- *  The BoundingBoxDisplay::updateColoring() function is:
+ *  The BoundingBoxDisplay::updateColoring() 
+ *  The BoundingBoxDisplay::BoundingBoxDisplay()
+ *  functions are:
  *  Software License Agreement (BSD License)
  *
  *  Copyright (c) 2018, Ryodo Tanaka and Nishida Takeshi Lab at Kyutech
