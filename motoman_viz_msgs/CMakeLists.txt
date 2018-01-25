@@ -11,6 +11,7 @@ add_message_files(
   FILES 
   EuclideanLinkTrajectory.msg
   EuclideanLinkTrajectoryPoint.msg
+  BoundingBox.msg
   )
 
 generate_messages(
