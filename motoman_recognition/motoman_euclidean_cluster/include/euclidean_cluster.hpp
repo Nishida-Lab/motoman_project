@@ -38,7 +38,7 @@
 
 #include <opencv/cv.h>
 
-#include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <motoman_viz_msgs/BoundingBoxArray.h>
 
 using namespace pcl;
 
@@ -50,7 +50,7 @@ public:
   void Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
   bool MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
   bool MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
-  jsk_recognition_msgs::BoundingBox MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  motoman_viz_msgs::BoundingBox MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
   void run();
 
 private:
@@ -63,7 +63,7 @@ private:
   tf::TransformListener tf_;
   tf::TransformBroadcaster br_;
 
-  jsk_recognition_msgs::BoundingBox box_;
+  motoman_viz_msgs::BoundingBox box_;
 
   // Threshold
   double clusterTolerance_;
