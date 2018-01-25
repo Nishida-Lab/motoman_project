@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   pcl_conversions
   tf
+  motoman_viz_msgs
 )
 
 ## System dependencies are found with CMake's conventions
