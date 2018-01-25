@@ -69,8 +69,6 @@ namespace motoman_rviz_plugins
   
   void EuclideanLinkTrajectory::processMessage(
 											   const motoman_viz_msgs::EuclideanLinkTrajectory::ConstPtr& msg){
-
-	ROS_INFO("!! Rviz Plugin Call Back !!");
 	
 	std::map<std::string, int> link_map;
 	for(int i=0; i<msg->link_names.size(); i++)
