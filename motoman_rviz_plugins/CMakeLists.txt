@@ -31,10 +31,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 qt4_wrap_cpp(MOC_FILES
   src/euclidean_link_trajectory.h
+  src/bounding_box_display_common.h
+  src/bounding_box_array_display.h
+  src/bounding_box_display.h
   )
 
 set(SOURCE_FILES
   src/euclidean_link_trajectory.cpp
+  src/bounding_box_array_display.cpp
+  src/bounding_box_display.cpp
   ${MOC_FILES}
   )
 
