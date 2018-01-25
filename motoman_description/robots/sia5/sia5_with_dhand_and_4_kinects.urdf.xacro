@@ -48,7 +48,52 @@
   <!-- Gazebo -->
   <xacro:kinect_gazebo name="kinect_hand"/>
 
+  <!-- Kinect_right -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_right_link"/>
+  <link name="kinect_right_rgb_optical_frame"/>
 
+  <!-- Joint -->
+  <joint name="joint_kinect_right" type="fixed">
+  <origin xyz="-0.5255 -0.9966 0.7635" rpy="-0.0233 0.5223 0.481" />
+    <parent link="base_link"/>
+    <child link="kinect_right_link"/>
+  </joint>
 
+  <joint name="joint_rgb_kinect_right" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_right_link"/>
+    <child link="kinect_right_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_right"/>
+
+  <!-- Kinect_left -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_left_link"/>
+  <link name="kinect_left_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_left_right" type="fixed">
+  <!-- Calibrated position -->
+  <origin xyz="-0.513 1.0085 0.756" rpy="0.0126 0.2924 -0.634" />
+  <!-- Test positions -->
+  <!-- <origin xyz="-0.600 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
+  <!-- <origin xyz="-0.500 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
+  <!-- <origin xyz="-0.4835 1.0027 0.7524" rpy="0.0126 0.2424 -0.6279" /> -->
+
+    <parent link="base_link"/>
+    <child link="kinect_left_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_left" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_left_link"/>
+    <child link="kinect_left_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_left"/>
   
 </robot>
