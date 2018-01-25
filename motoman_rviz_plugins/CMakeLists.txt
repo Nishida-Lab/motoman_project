@@ -5,6 +5,7 @@ find_package(catkin REQUIRED
   rviz
   motoman_viz_msgs
   message_generation
+  jsk_topic_tools
   )
 
 set(CMAKE_CXX_FLAGS "-std=c++11")
