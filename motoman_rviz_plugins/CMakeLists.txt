@@ -7,6 +7,8 @@ find_package(catkin REQUIRED
   message_generation
   )
 
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
 # Use ccache if installed to make it fast to generate object files
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
