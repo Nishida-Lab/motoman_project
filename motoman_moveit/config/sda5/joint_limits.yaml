@@ -1,0 +1,79 @@
+# joint_limits.yaml allows the dynamics properties specified in the URDF to be overwritten or augmented as needed
+# Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
+# Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
+joint_limits:
+  joint_l_b:
+    has_velocity_limits: true
+    max_velocity: 4.01
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_e:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_l:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_r:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_s:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_t:
+    has_velocity_limits: true
+    max_velocity: 6.11
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_l_u:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_b:
+    has_velocity_limits: true
+    max_velocity: 4.01
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_e:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_l:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_r:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_s:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_t:
+    has_velocity_limits: true
+    max_velocity: 6.11
+    has_acceleration_limits: false
+    max_acceleration: 0
+  joint_r_u:
+    has_velocity_limits: true
+    max_velocity: 3.49
+    has_acceleration_limits: false
+    max_acceleration: 0
+  torso_joint:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0

@@ -1,0 +1,20 @@
+controller_list:
+  - name: sda5_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_l_s
+      - joint_l_l
+      - joint_l_e
+      - joint_l_u
+      - joint_l_r
+      - joint_l_b
+      - joint_l_t
+      - joint_r_s
+      - joint_r_l
+      - joint_r_e
+      - joint_r_u
+      - joint_r_r
+      - joint_r_b
+      - joint_r_t
