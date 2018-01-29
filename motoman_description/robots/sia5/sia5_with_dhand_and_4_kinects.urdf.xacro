@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include -->
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.urdf.xacro"/>
+  <xacro:include filename="$(find motoman_description)/urdf/sensor/kinect.gazebo.xacro"/>
+  <xacro:include filename="$(find motoman_description)/robots/sia5/sia5_with_dhand.urdf.xacro"/>
+
+  <!-- add Kinect V2 -->
+  <!-- Kinect_second -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_second_link"/>
+  <link name="kinect_second_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_kinect_second" type="fixed">
+	<origin xyz="1.4828 0.0827 0.3932" rpy="-0.0031 0.4431 3.14" />
+    <parent link="base_link"/>
+    <child link="kinect_second_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_second" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_second_link"/>
+    <child link="kinect_second_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_second"/>
+
+  <!-- Kinect_hand -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_hand_link"/>
+  <link name="kinect_hand_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_kinect_hand" type="fixed">
+	<origin xyz="0.09 0 -0.035" rpy="${M_PI} 0 0" />
+    <parent link="link_t"/>
+    <child link="kinect_hand_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_hand" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_hand_link"/>
+    <child link="kinect_hand_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_hand"/>
+
+  <!-- Kinect_right -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_right_link"/>
+  <link name="kinect_right_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_kinect_right" type="fixed">
+  <origin xyz="-0.5255 -0.9966 0.7635" rpy="-0.0233 0.5223 0.481" />
+    <parent link="base_link"/>
+    <child link="kinect_right_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_right" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_right_link"/>
+    <child link="kinect_right_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_right"/>
+
+  <!-- Kinect_left -->
+  <!-- Link -->
+  <xacro:kinect2_link_box_v0 name="kinect_left_link"/>
+  <link name="kinect_left_rgb_optical_frame"/>
+
+  <!-- Joint -->
+  <joint name="joint_left_right" type="fixed">
+  <!-- Calibrated position -->
+  <origin xyz="-0.513 1.0085 0.756" rpy="0.0126 0.2924 -0.634" />
+  <!-- Test positions -->
+  <!-- <origin xyz="-0.600 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
+  <!-- <origin xyz="-0.500 0.800 0.600" rpy="-0.01 0.3206 -0.4815" /> -->
+  <!-- <origin xyz="-0.4835 1.0027 0.7524" rpy="0.0126 0.2424 -0.6279" /> -->
+
+    <parent link="base_link"/>
+    <child link="kinect_left_link"/>
+  </joint>
+
+  <joint name="joint_rgb_kinect_left" type="fixed">
+    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
+    <parent link="kinect_left_link"/>
+    <child link="kinect_left_rgb_optical_frame"/>
+  </joint>
+
+  <!-- Gazebo -->
+  <xacro:kinect_gazebo name="kinect_left"/>
+  
+</robot>
