@@ -5,7 +5,10 @@ find_package(catkin REQUIRED
   rviz
   motoman_viz_msgs
   message_generation
+  jsk_topic_tools
   )
+
+set(CMAKE_CXX_FLAGS "-std=c++11")
 
 # Use ccache if installed to make it fast to generate object files
 find_program(CCACHE_FOUND ccache)
@@ -31,10 +34,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 qt4_wrap_cpp(MOC_FILES
   src/euclidean_link_trajectory.h
+  src/bounding_box_display_common.h
+  src/bounding_box_array_display.h
+  src/bounding_box_display.h
   )
 
 set(SOURCE_FILES
   src/euclidean_link_trajectory.cpp
+  src/bounding_box_array_display.cpp
+  src/bounding_box_display.cpp
   ${MOC_FILES}
   )
 

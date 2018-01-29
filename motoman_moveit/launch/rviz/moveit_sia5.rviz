@@ -9,6 +9,9 @@ Panels:
         - /TF1/Frames1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
+        - /PointCloud21
+        - /BoundingBoxArray1
+        - /BoundingBoxArray1/Status1
       Splitter Ratio: 0.5
     Tree Height: 283
   - Class: rviz/Selection
@@ -29,7 +32,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -205,9 +208,17 @@ Visualization Manager:
           Value: false
         dhand_palm_link:
           Value: false
-        kinect_first_link:
+        kinect_hand_link:
           Value: true
-        kinect_first_rgb_optical_frame:
+        kinect_hand_rgb_optical_frame:
+          Value: true
+        kinect_left_link:
+          Value: true
+        kinect_left_rgb_optical_frame:
+          Value: true
+        kinect_right_link:
+          Value: true
+        kinect_right_rgb_optical_frame:
           Value: true
         kinect_second_link:
           Value: true
@@ -235,16 +246,6 @@ Visualization Manager:
           Value: true
         object_4:
           Value: true
-        object_5:
-          Value: true
-        object_6:
-          Value: true
-        object_7:
-          Value: true
-        object_8:
-          Value: true
-        object_9:
-          Value: true
         tool0:
           Value: false
         world:
@@ -257,8 +258,11 @@ Visualization Manager:
       Tree:
         world:
           base_link:
-            kinect_first_link:
-              kinect_first_rgb_optical_frame:
+            kinect_left_link:
+              kinect_left_rgb_optical_frame:
+                {}
+            kinect_right_link:
+              kinect_right_rgb_optical_frame:
                 {}
             kinect_second_link:
               kinect_second_rgb_optical_frame:
@@ -270,6 +274,9 @@ Visualization Manager:
                     link_r:
                       link_b:
                         link_t:
+                          kinect_hand_link:
+                            kinect_hand_rgb_optical_frame:
+                              {}
                           tool0:
                             dhand_adapter_link:
                               dhand_base_link:
@@ -294,16 +301,6 @@ Visualization Manager:
           object_3:
             {}
           object_4:
-            {}
-          object_5:
-            {}
-          object_6:
-            {}
-          object_7:
-            {}
-          object_8:
-            {}
-          object_9:
             {}
       Update Interval: 0
       Value: true
@@ -605,18 +602,6 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: true
-    - Class: jsk_rviz_plugin/BoundingBoxArray
-      Enabled: true
-      Name: BoundingBoxArray
-      Topic: /clustering_result
-      Unreliable: false
-      Value: true
-      alpha: 0.8
-      color: 25; 255; 0
-      coloring: Auto
-      line width: 0.005
-      only edge: false
-      show coords: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -629,7 +614,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -642,11 +627,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /kinect_first/hd/points
+      Topic: /kinect_second/hd/points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: motoman_rviz_plugin/EuclideanLinkTrajectory
       Enabled: true
       Name: EuclideanLinkTrajectory1
@@ -717,6 +702,18 @@ Visualization Manager:
       color: 255; 0; 0
       line_width: 0.01
       link name: link_t
+    - Class: motoman_rviz_plugin/BoundingBoxArray
+      Enabled: true
+      Name: BoundingBoxArray
+      Topic: /clustering_result
+      Unreliable: false
+      Value: true
+      alpha: 0.8
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.005
+      only edge: false
+      show coords: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -753,10 +750,10 @@ Visualization Manager:
         Z: 0.392613
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.340399
+      Pitch: -0.0596013
       Target Frame: world
       Value: Orbit (rviz)
-      Yaw: 5.89358
+      Yaw: 6.12358
     Saved: ~
 Window Geometry:
   Displays:
@@ -776,5 +773,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1920
-  X: 1910
-  Y: -14
+  X: 1920
+  Y: 24

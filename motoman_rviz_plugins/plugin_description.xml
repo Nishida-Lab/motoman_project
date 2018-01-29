@@ -6,4 +6,18 @@
 	  Display the trajectory of Euclidean Link Trajectory message.
     </description>
   </class>
+  <class name="motoman_rviz_plugin/BoundingBox"
+         type="motoman_rviz_plugins::BoundingBoxDisplay"
+         base_class_type="rviz::Display">
+    <description>
+	  Display the Bounding Box message.
+    </description>
+  </class>
+  <class name="motoman_rviz_plugin/BoundingBoxArray"
+         type="motoman_rviz_plugins::BoundingBoxArrayDisplay"
+         base_class_type="rviz::Display">
+    <description>
+	  Display the Bounding Box Array message.
+    </description>
+  </class>
 </library>
