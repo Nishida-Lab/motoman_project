@@ -10,7 +10,7 @@ EuclideanCluster::EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n)
 {
   source_pc_sub_ = nh_.subscribe(n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1, &EuclideanCluster::EuclideanCallback, this);
   fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(n.param<std::string>("filtered_pc_topic_name", "/filtered_pointcloud"), 1);
-  euclidean_cluster_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/clustering_result"), 1);
+  euclidean_cluster_pub_ = nh_.advertise<motoman_viz_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/clustering_result"), 1);
 
   // クラスタリングのパラメータを初期化
   n.param<double>("clusterTolerance", clusterTolerance_, 0.02);
@@ -120,7 +120,7 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   ec.extract(cluster_indices);
 
   int j = 0;
-  jsk_recognition_msgs::BoundingBoxArray box_array; // clustering結果をぶち込む配列
+  motoman_viz_msgs::BoundingBoxArray box_array; // clustering結果をぶち込む配列
 
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it) {
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZ>);
@@ -185,7 +185,7 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
     // ROS_INFO("Height = %f Width =  %f", rrect.size.height, rrect.size.width);
     // ROS_INFO("Angle = %f [deg]", rrect.angle);
 
-    // jsk_recognition_msgs::BoundingBoxの型に合わせて代入していく
+    // motoman_viz_msgs::BoundingBoxの型に合わせて代入していく
     pose.position.x = rrect.center.x;
     pose.position.y = rrect.center.y;
     pose.position.z = (min_point_AABB.z + max_point_AABB.z) / 2.0;
@@ -278,7 +278,7 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
   }
 }
 
-jsk_recognition_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
   feature_extractor.setInputCloud(cloud);
   feature_extractor.compute();
@@ -319,7 +319,7 @@ jsk_recognition_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::Poi
   // std::cout << size.x << ", " << size.y << ", " << size.z << std::endl;
   // std::cout << std::endl;
 
-  jsk_recognition_msgs::BoundingBox box;
+  motoman_viz_msgs::BoundingBox box;
   box.header.frame_id = frame_id_;
   box.pose = pose;
   box.dimensions = size;
