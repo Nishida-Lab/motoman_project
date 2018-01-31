@@ -18,6 +18,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>motoman_demo_msgs</run_depend>
+  <run_depend>motoman_viz_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>rviz</run_depend>
   <run_depend>motoman_sia5_moveit_config</run_depend>

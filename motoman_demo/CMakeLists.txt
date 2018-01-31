@@ -6,6 +6,7 @@ find_package(catkin REQUIRED
   tf
   motoman_demo_msgs
   sensor_msgs
+  motoman_viz_msgs
   )
 
 

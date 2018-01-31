@@ -26,8 +26,8 @@ from motoman_demo_msgs.msg import HandringPlan
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
 # for object bounding box
-from jsk_recognition_msgs.msg import BoundingBoxArray
-from jsk_recognition_msgs.msg import BoundingBox
+from motoman_viz_msgs.msg import BoundingBoxArray
+from motoman_viz_msgs.msg import BoundingBox
 # == Service ==
 # for cleaning the Octomap
 from std_srvs.srv import Empty
