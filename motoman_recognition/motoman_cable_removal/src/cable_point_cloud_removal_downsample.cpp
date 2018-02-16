@@ -3,13 +3,17 @@
 using namespace pcl;
 
 CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
-    : nh_(nh),
-      rate_(n.param("loop_rate", 10)),
+    : nh_(nh), rate_(n.param("loop_rate", 10)),
       frame_id_(n.param<std::string>("frame_id", "world")),
-      transformed_frame_id_(n.param<std::string>("transformed_frame_id", "/resized_pc_frame"))
-{
-  source_pc_sub_ = nh_.subscribe(n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1, &CableRemove::CableRemoveCallback, this);
-  fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(n.param<std::string>("filtered_pc_topic_name", "/cable_removed_pointcloud"), 1);
+      transformed_frame_id_(
+          n.param<std::string>("transformed_frame_id", "/resized_pc_frame")) {
+  source_pc_sub_ = nh_.subscribe(
+      n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1,
+      &CableRemove::CableRemoveCallback, this);
+  fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(
+      n.param<std::string>("filtered_pc_topic_name",
+                           "/cable_removed_pointcloud"),
+      1);
 
   // clopboxを当てはめるエリアを定義
   n.param<float>("crop_x_min", crop_min_.x, -0.6);
@@ -30,13 +34,14 @@ CableRemove::CableRemove(ros::NodeHandle nh, ros::NodeHandle n)
   n.param<double>("leaf_size_z", leaf_size_z_, 0.3);
 }
 
-void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc) {
+void CableRemove::CableRemoveCallback(
+    const sensor_msgs::PointCloud2::ConstPtr &source_pc) {
 
-  try{
-    tf_.lookupTransform("/world", "/dhand_base_link", source_pc->header.stamp, transform_);
-  }
-  catch (tf::TransformException ex){
-    ROS_ERROR("%s",ex.what());
+  try {
+    tf_.lookupTransform("/world", "/dhand_base_link", source_pc->header.stamp,
+                        transform_);
+  } catch (tf::TransformException ex) {
+    ROS_ERROR("%s", ex.what());
     ros::Duration(1.0).sleep();
   }
 
@@ -47,8 +52,8 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   sensor_msgs::PointCloud2 trans_pc;
   ros::Time now = ros::Time::now();
   try {
-    tf_.waitForTransform(transformed_frame_id_, frame_id_,
-                         now, ros::Duration(1.0));
+    tf_.waitForTransform(transformed_frame_id_, frame_id_, now,
+                         ros::Duration(1.0));
     pcl_ros::transformPointCloud(frame_id_, *source_pc, trans_pc, tf_);
   } catch (tf::ExtrapolationException e) {
     ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
@@ -57,28 +62,33 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
   // sensor_msgs::PointCloud2 → pcl::PointCloud
   pcl::PointCloud<PointXYZ> pcl_source;
   pcl::fromROSMsg(trans_pc, pcl_source);
-  pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_source_ptr (new pcl::PointCloud<pcl::PointXYZ>(pcl_source));
-  pcl::PointCloud<pcl::PointXYZ>::Ptr resized_pc_ptr (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_source_ptr(
+      new pcl::PointCloud<pcl::PointXYZ>(pcl_source));
+  pcl::PointCloud<pcl::PointXYZ>::Ptr resized_pc_ptr(
+      new pcl::PointCloud<pcl::PointXYZ>);
 
   // 点群の点数を減らす
   pcl::ApproximateVoxelGrid<pcl::PointXYZ> approximate_voxel_filter;
-  approximate_voxel_filter.setLeafSize (leaf_size_x_, leaf_size_y_, leaf_size_z_);
-  approximate_voxel_filter.setInputCloud (pcl_source_ptr);
-  approximate_voxel_filter.filter (*resized_pc_ptr);
+  approximate_voxel_filter.setLeafSize(leaf_size_x_, leaf_size_y_,
+                                       leaf_size_z_);
+  approximate_voxel_filter.setInputCloud(pcl_source_ptr);
+  approximate_voxel_filter.filter(*resized_pc_ptr);
 
   // paramで与えられたしきい値で点群をクロップ
   CableRemove::CropBox(resized_pc_ptr, crop_min_, crop_max_);
 
   // 外れ値除去
   pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
-  sor.setInputCloud (resized_pc_ptr);
-  sor.setMeanK (100);
-  sor.setStddevMulThresh (0.1);
-  sor.filter (*resized_pc_ptr);
+  sor.setInputCloud(resized_pc_ptr);
+  sor.setMeanK(100);
+  sor.setStddevMulThresh(0.1);
+  sor.filter(*resized_pc_ptr);
 
   //
-  for(pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i = resized_pc_ptr->points.begin(); pcl_source_ptr_i < resized_pc_ptr->points.end(); ++pcl_source_ptr_i){
-    if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]){
+  for (pcl::PointCloud<PointXYZ>::iterator pcl_source_ptr_i =
+           resized_pc_ptr->points.begin();
+       pcl_source_ptr_i < resized_pc_ptr->points.end(); ++pcl_source_ptr_i) {
+    if (pcl_source_ptr_i->z > dhand_adapter_pos_[2]) {
       Eigen::Vector3f AB(dhand_adapter_pos_[0] - cable_start_pos_[0],
                          dhand_adapter_pos_[1] - cable_start_pos_[1],
                          dhand_adapter_pos_[2] - cable_start_pos_[2]);
@@ -89,7 +99,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
       float Length_AB = AB.norm();
       float Length_ABCrossAP = ABcrossAP.norm();
       float H = Length_ABCrossAP / Length_AB;
-      if( H < radius_threshold_ ){
+      if (H < radius_threshold_) {
         resized_pc_ptr->erase(pcl_source_ptr_i);
         pcl_source_ptr_i--;
         // ROS_INFO("Remove Cable Point Cloud H = %f", H);
@@ -108,7 +118,7 @@ void CableRemove::CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &
 }
 
 void CableRemove::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
-                               pcl::PointXYZ min, pcl::PointXYZ max) {
+                          pcl::PointXYZ min, pcl::PointXYZ max) {
   Eigen::Vector4f minPoint;
 
   minPoint[0] = min.x; // define minimum point x
@@ -139,14 +149,14 @@ void CableRemove::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
   cropFilter.setTranslation(boxTranslatation);
   cropFilter.setRotation(boxRotation);
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>());
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(
+      new pcl::PointCloud<pcl::PointXYZ>());
   cropFilter.filter(*cloud_filtered);
   pcl::copyPointCloud<pcl::PointXYZ, pcl::PointXYZ>(*cloud_filtered, *cloud);
 }
 
-void CableRemove::run()
-{
-  while(nh_.ok()){
+void CableRemove::run() {
+  while (nh_.ok()) {
     ros::spinOnce();
     rate_.sleep();
   }

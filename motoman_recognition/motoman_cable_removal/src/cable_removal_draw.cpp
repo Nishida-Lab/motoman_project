@@ -3,12 +3,12 @@
 using namespace pcl;
 
 CableDraw::CableDraw(ros::NodeHandle nh, ros::NodeHandle n)
-    : nh_(nh),
-      rate_(n.param("loop_rate", 10)),
-      frame_id_(n.param<std::string>("frame_id", "world"))
-{
-  cable_line_pub_ = nh_.advertise<visualization_msgs::Marker>(n.param<std::string>("cable_name", "/cable"), 1);
-  remove_area_pub_ = nh_.advertise<visualization_msgs::Marker>(n.param<std::string>("remove_area_name", "/remove_area"), 1);
+    : nh_(nh), rate_(n.param("loop_rate", 10)),
+      frame_id_(n.param<std::string>("frame_id", "world")) {
+  cable_line_pub_ = nh_.advertise<visualization_msgs::Marker>(
+      n.param<std::string>("cable_name", "/cable"), 1);
+  remove_area_pub_ = nh_.advertise<visualization_msgs::Marker>(
+      n.param<std::string>("remove_area_name", "/remove_area"), 1);
 
   nh.param<double>("cable_start_pos_x", cable_start_pos_[0], 0.36);
   nh.param<double>("cable_start_pos_y", cable_start_pos_[1], 0.00);
@@ -18,11 +18,10 @@ CableDraw::CableDraw(ros::NodeHandle nh, ros::NodeHandle n)
 }
 
 void CableDraw::DrawLoop() {
-  try{
+  try {
     tf_.lookupTransform("/world", "/dhand_base_link", ros::Time(0), transform_);
-  }
-  catch (tf::TransformException ex){
-    ROS_ERROR("%s",ex.what());
+  } catch (tf::TransformException ex) {
+    ROS_ERROR("%s", ex.what());
     ros::Duration(1.0).sleep();
   }
 
@@ -35,8 +34,7 @@ void CableDraw::DrawLoop() {
   DrawCylinder(cable_start_pos_, dhand_adapter_pos_, length);
 }
 
-void CableDraw::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b)
-{
+void CableDraw::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b) {
   visualization_msgs::Marker line_list;
   line_list.header.frame_id = frame_id_;
   line_list.header.stamp = ros::Time::now();
@@ -69,8 +67,8 @@ void CableDraw::DrawCable(Eigen::Vector3d a, Eigen::Vector3d b)
   cable_line_pub_.publish(line_list);
 }
 
-void CableDraw::DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b, double length)
-{
+void CableDraw::DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b,
+                             double length) {
   Eigen::Vector3d axis_vector = b - a;
   Eigen::Vector3d axis_vector_normalized = axis_vector.normalized();
 
@@ -96,39 +94,43 @@ void CableDraw::DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b, double length
 
   // Draw marker
   visualization_msgs::Marker marker;
-  // Set the frame ID and timestamp.  See the TF tutorials for information on these.
+  // Set the frame ID and timestamp.  See the TF tutorials for information on
+  // these.
   marker.header.frame_id = frame_id_;
   marker.header.stamp = ros::Time::now();
 
-  // Set the namespace and id for this marker.  This serves to create a unique ID
+  // Set the namespace and id for this marker.  This serves to create a unique
+  // ID
   // Any marker sent with the same namespace and id will overwrite the old one
   marker.ns = "basic_shapes";
   marker.id = 0;
 
-  // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
+  // Set the marker type.  Initially this is CUBE, and cycles between that and
+  // SPHERE, ARROW, and CYLINDER
   marker.type = visualization_msgs::Marker::CYLINDER;
 
   // Set the marker action.  Options are ADD and DELETE
   marker.action = visualization_msgs::Marker::ADD;
 
-  // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-  marker.pose.position.x = (a[0] + b[0])/2.0;
-  marker.pose.position.y = (a[1] + b[1])/2.0;
-  marker.pose.position.z = (a[2] + b[2])/2.0;
+  // Set the pose of the marker.  This is a full 6DOF pose relative to the
+  // frame/time specified in the header
+  marker.pose.position.x = (a[0] + b[0]) / 2.0;
+  marker.pose.position.y = (a[1] + b[1]) / 2.0;
+  marker.pose.position.z = (a[2] + b[2]) / 2.0;
   marker.pose.orientation.x = q.x();
   marker.pose.orientation.y = q.y();
   marker.pose.orientation.z = q.z();
   marker.pose.orientation.w = q.w();
 
   // Set the scale of the marker -- 1x1x1 here means 1m on a side
-  marker.scale.x = 2*radius_threshold_;
-  marker.scale.y = 2*radius_threshold_;
+  marker.scale.x = 2 * radius_threshold_;
+  marker.scale.y = 2 * radius_threshold_;
   marker.scale.z = length;
 
   // Set the color -- be sure to set alpha to something non-zero!
-  marker.color.r = 231.0/255.0;
-  marker.color.g = 79.0/255.0;
-  marker.color.b = 81.0/255.0;
+  marker.color.r = 231.0 / 255.0;
+  marker.color.g = 79.0 / 255.0;
+  marker.color.b = 81.0 / 255.0;
   marker.color.a = 0.25;
 
   marker.lifetime = ros::Duration();
@@ -137,9 +139,8 @@ void CableDraw::DrawCylinder(Eigen::Vector3d a, Eigen::Vector3d b, double length
   remove_area_pub_.publish(marker);
 }
 
-void CableDraw::run()
-{
-  while(nh_.ok()){
+void CableDraw::run() {
+  while (nh_.ok()) {
     DrawLoop();
     ros::spinOnce();
     rate_.sleep();

@@ -1,7 +1,6 @@
 #include <cable_removal_draw.hpp>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ros::init(argc, argv, "CableDrawNode");
   ros::NodeHandle nh;
   ros::NodeHandle n("~");

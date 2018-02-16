@@ -14,9 +14,9 @@
 #include <pcl_conversions/pcl_conversions.h>
 
 #include <pcl/filters/approximate_voxel_grid.h>
-#include <pcl/filters/voxel_grid.h>
-#include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/filters/crop_box.h>
+#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/filters/voxel_grid.h>
 
 #include <visualization_msgs/Marker.h>
 
@@ -26,7 +26,8 @@ class CableRemove {
 public:
   CableRemove(ros::NodeHandle nh, ros::NodeHandle n);
   void CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
+  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min,
+               pcl::PointXYZ max);
   void run();
 
 private:

@@ -4,13 +4,16 @@
 using namespace pcl;
 
 EuclideanCluster::EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n)
-    : nh_(nh),
-      rate_(n.param("loop_rate", 10)),
-      frame_id_(n.param<std::string>("clustering_frame_id", "world"))
-{
-  source_pc_sub_ = nh_.subscribe(n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1, &EuclideanCluster::EuclideanCallback, this);
-  fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(n.param<std::string>("filtered_pc_topic_name", "/filtered_pointcloud"), 1);
-  euclidean_cluster_pub_ = nh_.advertise<motoman_viz_msgs::BoundingBoxArray>(n.param<std::string>("box_name", "/clustering_result"), 1);
+    : nh_(nh), rate_(n.param("loop_rate", 10)),
+      frame_id_(n.param<std::string>("clustering_frame_id", "world")) {
+  source_pc_sub_ = nh_.subscribe(
+      n.param<std::string>("source_pc_topic_name", "/merged_cloud"), 1,
+      &EuclideanCluster::EuclideanCallback, this);
+  fileterd_cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(
+      n.param<std::string>("filtered_pc_topic_name", "/filtered_pointcloud"),
+      1);
+  euclidean_cluster_pub_ = nh_.advertise<motoman_viz_msgs::BoundingBoxArray>(
+      n.param<std::string>("box_name", "/clustering_result"), 1);
 
   // クラスタリングのパラメータを初期化
   n.param<double>("clusterTolerance", clusterTolerance_, 0.02);
@@ -42,7 +45,8 @@ void EuclideanCluster::EuclideanCallback(
   // sensor_msgs::PointCloud2 → pcl::PointCloud
   pcl::PointCloud<PointXYZ> pcl_source;
   pcl::fromROSMsg(trans_pc, pcl_source);
-  pcl::PointCloud<PointXYZ>::Ptr pcl_source_ptr(new pcl::PointCloud<PointXYZ>(pcl_source));
+  pcl::PointCloud<PointXYZ>::Ptr pcl_source_ptr(
+      new pcl::PointCloud<PointXYZ>(pcl_source));
 
   // 点群の中からnanを消す
   // std::vector<int> dummy;
@@ -50,10 +54,10 @@ void EuclideanCluster::EuclideanCallback(
 
   // Create the filtering object
   pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
-  sor.setInputCloud (pcl_source_ptr);
-  sor.setMeanK (100);
-  sor.setStddevMulThresh (0.1);
-  sor.filter (*pcl_source_ptr);
+  sor.setInputCloud(pcl_source_ptr);
+  sor.setMeanK(100);
+  sor.setStddevMulThresh(0.1);
+  sor.filter(*pcl_source_ptr);
 
   // 平面をしきい値で除去する→Cropboxで
   CropBox(pcl_source_ptr, crop_min_, crop_max_);
@@ -101,13 +105,15 @@ void EuclideanCluster::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
   cropFilter.setTranslation(boxTranslatation);
   cropFilter.setRotation(boxRotation);
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>());
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(
+      new pcl::PointCloud<pcl::PointXYZ>());
   cropFilter.filter(*cloud_filtered);
   pcl::copyPointCloud<pcl::PointXYZ, pcl::PointXYZ>(*cloud_filtered, *cloud);
 }
 
 void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(
+      new pcl::search::KdTree<pcl::PointXYZ>);
   tree->setInputCloud(cloud);
 
   std::vector<pcl::PointIndices> cluster_indices;
@@ -122,9 +128,13 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   int j = 0;
   motoman_viz_msgs::BoundingBoxArray box_array; // clustering結果をぶち込む配列
 
-  for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it) {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZ>);
-    for (std::vector<int>::const_iterator pit = it->indices.begin(); pit != it->indices.end(); ++pit)
+  for (std::vector<pcl::PointIndices>::const_iterator it =
+           cluster_indices.begin();
+       it != cluster_indices.end(); ++it) {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(
+        new pcl::PointCloud<pcl::PointXYZ>);
+    for (std::vector<int>::const_iterator pit = it->indices.begin();
+         pit != it->indices.end(); ++pit)
       cloud_cluster->points.push_back(cloud->points[*pit]);
 
     cloud_cluster->width = cloud_cluster->points.size();
@@ -132,7 +142,7 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
     cloud_cluster->is_dense = true;
 
     // 一つのclusterをpushback
-    if(MinAreaRect(cloud_cluster, j)){
+    if (MinAreaRect(cloud_cluster, j)) {
       box_array.boxes.push_back(box_);
       j++;
     }
@@ -150,8 +160,8 @@ void EuclideanCluster::Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   cluster_indices.clear();
 }
 
-
-bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt){
+bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                                   int cluster_cnt) {
   // PCLによる点群の最大最小エリア取得
   pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
   feature_extractor.setInputCloud(cloud);
@@ -169,10 +179,10 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
   feature_extractor.getEccentricity(eccentricity);
   feature_extractor.getAABB(min_point_AABB, max_point_AABB);
 
-  if(min_point_AABB.z < min_height_){
+  if (min_point_AABB.z < min_height_) {
     // OpenCVで最小矩形を当てはめる
     std::vector<cv::Point2f> points;
-    for(unsigned int i = 0; i < cloud->points.size(); i++){
+    for (unsigned int i = 0; i < cloud->points.size(); i++) {
       cv::Point2f p2d;
       p2d.x = cloud->points[i].x;
       p2d.y = cloud->points[i].y;
@@ -181,7 +191,8 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
     cv::Mat points_mat(points);
     cv::RotatedRect rrect = cv::minAreaRect(points_mat);
 
-    // ROS_INFO("Center of mass (x, y) = (%f, %f)", rrect.center.x, rrect.center.y);
+    // ROS_INFO("Center of mass (x, y) = (%f, %f)", rrect.center.x,
+    // rrect.center.y);
     // ROS_INFO("Height = %f Width =  %f", rrect.size.height, rrect.size.width);
     // ROS_INFO("Angle = %f [deg]", rrect.angle);
 
@@ -191,8 +202,9 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
     pose.position.z = (min_point_AABB.z + max_point_AABB.z) / 2.0;
 
     Eigen::Matrix3f AxisAngle;
-    Eigen::Vector3f axis(0,0,1); //z 軸を指定
-    AxisAngle = Eigen::AngleAxisf(rrect.angle*M_PI/180.0, axis); // z軸周りに90度反時計回りに回転
+    Eigen::Vector3f axis(0, 0, 1); // z 軸を指定
+    AxisAngle = Eigen::AngleAxisf(rrect.angle * M_PI / 180.0,
+                                  axis); // z軸周りに90度反時計回りに回転
     Eigen::Quaternionf quat(AxisAngle); // クォータニオンに変換
     pose.orientation.x = quat.x();
     pose.orientation.y = quat.y();
@@ -211,9 +223,10 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
 
     br_.sendTransform(tf::StampedTransform(
         tf::Transform(
-            tf::Quaternion(pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w),
+            tf::Quaternion(pose.orientation.x, pose.orientation.y,
+                           pose.orientation.z, pose.orientation.w),
             tf::Vector3(pose.position.x, pose.position.y, max_point_AABB.z)),
-            ros::Time::now(), "world", object_name));
+        ros::Time::now(), "world", object_name));
 
     box_.header.frame_id = frame_id_;
     box_.pose = pose;
@@ -226,7 +239,8 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
   }
 }
 
-bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt) {
+bool EuclideanCluster::MomentOfInertia_AABB(
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt) {
   pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
   feature_extractor.setInputCloud(cloud);
   feature_extractor.compute();
@@ -243,11 +257,12 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
   feature_extractor.getEccentricity(eccentricity);
   feature_extractor.getAABB(min_point_AABB, max_point_AABB);
 
-  if(min_point_AABB.z < min_height_){
+  if (min_point_AABB.z < min_height_) {
     pose.position.x = (min_point_AABB.x + max_point_AABB.x) / 2.0;
     pose.position.y = (min_point_AABB.y + max_point_AABB.y) / 2.0;
     pose.position.z = (min_point_AABB.z + max_point_AABB.z) / 2.0;
-    // std::cout << pose.position.x << ", " << pose.position.y << ", " << pose.position.z << std::endl;
+    // std::cout << pose.position.x << ", " << pose.position.y << ", " <<
+    // pose.position.z << std::endl;
 
     size.x = max_point_AABB.x - min_point_AABB.x;
     size.y = max_point_AABB.y - min_point_AABB.y;
@@ -265,7 +280,7 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
         tf::Transform(
             tf::Quaternion(0, 0, 0, 1),
             tf::Vector3(pose.position.x, pose.position.y, max_point_AABB.z)),
-            ros::Time::now(), "world", object_name));
+        ros::Time::now(), "world", object_name));
 
     box_.header.frame_id = frame_id_;
     box_.pose = pose;
@@ -273,12 +288,13 @@ bool EuclideanCluster::MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr 
     box_.label = cluster_cnt;
 
     return true;
-  }else{
+  } else {
     return false;
   }
 }
 
-motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
   pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
   feature_extractor.setInputCloud(cloud);
   feature_extractor.compute();
@@ -298,7 +314,8 @@ motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCl
 
   feature_extractor.getMomentOfInertia(moment_of_inertia);
   feature_extractor.getEccentricity(eccentricity);
-  feature_extractor.getOBB(min_point_OBB, max_point_OBB, position_OBB, rotational_matrix_OBB);
+  feature_extractor.getOBB(min_point_OBB, max_point_OBB, position_OBB,
+                           rotational_matrix_OBB);
   feature_extractor.getEigenValues(major_value, middle_value, minor_value);
   feature_extractor.getEigenVectors(major_vector, middle_vector, minor_vector);
   feature_extractor.getMassCenter(mass_center);
@@ -311,7 +328,8 @@ motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCl
   pose.orientation.y = quat.y();
   pose.orientation.z = quat.z();
   pose.orientation.w = quat.w();
-  // std::cout << pose.position.x << ", " << pose.position.y << ", " << pose.position.z << std::endl;
+  // std::cout << pose.position.x << ", " << pose.position.y << ", " <<
+  // pose.position.z << std::endl;
 
   size.x = max_point_OBB.x - min_point_OBB.x;
   size.y = max_point_OBB.y - min_point_OBB.y;
@@ -327,9 +345,8 @@ motoman_viz_msgs::BoundingBox EuclideanCluster::MomentOfInertia_OBB(pcl::PointCl
   return box;
 }
 
-void EuclideanCluster::run()
-{
-  while(nh_.ok()){
+void EuclideanCluster::run() {
+  while (nh_.ok()) {
     ros::spinOnce();
     rate_.sleep();
   }

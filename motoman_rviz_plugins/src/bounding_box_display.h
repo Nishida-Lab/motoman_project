@@ -1,6 +1,6 @@
 // -*- mode: c++; -*-
 /*********************************************************************
- *  The BoundingBoxDisplay::updateColoring() 
+ *  The BoundingBoxDisplay::updateColoring()
  *  The BoundingBoxDisplay::BoundingBoxDisplay()
  *  functions are:
  *  Software License Agreement (BSD License)
@@ -36,7 +36,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  *  The other functions are:
- *  
+ *
  *  Software License Agreement (BSD License)
  *
  *  Copyright (c) 2013, Ryohei Ueda and JSK Lab
@@ -75,54 +75,54 @@
 
 #ifndef Q_MOC_RUN
 #include "bounding_box_display_common.h"
-#include <motoman_viz_msgs/BoundingBoxArray.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/message_filter_display.h>
-#include <rviz/ogre_helpers/shape.h>
-#include <rviz/ogre_helpers/billboard_line.h>
-#include <rviz/ogre_helpers/arrow.h>
 #include <OGRE/OgreSceneNode.h>
+#include <motoman_viz_msgs/BoundingBoxArray.h>
+#include <rviz/message_filter_display.h>
+#include <rviz/ogre_helpers/arrow.h>
+#include <rviz/ogre_helpers/billboard_line.h>
+#include <rviz/ogre_helpers/shape.h>
+#include <rviz/properties/bool_property.h>
+#include <rviz/properties/color_property.h>
+#include <rviz/properties/enum_property.h>
+#include <rviz/properties/float_property.h>
 #endif
 
-namespace motoman_rviz_plugins
-{
+namespace motoman_rviz_plugins {
 
-  class BoundingBoxDisplay: public BoundingBoxDisplayCommon<motoman_viz_msgs::BoundingBox>
-  {
-    Q_OBJECT
-  public:
-    BoundingBoxDisplay();
-    virtual ~BoundingBoxDisplay();
-  protected:
-    void onInitialize();
-    virtual void reset();
+class BoundingBoxDisplay
+    : public BoundingBoxDisplayCommon<motoman_viz_msgs::BoundingBox> {
+  Q_OBJECT
+public:
+  BoundingBoxDisplay();
+  virtual ~BoundingBoxDisplay();
 
-    bool only_edge_;
-    bool show_coords_;
-    // Properties
-    rviz::EnumProperty* coloring_property_;
-    rviz::ColorProperty* color_property_;
-    rviz::FloatProperty* alpha_property_;
-    rviz::BoolProperty* only_edge_property_;
-    rviz::FloatProperty* line_width_property_;
-    rviz::BoolProperty* show_coords_property_;
+protected:
+  void onInitialize();
+  virtual void reset();
 
-    motoman_viz_msgs::BoundingBox::ConstPtr latest_msg_;
-  protected Q_SLOTS:
-    void updateColor();
-    void updateAlpha();
-    void updateOnlyEdge();
-    void updateColoring();
-    void updateLineWidth();
-    void updateShowCoords();
-  private:
-    void processMessage(
-      const motoman_viz_msgs::BoundingBox::ConstPtr& msg);
-  };
+  bool only_edge_;
+  bool show_coords_;
+  // Properties
+  rviz::EnumProperty *coloring_property_;
+  rviz::ColorProperty *color_property_;
+  rviz::FloatProperty *alpha_property_;
+  rviz::BoolProperty *only_edge_property_;
+  rviz::FloatProperty *line_width_property_;
+  rviz::BoolProperty *show_coords_property_;
 
-}  // namespace motoman_rviz_plugins
+  motoman_viz_msgs::BoundingBox::ConstPtr latest_msg_;
+protected Q_SLOTS:
+  void updateColor();
+  void updateAlpha();
+  void updateOnlyEdge();
+  void updateColoring();
+  void updateLineWidth();
+  void updateShowCoords();
 
-#endif  // MOTOMAN_RVIZ_PLUGINS_BOUDNING_BOX_DISPLAY_H_
+private:
+  void processMessage(const motoman_viz_msgs::BoundingBox::ConstPtr &msg);
+};
+
+} // namespace motoman_rviz_plugins
+
+#endif // MOTOMAN_RVIZ_PLUGINS_BOUDNING_BOX_DISPLAY_H_

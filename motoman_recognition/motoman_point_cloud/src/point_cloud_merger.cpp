@@ -12,9 +12,10 @@ public:
                 const sensor_msgs::PointCloud2::ConstPtr &msg2);
 
 protected:
-
 private:
-  typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2> MySyncPolicy;
+  typedef message_filters::sync_policies::ApproximateTime<
+      sensor_msgs::PointCloud2, sensor_msgs::PointCloud2>
+      MySyncPolicy;
 
   message_filters::Subscriber<sensor_msgs::PointCloud2> pointcloudSubscriber1;
   message_filters::Subscriber<sensor_msgs::PointCloud2> pointcloudSubscriber2;
@@ -26,18 +27,20 @@ private:
 
 PointCloudMerger::PointCloudMerger(ros::NodeHandle &nh, ros::NodeHandle &privNh)
     : pointcloudSubscriber1(nh, privNh.param<std::string>(
-                            "/cloud_in_1", "/kinect_first/hd/points"),
+                                    "/cloud_in_1", "/kinect_first/hd/points"),
                             1),
       pointcloudSubscriber2(nh, privNh.param<std::string>(
-                            "/cloud_in_2", "/kinect_second/hd/points"),
+                                    "/cloud_in_2", "/kinect_second/hd/points"),
                             1),
-      mergedPointcloudPublisher(nh.advertise<sensor_msgs::PointCloud2>(privNh.param<std::string>("/cloud_out", "/merged_cloud"), 1)),
-      sync(MySyncPolicy(10), pointcloudSubscriber1, pointcloudSubscriber2)
-{
+      mergedPointcloudPublisher(nh.advertise<sensor_msgs::PointCloud2>(
+          privNh.param<std::string>("/cloud_out", "/merged_cloud"), 1)),
+      sync(MySyncPolicy(10), pointcloudSubscriber1, pointcloudSubscriber2) {
   sync.registerCallback(boost::bind(&PointCloudMerger::callback, this, _1, _2));
 }
 
-void PointCloudMerger::callback(const sensor_msgs::PointCloud2::ConstPtr &msg1,const sensor_msgs::PointCloud2::ConstPtr &msg2) {
+void PointCloudMerger::callback(
+    const sensor_msgs::PointCloud2::ConstPtr &msg1,
+    const sensor_msgs::PointCloud2::ConstPtr &msg2) {
   static tf::TransformListener listener;
 
   sensor_msgs::PointCloud2 cloud_transformed;
@@ -48,7 +51,7 @@ void PointCloudMerger::callback(const sensor_msgs::PointCloud2::ConstPtr &msg1,c
 
   sensor_msgs::PointCloud2 cloud_merged;
   pcl::concatenatePointCloud(cloud_transformed, *msg2, cloud_merged);
-  //cloud_merged.header.stamp = ros::Time::now();
+  // cloud_merged.header.stamp = ros::Time::now();
   mergedPointcloudPublisher.publish(cloud_merged);
   ROS_INFO("Point cloud published");
 }

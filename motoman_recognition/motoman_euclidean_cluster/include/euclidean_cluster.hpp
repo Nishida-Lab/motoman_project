@@ -46,11 +46,14 @@ class EuclideanCluster {
 public:
   EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n);
   void EuclideanCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
+  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min,
+               pcl::PointXYZ max);
   void Clustering(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
   bool MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
-  bool MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int cluster_cnt);
-  motoman_viz_msgs::BoundingBox MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  bool MomentOfInertia_AABB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                            int cluster_cnt);
+  motoman_viz_msgs::BoundingBox
+  MomentOfInertia_OBB(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
   void run();
 
 private:

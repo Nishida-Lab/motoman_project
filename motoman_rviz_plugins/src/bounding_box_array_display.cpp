@@ -1,5 +1,5 @@
 /*********************************************************************
- *  The BoundingBoxArrayDisplay::updateColoring() 
+ *  The BoundingBoxArrayDisplay::updateColoring()
  *  The BoundingBoxArrayDisplay::BoundingBoxArrayDisplay()
  *  functions are:
  *  Software License Agreement (BSD License)
@@ -35,7 +35,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  *  The other functions are:
- *  
+ *
  *  Software License Agreement (BSD License)
  *
  *  Copyright (c) 2013, Ryohei Ueda and JSK Lab
@@ -69,184 +69,158 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-#include "bounding_box_display_common.h"
 #include "bounding_box_array_display.h"
+#include "bounding_box_display_common.h"
 #include <jsk_topic_tools/color_utils.h>
 
-namespace motoman_rviz_plugins
-{
+namespace motoman_rviz_plugins {
 
-  BoundingBoxArrayDisplay::BoundingBoxArrayDisplay()
-  {
-    coloring_property_ = new rviz::EnumProperty(
-      "coloring", "Auto",
-      "coloring method",
-      this, SLOT(updateColoring()));
-    coloring_property_->addOption("Flat color", 1);
-    coloring_property_->addOption("Label", 2);
-    coloring_property_->addOption("Value", 3);
-    coloring_property_->addOption("Tag", 4);
+BoundingBoxArrayDisplay::BoundingBoxArrayDisplay() {
+  coloring_property_ = new rviz::EnumProperty(
+      "coloring", "Auto", "coloring method", this, SLOT(updateColoring()));
+  coloring_property_->addOption("Flat color", 1);
+  coloring_property_->addOption("Label", 2);
+  coloring_property_->addOption("Value", 3);
+  coloring_property_->addOption("Tag", 4);
 
-    color_property_ = new rviz::ColorProperty(
-      "color", QColor(25, 255, 0),
-      "color to draw the bounding boxes",
-      this, SLOT(updateColor()));
-    alpha_property_ = new rviz::FloatProperty(
-      "alpha", 0.8,
-      "alpha value to draw the bounding boxes",
-      this, SLOT(updateAlpha()));
-    only_edge_property_ = new rviz::BoolProperty(
-      "only edge", false,
-      "show only the edges of the boxes",
-      this, SLOT(updateOnlyEdge()));
-    line_width_property_ = new rviz::FloatProperty(
-      "line width", 0.005,
-      "line width of the edges",
-      this, SLOT(updateLineWidth()));
-    show_coords_property_ = new rviz::BoolProperty(
-      "show coords", false,
-      "show coordinate of bounding box",
-      this, SLOT(updateShowCoords()));
+  color_property_ = new rviz::ColorProperty("color", QColor(25, 255, 0),
+                                            "color to draw the bounding boxes",
+                                            this, SLOT(updateColor()));
+  alpha_property_ = new rviz::FloatProperty(
+      "alpha", 0.8, "alpha value to draw the bounding boxes", this,
+      SLOT(updateAlpha()));
+  only_edge_property_ = new rviz::BoolProperty(
+      "only edge", false, "show only the edges of the boxes", this,
+      SLOT(updateOnlyEdge()));
+  line_width_property_ =
+      new rviz::FloatProperty("line width", 0.005, "line width of the edges",
+                              this, SLOT(updateLineWidth()));
+  show_coords_property_ = new rviz::BoolProperty(
+      "show coords", false, "show coordinate of bounding box", this,
+      SLOT(updateShowCoords()));
+}
+
+BoundingBoxArrayDisplay::~BoundingBoxArrayDisplay() {
+  delete color_property_;
+  delete alpha_property_;
+  delete only_edge_property_;
+  delete coloring_property_;
+  delete show_coords_property_;
+}
+
+void BoundingBoxArrayDisplay::onInitialize() {
+  MFDClass::onInitialize();
+  scene_node_ = scene_manager_->getRootSceneNode()->createChildSceneNode();
+
+  updateColor();
+  updateAlpha();
+  updateOnlyEdge();
+  updateColoring();
+  updateLineWidth();
+  updateShowCoords();
+}
+
+void BoundingBoxArrayDisplay::updateLineWidth() {
+  line_width_ = line_width_property_->getFloat();
+  if (latest_msg_) {
+    processMessage(latest_msg_);
   }
+}
 
-  BoundingBoxArrayDisplay::~BoundingBoxArrayDisplay()
-  {
-    delete color_property_;
-    delete alpha_property_;
-    delete only_edge_property_;
-    delete coloring_property_;
-    delete show_coords_property_;
+void BoundingBoxArrayDisplay::updateColor() {
+  color_ = color_property_->getColor();
+  if (latest_msg_) {
+    processMessage(latest_msg_);
   }
+}
 
-  void BoundingBoxArrayDisplay::onInitialize()
-  {
-    MFDClass::onInitialize();
-    scene_node_ = scene_manager_->getRootSceneNode()->createChildSceneNode();
-
-    updateColor();
-    updateAlpha();
-    updateOnlyEdge();
-    updateColoring();
-    updateLineWidth();
-    updateShowCoords();
+void BoundingBoxArrayDisplay::updateAlpha() {
+  alpha_ = alpha_property_->getFloat();
+  if (latest_msg_) {
+    processMessage(latest_msg_);
   }
+}
 
-  void BoundingBoxArrayDisplay::updateLineWidth()
-  {
-    line_width_ = line_width_property_->getFloat();
-    if (latest_msg_) {
-      processMessage(latest_msg_);
-    }
+void BoundingBoxArrayDisplay::updateOnlyEdge() {
+  only_edge_ = only_edge_property_->getBool();
+  if (only_edge_) {
+    line_width_property_->show();
+  } else {
+    line_width_property_->hide();
+    ;
   }
-
-  void BoundingBoxArrayDisplay::updateColor()
-  {
-    color_ = color_property_->getColor();
-    if (latest_msg_) {
-      processMessage(latest_msg_);
-    }
-  }
-
-  void BoundingBoxArrayDisplay::updateAlpha()
-  {
-    alpha_ = alpha_property_->getFloat();
-    if (latest_msg_) {
-      processMessage(latest_msg_);
-    }
-  }
-
-  void BoundingBoxArrayDisplay::updateOnlyEdge()
-  {
-    only_edge_ = only_edge_property_->getBool();
+  // Imediately apply attribute
+  if (latest_msg_) {
     if (only_edge_) {
-      line_width_property_->show();
-    }
-    else {
-      line_width_property_->hide();;
-    }
-    // Imediately apply attribute
-    if (latest_msg_) {
-      if (only_edge_) {
-        showEdges(latest_msg_);
-      }
-      else {
-        showBoxes(latest_msg_);
-      }
+      showEdges(latest_msg_);
+    } else {
+      showBoxes(latest_msg_);
     }
   }
+}
 
-  void BoundingBoxArrayDisplay::updateColoring()
-  {
-    if (coloring_property_->getOptionInt() == 0) {
-      coloring_method_ = "auto";
-      color_property_->hide();
-    }
-    else if (coloring_property_->getOptionInt() == 1) {
-      coloring_method_ = "flat";
-      color_property_->show();
-    }
-    else if (coloring_property_->getOptionInt() == 2) {
-      coloring_method_ = "label";
-      color_property_->hide();
-    }
-    else if (coloring_property_->getOptionInt() == 3) {
-      coloring_method_ = "value";
-      color_property_->hide();
-    }
-    else if (coloring_property_->getOptionInt() == 4) {
-      coloring_method_ = "tag";
-      color_property_->hide();
-    }
-
-    if (latest_msg_) {
-      processMessage(latest_msg_);
-    }
+void BoundingBoxArrayDisplay::updateColoring() {
+  if (coloring_property_->getOptionInt() == 0) {
+    coloring_method_ = "auto";
+    color_property_->hide();
+  } else if (coloring_property_->getOptionInt() == 1) {
+    coloring_method_ = "flat";
+    color_property_->show();
+  } else if (coloring_property_->getOptionInt() == 2) {
+    coloring_method_ = "label";
+    color_property_->hide();
+  } else if (coloring_property_->getOptionInt() == 3) {
+    coloring_method_ = "value";
+    color_property_->hide();
+  } else if (coloring_property_->getOptionInt() == 4) {
+    coloring_method_ = "tag";
+    color_property_->hide();
   }
 
-  void BoundingBoxArrayDisplay::updateShowCoords()
-  {
-    show_coords_ = show_coords_property_->getBool();
-    // Immediately apply show_coords attribute
-    if (!show_coords_) {
-      hideCoords();
-    }
-    else if (show_coords_ && latest_msg_) {
-      showCoords(latest_msg_);
-    }
+  if (latest_msg_) {
+    processMessage(latest_msg_);
+  }
+}
+
+void BoundingBoxArrayDisplay::updateShowCoords() {
+  show_coords_ = show_coords_property_->getBool();
+  // Immediately apply show_coords attribute
+  if (!show_coords_) {
+    hideCoords();
+  } else if (show_coords_ && latest_msg_) {
+    showCoords(latest_msg_);
+  }
+}
+
+void BoundingBoxArrayDisplay::reset() {
+  MFDClass::reset();
+  shapes_.clear();
+  edges_.clear();
+  coords_nodes_.clear();
+  coords_objects_.clear();
+  latest_msg_.reset();
+}
+
+void BoundingBoxArrayDisplay::processMessage(
+    const motoman_viz_msgs::BoundingBoxArray::ConstPtr &msg) {
+  // Store latest message
+  latest_msg_ = msg;
+
+  if (!only_edge_) {
+    showBoxes(msg);
+  } else {
+    showEdges(msg);
   }
 
-  void BoundingBoxArrayDisplay::reset()
-  {
-    MFDClass::reset();
-    shapes_.clear();
-    edges_.clear();
-    coords_nodes_.clear();
-    coords_objects_.clear();
-    latest_msg_.reset();
+  if (show_coords_) {
+    showCoords(msg);
+  } else {
+    hideCoords();
   }
+}
 
-  void BoundingBoxArrayDisplay::processMessage(
-    const motoman_viz_msgs::BoundingBoxArray::ConstPtr& msg)
-  {
-    // Store latest message
-    latest_msg_ = msg;
-
-    if (!only_edge_) {
-      showBoxes(msg);
-    }
-    else {
-      showEdges(msg);
-    }
-
-    if (show_coords_) {
-      showCoords(msg);
-    }
-    else {
-      hideCoords();
-    }
-  }
-
-}  // namespace motoman_rviz_plugins
+} // namespace motoman_rviz_plugins
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(motoman_rviz_plugins::BoundingBoxArrayDisplay, rviz::Display)
+PLUGINLIB_EXPORT_CLASS(motoman_rviz_plugins::BoundingBoxArrayDisplay,
+                       rviz::Display)

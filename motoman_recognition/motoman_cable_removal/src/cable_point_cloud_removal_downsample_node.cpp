@@ -1,7 +1,6 @@
 #include <cable_point_cloud_removal_downsample.hpp>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ros::init(argc, argv, "CableRemoveNode");
   ros::NodeHandle nh;
   ros::NodeHandle n("~");

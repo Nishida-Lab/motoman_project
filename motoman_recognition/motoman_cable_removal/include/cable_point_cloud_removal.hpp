@@ -20,7 +20,8 @@ class CableRemove {
 public:
   CableRemove(ros::NodeHandle nh, ros::NodeHandle n);
   void CableRemoveCallback(const sensor_msgs::PointCloud2::ConstPtr &source_pc);
-  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min, pcl::PointXYZ max);
+  void CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointXYZ min,
+               pcl::PointXYZ max);
   void run();
 
 private:
