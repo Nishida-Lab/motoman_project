@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="motoman_demo" type="handring_parallel_planner_sidebox.py" name="handring_parallel_planner" output="screen">
+  <node pkg="motoman_demo" type="handring_parallel_planner_sidebox.py" name="handring_parallel_planner_sidebox" output="screen">
 	<param name="diff_from_object" type="double" value="0.03"/>
 	<param name="offset" type="double" value="0.45"/>
   </node>
