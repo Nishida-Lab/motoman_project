@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from time import sleep
 # Basic
 import sys
 import copy
@@ -140,15 +141,40 @@ class HandringPlanner(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         # plan
-        plan = RobotTrajectory()
-        counter = 0
-        while len(plan.joint_trajectory.points) == 0 :
-            plan = self.arm.plan()
-            counter+=1
-            self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
-            if counter > 1 :
-                return (False, start_state)
-        self.arm.set_planning_time(self.planning_limitation_time)
+        for i in range(5):
+
+            print "plan: " +str(i)
+            plan = RobotTrajectory()
+            counter = 0
+            while len(plan.joint_trajectory.points) == 0 :
+                plan = self.arm.plan()
+                counter+=1
+                self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+                if counter > 1 :
+                    return (False, start_state)
+                self.arm.set_planning_time(self.planning_limitation_time)
+            # sleep(1)
+            rospy.sleep(0.5)     
+
+        # plan = RobotTrajectory()
+        # counter = 0
+        # while len(plan.joint_trajectory.points) == 0 :
+        #     plan = self.arm.plan()
+        #     counter+=1
+        #     self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+        #     if counter > 1 :
+        #         return (False, start_state)
+
+
+        # plan = RobotTrajectory()
+        # counter = 0
+        # while len(plan.joint_trajectory.points) == 0 :
+        #     plan = self.arm.plan()
+        #     counter+=1
+        #     self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+        #     if counter > 1 :
+        #         return (False, start_state)
+        # self.arm.set_planning_time(self.planning_limitation_time)
                 
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
@@ -355,35 +381,37 @@ class HandringPlanner(object):
         (result, state) = self.get_plan(object_trans, self.offset, start_state, False)
         if rospy.is_shutdown():
             return
-        (result, state) = self.get_cartesian_plan(object_trans, 0.3 + self.diff, state, True)
-        if rospy.is_shutdown():
-            return
-        # Back to upper side
-        (result, state) = self.get_cartesian_plan(object_trans, self.offset + 0.05, state, True)
-        if rospy.is_shutdown():
-            return
+        # (result, state) = self.get_cartesian_plan(object_trans, 0.3 + self.diff, state, True)
+        # if rospy.is_shutdown():
+        #     return
+        # # Back to upper side
+        # (result, state) = self.get_cartesian_plan(object_trans, self.offset + 0.05, state, True)
+        # if rospy.is_shutdown():
+        #     return
 
-        # Back to home
-        (result, state) = self.get_home_plan(state, True)
-        if rospy.is_shutdown():
-            return
+        # # Back to home
+        # (result, state) = self.get_home_plan(state, True)
+        # if rospy.is_shutdown():
+        #     return
 
-        # Go to Release
-        (result, state) = self.get_plan(goal_trans, self.offset, state, True)
-        if rospy.is_shutdown():
-            return
-        (result, state) = self.get_cartesian_plan(goal_trans, 0.3 + self.diff, state, False)
-        if rospy.is_shutdown():
-            return
-        # Back to upper side
-        (result, state) = self.get_cartesian_plan(goal_trans, self.offset + 0.05, state, False)
-        if rospy.is_shutdown():
-            return
+        # # Go to Release
+        # (result, state) = self.get_plan(goal_trans, self.offset, state, True)
+        # if rospy.is_shutdown():
+        #     return
+        # (result, state) = self.get_cartesian_plan(goal_trans, 0.3 + self.diff, state, False)
+        # if rospy.is_shutdown():
+        #     return
 
-        # Back to home
-        (result, state) = self.get_home_plan(state, False)
-        if rospy.is_shutdown():
-            return
+
+        # # Back to upper side
+        # (result, state) = self.get_cartesian_plan(goal_trans, self.offset + 0.05, state, False)
+        # if rospy.is_shutdown():
+        #     return
+
+        # # Back to home
+        # (result, state) = self.get_home_plan(state, False)
+        # if rospy.is_shutdown():
+        #     return
 
         return state
         
