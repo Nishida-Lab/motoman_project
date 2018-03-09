@@ -176,7 +176,7 @@ class HandringPlanner(object):
             if grasp == 0:
                 break
             if len(plan.joint_trajectory.points) < threshold:
-                print("---------debug0--------{}".format(len(plan.joint_trajectory.points)))
+                # print("---------debug0--------{}".format(len(plan.joint_trajectory.points)))
                 break
             # print "input key A to continue."
             # key = raw_input('>>>  ')
@@ -198,7 +198,7 @@ class HandringPlanner(object):
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
-        print("---------debug2--------{}".format(len(plan.joint_trajectory.points)))
+        # print("---------debug2--------{}".format(len(plan.joint_trajectory.points)))
         pub_msg.trajectory = plan
 
         # print "input key A to continue."
@@ -389,8 +389,8 @@ class HandringPlanner(object):
             object_num = get_num_from_pepper / 10
             box_num = get_num_from_pepper % 10 - 1
             object_trans = self.get_object_tf_data(object_num)
-            moving_x = float(raw_input('offset_x >>>  '))
-            moving_y = float(raw_input('offset_y >>>  '))
+            moving_x = float(raw_input('axis:↓ offset_x[m] >>>  '))
+            moving_y = float(raw_input('axis:→ offset_y[m] >>>  '))
             goal_trans = self.get_goal_tf_data(object_trans, moving_x, moving_y) #offset x, y
             self.run(object_num, box_num, start_state,  object_trans, goal_trans)
             if rospy.is_shutdown():
