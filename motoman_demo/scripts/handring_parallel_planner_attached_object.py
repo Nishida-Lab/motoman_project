@@ -34,10 +34,6 @@ from motoman_viz_msgs.msg import BoundingBox
 # for cleaning the Octomap
 from std_srvs.srv import Empty
 
-
-moving_x = 0
-moving_y = 0
-
 class HandringPlanner(object):
 
     def __init__(self):
@@ -161,9 +157,8 @@ class HandringPlanner(object):
         #     rospy.sleep(0.5)     
 
         #plan
-        threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
+        # threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
         threshold = 20
-        
         while(1):
             plan = RobotTrajectory()
             counter = 0
@@ -194,8 +189,7 @@ class HandringPlanner(object):
         #     if counter > 1 :
         #         return (False, start_state)
         # self.arm.set_planning_time(self.planning_limitation_time)
-        # print("------------debug------------{}".format(len(plan.joint_trajectory.points)))  
-        
+                
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
         pub_msg = HandringPlan()
