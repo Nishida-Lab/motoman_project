@@ -111,9 +111,20 @@ class HandringPlanner(object):
         return trans
 
     def get_goal_tf_data(self, object_trans, offset_x, offset_y):
+        workspace_width = 0.60
+        workspace_depth = 0.47
+        margin = 0.03
         goal_trans = copy.deepcopy(object_trans)
-        goal_trans.transform.translation.x = object_trans.transform.translation.x + offset_x
-        goal_trans.transform.translation.y = object_trans.transform.translation.y + offset_y
+        target_x = object_trans.transform.translation.x + offset_x
+        target_y = object_trans.transform.translation.y + offset_y
+        print "target position (x, y): ("+str(round(target_x,3))+" ,"+str(round(target_y,3))+")"
+        if target_x < margin or workspace_depth-margin < target_x or \
+           target_y < -(workspace_width/2.0)+margin or (workspace_width/2.0)-margin < target_y:
+            rospy.logwarn("the target position is out of workspace!")
+            return False
+        else:
+            goal_trans.transform.translation.x = target_x
+            goal_trans.transform.translation.y = target_y
         return goal_trans
 
     # -------- Clear Octomap -------- #
@@ -163,7 +174,7 @@ class HandringPlanner(object):
         #     rospy.sleep(0.5)     
 
         #plan
-        threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
+        # threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
         threshold = 20
         
         while(1):
@@ -181,22 +192,6 @@ class HandringPlanner(object):
             if len(plan.joint_trajectory.points) < threshold:
                 # print("---------debug0--------{}".format(len(plan.joint_trajectory.points)))
                 break
-            # print "input key A to continue."
-            # key = raw_input('>>>  ')
-            # if key == "a":
-            #     break
-
-        # plan = RobotTrajectory()
-        # counter = 0
-        # print("---------debug1--------{}".format(len(plan.joint_trajectory.points)))
-        # while len(plan.joint_trajectory.points) == 0 :
-        #     plan = self.arm.plan()
-        #     counter+=1
-        #     self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
-        #     if counter > 1 :
-        #         return (False, start_state)
-        # self.arm.set_planning_time(self.planning_limitation_time)
-        # print("------------debug------------{}".format(len(plan.joint_trajectory.points)))  
         
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
@@ -205,11 +200,6 @@ class HandringPlanner(object):
         # print("---------debug2--------{}".format(len(plan.joint_trajectory.points)))
         pub_msg.trajectory = plan
 
-        # print "input key A to continue."
-        # while(1):
-        #     key = raw_input('>>>  ')
-        #     if key == "a":
-        #         break
 
         self.hp_pub.publish(pub_msg)
         self.arm.clear_pose_targets()
@@ -375,6 +365,8 @@ class HandringPlanner(object):
         moving_y = message.ym
         goal_trans = self.get_goal_tf_data(object_trans, moving_x, moving_y) #offset x, y
 
+        if goal_trans is False:
+            return
         print
         print "target: " + message.tag
         print "↓ offset_x[m] : " +str(moving_x)
