@@ -111,14 +111,19 @@ class HandringPlanner(object):
         return trans
 
     def get_goal_tf_data(self, object_trans, offset_x, offset_y):
+        margin = 0.02
+        dx = 0.08
         workspace_width = 0.60
-        workspace_depth = 0.47
-        margin = 0.03
+        workspace_depth = 0.47 + dx
+
         goal_trans = copy.deepcopy(object_trans)
-        target_x = object_trans.transform.translation.x + offset_x
-        target_y = object_trans.transform.translation.y + offset_y
+        # target_x = object_trans.transform.translation.x + offset_x + dx
+        # target_y = object_trans.transform.translation.y + offset_y
+        target_x = offset_x + dx
+        target_y = offset_y
+
         print "target position (x, y): ("+str(round(target_x,3))+" ,"+str(round(target_y,3))+")"
-        if target_x < margin or workspace_depth-margin < target_x or \
+        if target_x < margin+dx or workspace_depth-margin < target_x or \
            target_y < -(workspace_width/2.0)+margin or (workspace_width/2.0)-margin < target_y:
             rospy.logwarn("the target position is out of workspace!")
             return False
