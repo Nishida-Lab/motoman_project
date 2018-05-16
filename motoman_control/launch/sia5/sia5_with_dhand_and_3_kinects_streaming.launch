@@ -1,0 +1,53 @@
+<!--
+  Contoller specific version of 'robot_interface.launch'.
+
+
+  Usage:
+    robot_interface_streaming_fs100.launch robot_ip:=<value>
+-->
+<launch>
+	<arg name="robot_ip" default="10.0.0.2"/>
+	<arg name="use_bswap" default="true" />
+	<arg name="version0" default="true" />
+	<arg name="model" value="$(find motoman_description)/robots/sia5/sia5_with_dhand_and_3_kinects.urdf.xacro"/>
+	
+	<!-- load URDF description -->
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'"/>
+
+	<!-- set joint name parameter -->
+	<rosparam param="controller_joint_names">[joint_s, joint_l, joint_e, joint_u, joint_r, joint_b, joint_t]</rosparam>
+
+	<!-- DHand-Joint Republisher -->
+	<node pkg="dhand_control"  type="dhand_joint_state_republisher"  name="dhand_joint_state_republisher" output="screen">
+      <param name="joint_state_republish_topic_name" value="/joint_states" />
+      <param name="joint_state_subscribe_topic_name" value="/sia5/joint_states" />
+	</node>
+	
+	<!-- robot state publisher -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+	<!--======== from here robot interface streaming ======== -->
+	<param name="robot_ip_address" type="str" value="$(arg robot_ip)" />
+	<param name="version0" type="bool" value="$(arg version0)" />
+	
+	<!-- load the correct version of the motion streaming node -->
+	<node if="$(arg use_bswap)" name="motion_streaming_interface"
+		  pkg="motoman_driver" type="motion_streaming_interface_bswap" >
+	  <remap from="/joint_states" to="/sia5/joint_states"/>
+	</node>
+	<node unless="$(arg use_bswap)" name="motion_streaming_interface"
+		  pkg="motoman_driver" type="motion_streaming_interface" >
+	  <remap from="/joint_states" to="/sia5/joint_states"/>
+	</node>
+
+	<node if="$(arg use_bswap)" name="joint_state" 
+		  pkg="motoman_driver" type="robot_state_bswap" >
+	  <remap from="/joint_states" to="sia5/joint_states"/>
+	</node>
+	<node unless="$(arg use_bswap)" name="joint_state" 
+		  pkg="motoman_driver" type="robot_state" >
+	  <remap from="/joint_states" to="sia5/joint_states"/>
+	</node>
+
+</launch>
+
