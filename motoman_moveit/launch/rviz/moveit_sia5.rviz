@@ -12,6 +12,7 @@ Panels:
         - /MotionPlanning1/Planned Path1
         - /PointCloud21
         - /BoundingBoxArray1
+        - /PointCloud22
       Splitter Ratio: 0.5
     Tree Height: 270
   - Class: rviz/Selection
@@ -212,10 +213,6 @@ Visualization Manager:
           Value: true
         kinect_center_rgb_optical_frame:
           Value: true
-        kinect_hand_link:
-          Value: true
-        kinect_hand_rgb_optical_frame:
-          Value: true
         kinect_left_link:
           Value: true
         kinect_left_rgb_optical_frame:
@@ -239,8 +236,6 @@ Visualization Manager:
         link_u:
           Value: false
         object_1:
-          Value: true
-        object_2:
           Value: true
         tool0:
           Value: false
@@ -270,9 +265,6 @@ Visualization Manager:
                     link_r:
                       link_b:
                         link_t:
-                          kinect_hand_link:
-                            kinect_hand_rgb_optical_frame:
-                              {}
                           tool0:
                             dhand_adapter_link:
                               dhand_base_link:
@@ -291,8 +283,6 @@ Visualization Manager:
                                 dhand_palm_link:
                                   {}
           object_1:
-            {}
-          object_2:
             {}
       Update Interval: 0
       Value: true
@@ -619,7 +609,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /kinect_center/hd/points
+      Topic: /kinect_center/qhd/points
       Unreliable: true
       Use Fixed Frame: true
       Use rainbow: true
@@ -716,7 +706,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: RGB8
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -731,7 +721,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /kinect_second/hd/points
+      Topic: /kinect_center/qhd/points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -760,7 +750,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.72966
+      Distance: 2.16969
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -772,10 +762,10 @@ Visualization Manager:
         Z: 0.34002
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.1604
+      Pitch: 0.4354
       Target Frame: world
       Value: Orbit (rviz)
-      Yaw: 0.235383
+      Yaw: 5.90357
     Saved: ~
 Window Geometry:
   Displays:
@@ -795,5 +785,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1869
-  X: 2018
-  Y: 59
+  X: 1941
+  Y: 14
