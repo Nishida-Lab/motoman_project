@@ -1,7 +1,7 @@
 - git:
     local-name: motoman/
     uri: https://github.com/Nishida-Lab/motoman.git
-    version: indigo-devel
+    version: kinetic-devel
 - git:
     local-name: motoman_tools/iai_kinect2
     uri: https://github.com/code-iai/iai_kinect2.git
