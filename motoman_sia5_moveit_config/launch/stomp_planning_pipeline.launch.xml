@@ -1,0 +1,7 @@
+<launch>
+
+  <!-- STOMP Plugin for MoveIt! -->
+  <arg name="planning_plugin" value="stomp_moveit/StompPlannerManager" />
+  <rosparam command="load" file="$(find motoman_sia5_moveit_config)/config/stomp_planning.yaml"/>
+
+</launch>
