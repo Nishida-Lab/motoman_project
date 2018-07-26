@@ -24,6 +24,6 @@
   <depend>roscpp</depend>
   <depend>pluginlib</depend>
 
-  <!--exec_depend>motoman_sia5_moveit_config</exec_depend-->
+  <exec_depend>motoman_sia5_moveit_config</exec_depend>
 
 </package>
