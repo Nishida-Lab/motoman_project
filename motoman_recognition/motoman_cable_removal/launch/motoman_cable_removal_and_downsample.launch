@@ -1,0 +1,33 @@
+<launch>
+  <param name="radius_threshold" value="0.1" />
+  <param name="cable_start_pos_x" value="0.36" />
+  <param name="cable_start_pos_y" value="0.00" />
+  <param name="cable_start_pos_z" value="1.56" />
+
+  <node name="cable_point_cloud_removal_downsample" pkg="motoman_cable_removal" type="cable_point_cloud_removal_downsample_node" output="screen">
+    <param name="loop_rate" value="10" />
+
+    <param name="filtered_pc_topic_name" value="/kinect_first/hd/resized_points" />
+    <param name="source_pc_topic_name" value="/kinect_first/hd/points" />
+    <param name="transformed_frame_id" value="/kinect_first_rgb_optical_frame" />
+    <param name="leaf_size_x" value="0.1" />
+    <param name="leaf_size_y" value="0.1" />
+    <param name="leaf_size_z" value="0.1" />
+
+   <!-- 探索を行うエリア -->
+    <param name="crop_x_min" value="-0.4" />
+    <param name="crop_x_max" value="1.0" />
+    <param name="crop_y_min" value="-0.5" />
+    <param name="crop_y_max" value="0.5" />
+    <param name="crop_z_min" value="-0.01" />
+    <param name="crop_z_max" value="2.5" />
+  </node>
+
+  <node name="cable_removal_draw" pkg="motoman_cable_removal" type="cable_removal_draw_node">
+    <param name="loop_rate" value="10" />
+
+    <param name="filtered_pc_topic_name" value="/cable_removed_pointcloud" />
+    <param name="box_name" value="/remove_area" />
+  </node>
+
+</launch>

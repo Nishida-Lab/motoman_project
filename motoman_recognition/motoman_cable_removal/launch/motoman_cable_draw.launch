@@ -1,0 +1,13 @@
+<launch>
+  <param name="radius_threshold" value="0.1" />
+  <param name="cable_start_pos_x" value="0.365" />
+  <param name="cable_start_pos_y" value="0.00" />
+  <param name="cable_start_pos_z" value="1.56" />
+
+  <node name="cable_removal_draw" pkg="motoman_cable_removal" type="cable_removal_draw_node">
+    <param name="loop_rate" value="10" />
+
+    <param name="filtered_pc_topic_name" value="/cable_removed_pointcloud" />
+    <param name="box_name" value="/remove_area" />
+  </node>
+</launch>
