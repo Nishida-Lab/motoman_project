@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="motoman_demo" type="handring_parallel_planner.py" name="handring_parallel_planner" output="screen">
+	<param name="diff_from_object" type="double" value="0.03"/>
+	<param name="offset" type="double" value="0.45"/>
+  </node>
+
+  <node pkg="motoman_demo" type="handring_parallel_executor.py" name="handring_parallel_executor" output="screen">
+	<param name="exe_speed_rate" type="double" value="2.05"/>
+  </node>
+</launch>

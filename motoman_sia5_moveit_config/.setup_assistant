@@ -1,8 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: motoman_description
-    relative_path: robots/sia5/urdf/sia5_nishida_lab.urdf
+    relative_path: robots/sia5/sia5.urdf
+    xacro_args: "--inorder "
   SRDF:
     relative_path: config/sia5.srdf
   CONFIG:
-    generated_timestamp: 1452359250
+    author_name: AtsukiYokota
+    author_email: atsuki.yokota@gmail.com
+    generated_timestamp: 1532355871
