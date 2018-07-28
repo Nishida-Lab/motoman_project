@@ -19,7 +19,7 @@ env:
     - ROSDEP_SKIP_KEYS="motoman_description motoman_gazebo motoman_control motoman_sia5_moveit_config"
     - UPSTREAM_WORKSPACE=file
     - ROSINSTALL_FILENAME=dependencies.rosinstall
-    - BEFORE_SCRIPT='./scripts/install_libfreenect2.sh'
+    - BEFORE_SCRIPT='./preprocess.sh'
   matrix:
     - ROS_DISTRO="kinetic"  ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu 
     - ROS_DISTRO="kinetic"  ROS_REPOSITORY_PATH=http://packages.ros.org/ros-shadow-fixed/ubuntu
