@@ -43,6 +43,16 @@ echo "***** make *****"
 make
 echo "***** make install *****"
 make install
+ 
+echo "***************************************"
+echo "*****       for AR Toolkit        *****"
+echo "***************************************"
+echo "***** sudo apt install libv4l-dev *****"
+sudo apt install -y libv4l-dev
+echo "***** cd /usr/include/linux *****"
+cd /usr/include/linux
+echo "***** sudo ln -s ../libv4l1-videodev.h videodev.h *****"
+sudo ln -s ../libv4l1-videodev.h videodev.h
 echo "***** ldconfig *****"
 ldconfig
 echo "***** ldconfig -p *****"
