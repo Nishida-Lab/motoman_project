@@ -15,26 +15,16 @@ echo "***** apt install -y libusb-1.0-0-dev *****"
 apt install -y libusb-1.0-0-dev
 echo "***** apt install -y libturbojpeg libjpeg-turbo8-dev *****"
 apt install -y libturbojpeg libjpeg-turbo8-dev
-echo "***** dpkg -i debs/libglfw3*deb *****"
-dpkg -i debs/libglfw3*deb
-echo "***** apt install -f *****"
-apt install -f
-echo "***** apt install -y libgl1-mesa-dri-lts-vivid *****"
-apt install -y libgl1-mesa-dri-lts-vivid
+echo "****dpkg -i debs/libglfw3*deb; apt install -f; apt install -y libgl1-mesa-dri-lts-vivid *****"
+dpkg -i debs/libglfw3*deb; apt install -f; apt install -y libgl1-mesa-dri-lts-vivid
 echo "***** apt-add-repository ppa:pmjdebruijn/beignet-testing -y *****"
 apt-add-repository ppa:pmjdebruijn/beignet-testing -y
 echo "***** apt update -qq *****"
 apt update -qq
 echo "***** apt install -y beignet-dev *****"
 apt install -y beignet-dev
-echo "***** mkdir libs *****"
-mkdir libs
-echo "***** cd libs *****"
-cd libs
-echo "***** git clone https://github.com/OpenKinect/libfreenect2.git *****"
-git clone https://github.com/OpenKinect/libfreenect2.git
-echo "***** cd libfreenect2 *****"
-cd libfreenect2
+echo "***** cd libs/libfreenect2 *****"
+cd libs/libfreenect2
 echo "***** mkdir build *****"
 mkdir build
 echo "***** cd build *****"
