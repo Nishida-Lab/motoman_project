@@ -23,8 +23,8 @@ echo "***** apt update -qq *****"
 apt update -qq
 echo "***** apt install -y beignet-dev *****"
 apt install -y beignet-dev
-echo "***** cd .. *****"
-cd ..
+echo "***** cd root/catkin_ws/src/libs/libfreenect2 *****"
+cd root/catkin_ws/src/libs/libfreenect2
 echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
