@@ -1,6 +1,6 @@
 PWD_DIR=$(pwd)
 echo "***** apt install build-essential cmake pkg-config *****"
-apt install build-essential cmake pkg-config
+apt install -y build-essential cmake pkg-config
 # echo "***** apt install -y apt-file *****"
 # apt install -y apt-file
 # echo "***** apt-file update -y *****"
