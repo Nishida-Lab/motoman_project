@@ -29,12 +29,8 @@ echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
 ls -l
-#echo "***** mkdir build *****"
-#mkdir build
-#echo "***** cd build *****"
-#cd build
-echo "***** cmake *****"
-cmake 
+echo "***** cmake . *****"
+cmake . 
 echo "***** make *****"
 make
 echo "***** make install *****"
