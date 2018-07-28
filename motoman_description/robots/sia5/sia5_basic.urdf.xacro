@@ -8,17 +8,17 @@
   <xacro:include filename="$(find motoman_description)/urdf/sia5/body.gazebo.xacro"/>
 
   <!-- Mass -->
-  <property name="sum_mass" value="30.0" />
+  <xacro:property name="sum_mass" value="30.0" />
   <!-- about mass rate -->
-  <property name="table_mass" value="40.0" />
-  <property name="base_rate" value="8.5" />
-  <property name="s_rate" value="7.7" />
-  <property name="l_rate" value="7.0" />
-  <property name="e_rate" value="1.2" />
-  <property name="u_rate" value="1.0" />
-  <property name="r_rate" value="0.9" />
-  <property name="b_rate" value="0.8" />
-  <property name="t_rate" value="0.5" />
+  <xacro:property name="table_mass" value="40.0" />
+  <xacro:property name="base_rate" value="8.5" />
+  <xacro:property name="s_rate" value="7.7" />
+  <xacro:property name="l_rate" value="7.0" />
+  <xacro:property name="e_rate" value="1.2" />
+  <xacro:property name="u_rate" value="1.0" />
+  <xacro:property name="r_rate" value="0.9" />
+  <xacro:property name="b_rate" value="0.8" />
+  <xacro:property name="t_rate" value="0.5" />
   <!-- Hard ware limits -->
   <!-- Range limits -->
   <xacro:property name="s_axis_upper_limit" value="${179.99999*M_PI/180.0*0.95}"/>
@@ -48,7 +48,7 @@
   <xacro:macro name="add_world" params="*origin">
     <link name="world"/>
     <joint name="world" type="fixed">
-      <insert_block name="origin"/>
+      <xacro:insert_block name="origin"/>
       <parent link="world"/>
       <child link="base_link"/>
     </joint>

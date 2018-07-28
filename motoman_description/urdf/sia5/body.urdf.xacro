@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <property name="sum_rate" value="${base_rate + s_rate
+  <xacro:property name="sum_rate" value="${base_rate + s_rate
                                       + l_rate + e_rate
                                       + u_rate + r_rate
                                       + b_rate + t_rate}" />

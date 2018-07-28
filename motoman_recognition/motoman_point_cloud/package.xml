@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<package>
+  <name>motoman_point_cloud</name>
+  <version>1.1.0</version>
+  <description>The motoman_point_cloud package</description>
+
+  <maintainer email="groadpg@gmail.com">RyodoTanaka</maintainer>
+  <maintainer email="ry0@todo.todo">ry0</maintainer>
+
+  <license>BSD</license>
+  <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>rviz</run_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>boost</build_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>cmake_modules</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>boost</run_depend>
+  <run_depend>eigen</run_depend>
+  <run_depend>cmake_modules</run_depend>
+
+  <build_depend>libpcl-all-dev</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>pcl_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>tf</build_depend>
+
+  <build_depend>tf_conversions</build_depend>
+  <run_depend>libpcl-all</run_depend>s
+  <run_depend>pcl_ros</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>pcl_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>tf_conversions</run_depend>
+
+</package>

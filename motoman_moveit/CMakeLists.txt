@@ -4,9 +4,9 @@ project(motoman_moveit)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   moveit_msgs
-  moveit_commander
+  #moveit_commander
   moveit_core
-  moveit_ros_planning
+  #moveit_ros_planning
   moveit_ros_planning_interface
   pluginlib
   cmake_modules
