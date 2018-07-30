@@ -19,16 +19,16 @@ echo "***** apt install -y libturbojpeg libjpeg-turbo8-dev *****"
 apt install -y libturbojpeg libjpeg-turbo8-dev
 #echo "**** dpkg -i debs/libglfw3*deb; apt install -f; apt install -y libgl1-mesa-dri-lts-vivid *****"
 #dpkg -i debs/libglfw3*deb; apt install -f; apt install -y libgl1-mesa-dri-lts-vivid
-echo "***** sudo apt-get install libglfw3-dev *****"
-sudo apt install -y libglfw3-dev
+echo "***** apt-get install libglfw3-dev *****"
+apt install -y libglfw3-dev
 #echo "***** apt-add-repository ppa:pmjdebruijn/beignet-testing -y *****"
 #apt-add-repository ppa:pmjdebruijn/beignet-testing -y
 #echo "***** apt update -qq *****"
 #apt update -qq
 #echo "***** apt install -y beignet-dev *****"
 #apt install -y beignet-dev
-echo "***** cd /root/catkin_ws/src/libs/libfreenect2 *****"
-cd /root/catkin_ws/src/libs/libfreenect2
+echo "***** cd /builds/MoriKen254/catkin_workspace/src/libs/libfreenect2 *****"
+cd /builds/MoriKen254/catkin_workspace/src/libs/libfreenect2
 echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
