@@ -1,0 +1,26 @@
+<launch>
+
+  <!-- This file makes it easy to include the settings for sensor managers -->
+
+  <arg name="use_depth_sensor"/>
+  <arg name="sensor_config" if="$(arg use_depth_sensor)"/>
+  <arg name="octomap_frame_name" if="$(arg use_depth_sensor)"/>
+  <arg name="octomap_resolution_value" if="$(arg use_depth_sensor)"/>
+  <arg name="sensor_max_range" if="$(arg use_depth_sensor)"/>
+
+  <!-- Params for the octomap monitor -->
+  <!--  <param name="octomap_frame" type="string" value="some frame in which the robot moves" /> -->
+  <param name="octomap_resolution" type="double" value="$(arg octomap_resolution_value)" />
+  <param name="max_range" type="double" value="5.0" />
+
+  <!-- Load the robot specific sensor manager; this sets the moveit_sensor_manager ROS parameter -->
+  <arg name="moveit_sensor_manager" default="sia5" />
+  <include file="$(find motoman_sia5_moveit_config)/launch/$(arg moveit_sensor_manager)_moveit_sensor_manager.launch.xml">
+    <arg name="use_depth_sensor" value="$(arg use_depth_sensor)"/>
+    <arg name="sensor_config" value="$(arg sensor_config)"/>
+    <arg name="octomap_frame_name" value="$(arg octomap_frame_name)"/>
+    <arg name="octomap_resolution_value" value="$(arg octomap_resolution_value)"/>
+    <arg name="sensor_max_range" value="$(arg sensor_max_range)"/>
+  </include>
+
+</launch>
