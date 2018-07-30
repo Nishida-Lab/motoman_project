@@ -8,6 +8,7 @@ before_script:
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
   - pwd
   - ls src/
+  - ls src/libs
   - ../.preprocess.sh
 
 catkin_make:

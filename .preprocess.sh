@@ -27,6 +27,10 @@ apt install -y libglfw3-dev
 #apt update -qq
 #echo "***** apt install -y beignet-dev *****"
 #apt install -y beignet-dev
+echo "***** pwd *****"
+pwd
+echo "***** ls -l *****"
+ls -l
 echo "***** cd /builds/MoriKen254/motoman_project/catkin_workspace/src/libs/libfreenect2 *****"
 cd /builds/MoriKen254/motoman_project/catkin_workspace/src/libs/libfreenect2
 cd 
