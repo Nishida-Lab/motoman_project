@@ -34,6 +34,7 @@ ls -l
 #echo "***** cd /builds/MoriKen254/motoman_project/catkin_workspace/src/libs/libfreenect2 *****"
 #cd /builds/MoriKen254/motoman_project/catkin_workspace/src/libs/libfreenect2
 echo "***** cd src/libs/libfreenect2 *****"
+cd ./src/libs/libfreenect2
 echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
