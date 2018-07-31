@@ -4,9 +4,9 @@ project(motoman_moveit)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   moveit_msgs
-  moveit_commander
+  #moveit_commander
   moveit_core
-  moveit_ros_planning
+  #moveit_ros_planning
   moveit_ros_planning_interface
   pluginlib
   cmake_modules
@@ -28,25 +28,6 @@ include_directories(
   )
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
-
-add_executable(move_group_plan_single_target
-  src/move_group_plan_single_target.cpp
-  )
-add_executable(move_groupe_plan_single_target_remove_octomap
-  src/move_group_plan_single_target_remove_octomap.cpp
-  )
-
-target_link_libraries(move_group_plan_single_target
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${EIGEN_LIBRARIES}
-  )
-
-target_link_libraries(move_groupe_plan_single_target_remove_octomap
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${EIGEN_LIBRARIES}
-  )
 
 
 find_package(roslaunch)

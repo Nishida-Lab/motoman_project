@@ -14,3 +14,8 @@
     local-name: motoman_tools/dhand_ros_pkg
     uri: https://github.com/Nishida-Lab/dhand_ros_pkg.git
     version: master
+- git:
+    local-name: libs/libfreenect2
+    uri: https://github.com/OpenKinect/libfreenect2.git
+    version: master
+
