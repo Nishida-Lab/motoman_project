@@ -34,8 +34,8 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
-echo "***** - yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all; *****"
-- yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all;
+echo "***** yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all; *****"
+yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all;
  
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
