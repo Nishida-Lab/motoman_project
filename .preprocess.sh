@@ -1,6 +1,6 @@
 PWD_DIR=$(pwd)
 echo "***** apt-get install software-properties-common python-software-properties *****"
-apt-get install software-properties-common python-software-properties
+apt-get install -y software-properties-common python-software-properties
 echo "***** apt-get install build-essential cmake pkg-config *****"
 apt-get install -y build-essential cmake pkg-config
 echo "***** yes | yes | apt-add-repository ppa:floe/libusb && apt-get update -qq && apt-get install -y libusb-1.0-0-dev libusb-1.0-0-dev *****"
