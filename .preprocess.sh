@@ -1,4 +1,7 @@
 PWD_DIR=$(pwd)
+echo "***************************************"
+echo "*****       for AR freenect       *****"
+echo "***************************************"
 echo "***** apt-get install software-properties-common python-software-properties *****"
 apt-get install -y software-properties-common python-software-properties
 echo "***** apt-get install build-essential cmake pkg-config *****"
@@ -27,6 +30,12 @@ echo "***** make *****"
 make
 echo "***** make install *****"
 make install
+
+echo "***************************************"
+echo "*****           for PCL           *****"
+echo "***************************************"
+echo "***** - yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all; *****"
+- yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all;
  
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
