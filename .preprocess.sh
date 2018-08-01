@@ -34,14 +34,14 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
+echo "***** cd ${PWD_DIR} *****"
+cd ${PWD_DIR}
 echo "***** git clone https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git *****"
 git clone -b compiled https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git pcl-trunk
 echo "***** cd pcl-trunk *****"
 cd pcl-trunk/pcl-pcl-1.8.1
-echo "***** git branch *****"
-git branch
-echo "***** git checkout compiled *****"
-git checkout compiled
+echo "***** pwd *****"
+pwd
 echo "***** git branch *****"
 git branch
 echo "***** ls *****"
