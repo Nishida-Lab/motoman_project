@@ -34,22 +34,16 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
-echo "***** cd ${PWD_DIR} *****"
-cd ${PWD_DIR}
-echo "***** git clone https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git *****"
-git clone -b compiled-gitlab https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git pcl-trunk
-echo "***** cd pcl-trunk *****"
-cd pcl-trunk/pcl-pcl-1.8.1
-echo "***** pwd *****"
-pwd
-echo "***** git branch *****"
-git branch
-echo "***** ls *****"
-ls
-echo "***** cd build *****"
-cd build
-echo "***** sudo make -j2 install *****"
-sudo make -j2 install
+echo "***** git clone https://github.com/PointCloudLibrary/pcl pcl-trunk *****"
+git clone https://github.com/PointCloudLibrary/pcl pcl-trunk
+echo "***** cd pcl-trunk && mkdir build && cd build *****"
+cd pcl-trunk && mkdir build && cd build
+echo "***** cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. *****"
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+echo "***** make -j4 *****"
+make -j4
+echo "***** make -j4 install *****"
+make -j4 install
 
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
