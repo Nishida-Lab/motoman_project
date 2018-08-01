@@ -6,8 +6,7 @@ variables:
 before_script:
   - PWD_DIR=$(pwd)
   - pwd
-  - ls 
-  - cd ./motoman_project
+  - ls -l
   - ./.preprocess.sh
   - cd ..
   - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
