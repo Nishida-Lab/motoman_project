@@ -34,14 +34,10 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
-echo "***** git clone https://github.com/PointCloudLibrary/pcl pcl-trunk *****"
-git clone https://github.com/PointCloudLibrary/pcl pcl-trunk
+echo "***** git clone https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git *****"
+git clone -b compiled https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git pcl-trunk
 echo "***** cd pcl-trunk && mkdir build && cd build *****"
-cd pcl-trunk && mkdir build && cd build
-echo "***** cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. *****"
-cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-echo "***** make -j2 *****"
-make -j2
+cd pcl-trunk/build
 echo "***** sudo make -j2 install *****"
 sudo make -j2 install
 
