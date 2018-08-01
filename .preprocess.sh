@@ -34,9 +34,17 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
-echo "***** yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all; *****"
-yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all;
- 
+echo "***** git clone https://github.com/PointCloudLibrary/pcl pcl-trunk *****"
+git clone https://github.com/PointCloudLibrary/pcl pcl-trunk
+echo "***** cd pcl-trunk && mkdir build && cd build *****"
+cd pcl-trunk && mkdir build && cd build
+echo "***** cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. *****"
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+echo "***** make -j2 *****"
+make -j2
+echo "***** sudo make -j2 install *****"
+sudo make -j2 install
+
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
 echo "***************************************"
