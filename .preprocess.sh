@@ -43,7 +43,7 @@ cd pcl-trunk
 echo "***** ls *****"
 ls
 echo "***** dpkg -i PCL-1.8.0-Linux.deb *****"
-dpkg -i PCL-1.8.0-Linux.deb
+dpkg -i --force-overwrite PCL-1.8.0-Linux.deb
 
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
