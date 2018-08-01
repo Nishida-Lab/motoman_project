@@ -4,9 +4,9 @@ variables:
   ROS_PACKAGES_TO_INSTALL: ""
 
 before_script:
+  - ../.preprocess.sh
   - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
-  - ../.preprocess.sh
 
 catkin_make:
   stage: build
