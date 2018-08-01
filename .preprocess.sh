@@ -36,8 +36,16 @@ echo "*****           for PCL           *****"
 echo "***************************************"
 echo "***** git clone https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git *****"
 git clone -b compiled https://github.com/MoriKen254/pcl.v.1.8.1_compiled.git pcl-trunk
-echo "***** cd pcl-trunk && mkdir build && cd build *****"
-cd pcl-trunk/build
+echo "***** cd pcl-trunk *****"
+cd pcl-trunk
+echo "***** git checkout compiled *****"
+git checkout compiled
+echo "***** git branch *****"
+git branch
+echo "***** ls *****"
+ls
+echo "***** cd build *****"
+cd build
 echo "***** sudo make -j2 install *****"
 sudo make -j2 install
 
