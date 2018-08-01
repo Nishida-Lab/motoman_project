@@ -31,19 +31,19 @@ make
 echo "***** make install *****"
 make install
 
-# echo "***************************************"
-# echo "*****           for PCL           *****"
-# echo "***************************************"
-# echo "***** git clone https://github.com/PointCloudLibrary/pcl pcl-trunk *****"
-# git clone https://github.com/MoriKen254/pcl-1.8.0-Linux pcl-trunk
-# echo "***** ls *****"
-# ls
-# echo "***** cd pcl-trunk *****"
-# cd pcl-trunk
-# echo "***** ls *****"
-# ls
-# echo "***** dpkg -i PCL-1.8.0-Linux.deb *****"
-# dpkg -i PCL-1.8.0-Linux.deb
+echo "***************************************"
+echo "*****           for PCL           *****"
+echo "***************************************"
+echo "***** git clone https://github.com/PointCloudLibrary/pcl pcl-trunk *****"
+git clone https://github.com/MoriKen254/pcl-1.8.0-Linux pcl-trunk
+echo "***** ls *****"
+ls
+echo "***** cd pcl-trunk *****"
+cd pcl-trunk
+echo "***** ls *****"
+ls
+echo "***** dpkg -i PCL-1.8.0-Linux.deb *****"
+dpkg -i PCL-1.8.0-Linux.deb
 
 echo "***************************************"
 echo "*****       for AR Toolkit        *****"
