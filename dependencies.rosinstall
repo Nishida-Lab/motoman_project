@@ -4,7 +4,7 @@
     version: indigo-devel
 - git:
     local-name: motoman_tools/iai_kinect2
-    uri: https://github.com/code-iai/iai_kinect2.git
+    uri: https://github.com/MoriKen254/iai_kinect2.git
     version: master
 - git:
     local-name: motoman_tools/ar_tools
