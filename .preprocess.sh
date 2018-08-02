@@ -1,6 +1,6 @@
 PWD_DIR=$(pwd)
 echo "***************************************"
-echo "*****       for AR freenect       *****"
+echo "*****         for freenect        *****"
 echo "***************************************"
 echo "***** apt-get install software-properties-common python-software-properties *****"
 apt-get install -y software-properties-common python-software-properties
@@ -34,6 +34,8 @@ make install
 echo "***************************************"
 echo "*****           for PCL           *****"
 echo "***************************************"
+echo "***** apt install gdebi -y *****"
+apt install gdebi -y
 echo "***** git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk *****"
 git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk
 echo "***** ls *****"
