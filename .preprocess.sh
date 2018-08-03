@@ -86,6 +86,16 @@ echo "***** ln -s ../libv4l1-videodev.h videodev.h *****"
 ln -s ../libv4l1-videodev.h videodev.h
 
 echo "***************************************"
+echo "*****          for Eigen          *****"
+echo "***************************************"
+echo "***** apt install libeigen3-dev *****"
+apt install libeigen3-dev
+echo "***** ll /usr/include | grep eigen *****"
+ll /usr/include | grep eigen
+echo "***** ll /usr/local/include | grep eigen *****"
+ll /usr/local/include | grep eigen
+
+echo "***************************************"
 echo "*****       Apply Lib Pkgs        *****"
 echo "***************************************"
 echo "***** echo CPATH *****"
