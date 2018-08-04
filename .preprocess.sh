@@ -18,8 +18,8 @@ echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
 ls -l
-echo "***** cd src/libs/libfreenect2 *****"
-cd ./src/libs/libfreenect2
+echo "***** cd /root/catkin_ws/src/libs/libfreenect2 *****"
+cd /root/catkin_ws/src/libs/libfreenect2
 echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
@@ -86,7 +86,7 @@ echo "***** ln -s ../libv4l1-videodev.h videodev.h *****"
 ln -s ../libv4l1-videodev.h videodev.h
 echo "***** wget https://github.com/MoriKen254/ARToolKit_Release/raw/master/ARToolKit_2.72.1_Ubuntu_amd64.deb *****"
 wget https://github.com/MoriKen254/ARToolKit_Release/raw/master/ARToolKit_2.72.1_Ubuntu_amd64.deb
-yes|dpkg -i ARToolKit_Release/ARToolKit_2.72.1_Ubuntu_amd64.deb
+yes|dpkg -i ARToolKit_2.72.1_Ubuntu_amd64.deb
 
 echo "***************************************"
 echo "*****          for Eigen          *****"
