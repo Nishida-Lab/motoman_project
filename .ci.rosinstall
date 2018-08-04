@@ -1,0 +1,21 @@
+- git:
+    local-name: motoman
+    uri: https://github.com/Nishida-Lab/motoman.git
+    version: indigo-devel
+- git:
+    local-name: motoman_tools/iai_kinect2
+    uri: https://github.com/code-iai/iai_kinect2.git
+    version: master
+- git:
+    local-name: motoman_tools/ar_tools
+    uri: https://github.com/MoriKen254/ar_tools.git
+    version: w/o_artoolkit
+- git:
+    local-name: motoman_tools/dhand_ros_pkg
+    uri: https://github.com/Nishida-Lab/dhand_ros_pkg.git
+    version: master
+- git:
+    local-name: libs/libfreenect2
+    uri: https://github.com/OpenKinect/libfreenect2.git
+    version: master
+
