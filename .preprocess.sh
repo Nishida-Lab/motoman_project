@@ -32,20 +32,25 @@ echo "***** make install *****"
 make install
 
 echo "***************************************"
-echo "*****         for PCL 1.8         *****"
+echo "*****         for PCL 1.7         *****"
 echo "***************************************"
-echo "***** apt install gdebi -y *****"
-apt install gdebi -y
-echo "***** git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk *****"
-git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk
-echo "***** ls *****"
-ls
-echo "***** cd pcl-trunk *****"
-cd pcl-trunk
-echo "***** ls *****"
-ls
-echo "***** gdebi pcl_1.8.1-1_amd64.deb *****"
-yes | gdebi pcl_1.8.1-1_amd64.deb
+echo "***** yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all; *****"
+yes | apt-add-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl; apt-get update -qq; apt-get install -y libpcl-all;
+#echo "***************************************"
+#echo "*****         for PCL 1.8         *****"
+#echo "***************************************"
+#echo "***** apt install gdebi -y *****"
+#apt install gdebi -y
+#echo "***** git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk *****"
+#git clone https://github.com/MoriKen254/PCL-Linux-Release.git pcl-trunk
+#echo "***** ls *****"
+#ls
+#echo "***** cd pcl-trunk *****"
+#cd pcl-trunk
+#echo "***** ls *****"
+#ls
+#echo "***** gdebi pcl_1.8.1-1_amd64.deb *****"
+#yes | gdebi pcl_1.8.1-1_amd64.deb
 
 #echo "***************************************"
 #echo "*****      Reinstall PCL 1.7      *****"
