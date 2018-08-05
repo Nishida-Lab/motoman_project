@@ -16,12 +16,13 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED system filesystem date_time thread)
 find_package(PCL REQUIRED QUIET COMPONENTS common)
-find_package(Eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS roscpp sensor_msgs std_msgs pcl_ros pcl_msgs tf tf_conversions
   )
 
+# Build
 include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
 include_directories(
   include
@@ -44,14 +45,13 @@ add_executable(point_cloud_merger src/point_cloud_merger.cpp)
 target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
 
 # Install
-
-foreach(module kinect_downsampler_node point_cloud_merger)
+foreach(modules kinect_downsampler_node point_cloud_merger)
   install(TARGETS ${module}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
-endforeach(dir)
+endforeach(modules)
 
 foreach(dir launch)
   install(DIRECTORY ${dir}/
