@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(motoman_gripper)
-find_package(catkin REQUIRED)
-
-find_package(roslaunch)
+find_package(catkin REQUIRED
+	roslaunch
+	)
 
 foreach(dir launch)
   install(DIRECTORY ${dir}/
