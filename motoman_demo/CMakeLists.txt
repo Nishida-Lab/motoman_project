@@ -12,3 +12,10 @@ find_package(catkin REQUIRED
 catkin_package(
   CATKIN_DEPENDS
   )
+
+find_package(roslaunch)
+
+foreach(dir config launch)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)

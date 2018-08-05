@@ -41,3 +41,15 @@ target_link_libraries(kinect_downsampler_node
 
 add_executable(point_cloud_merger src/point_cloud_merger.cpp)
 target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
+
+# Install
+foreach(dir launch)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
+
+# Test
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch)
+endif()

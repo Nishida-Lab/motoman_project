@@ -5,6 +5,12 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 find_package(roslaunch)
+
+foreach(dir launch models worlds)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
+
 roslaunch_add_file_check(test/sia5_empty_world_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_and_kinectv2_launch_test.xml)

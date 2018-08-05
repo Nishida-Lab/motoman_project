@@ -29,8 +29,13 @@ include_directories(
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
 
-
 find_package(roslaunch)
+
+foreach(dir config launch scene)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
+
 roslaunch_add_file_check(test/sia5_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_moveit_planning_execution_launch_test.xml)
 roslaunch_add_file_check(test/sia5_with_jamming_and_kinectv2_moveit_planning_execution_launch_test.xml)
