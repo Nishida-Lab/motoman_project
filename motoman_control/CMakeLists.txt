@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   control_msgs
   sensor_msgs
+  motoman_description
   )
 
 catkin_package(

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(motoman_gazebo)
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+    motoman_description
+    )
 
 catkin_package()
 

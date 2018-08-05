@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   pluginlib
   cmake_modules
+  motoman_description
   )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
