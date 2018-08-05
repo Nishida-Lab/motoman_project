@@ -1,5 +1,5 @@
 <launch>
-  <node name="kinect_downsampler" pkg="motoman_moveit" type="kinect_downsampler_node">
+  <node name="kinect_downsampler" pkg="motoman_recognition" type="kinect_downsampler_node">
     <param name="loop_rate" value="10" />
     <param name="resized_pc_topic_name" value="/kinect_first/hd/resized_points" />
     <param name="source_pc_topic_name" value="/kinect_first/hd/points" />
