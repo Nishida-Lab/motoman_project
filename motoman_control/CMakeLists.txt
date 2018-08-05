@@ -33,7 +33,7 @@ add_dependencies(motoman_control_node motoman_control_generate_messages_cpp)
 target_link_libraries(motoman_control_node
   ${catkin_LIBRARIES}
 )
-s
+
 find_package(roslaunch)
 
 foreach(dir config launch)
