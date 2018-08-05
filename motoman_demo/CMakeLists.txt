@@ -7,6 +7,7 @@ find_package(catkin REQUIRED
   moveit_commander
   tf
   sensor_msgs
+  rosbridge_server
   roslaunch
   rospy
   )
