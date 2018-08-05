@@ -17,7 +17,7 @@ env:
     - CATKIN_PARALLEL_TEST_JOBS=-p1
     - ROS_PARALLEL_TEST_JOBS=-j1
     - NOT_TEST_INSTALL=true
-    - ROSDEP_SKIP_KEYS="artoolkit ar_tools ar_pose motoman_description motoman_gazebo motoman_control motoman_sia5_moveit_config"
+    - ROSDEP_SKIP_KEYS="artoolkit ar_tools ar_pose motoman_description motoman_gazebo motoman_control motoman_sia5_moveit_config motoman_moveit"
     - UPSTREAM_WORKSPACE=file
     - ROSINSTALL_FILENAME=.ci.rosinstall
     - BEFORE_SCRIPT='./.preprocess.sh'
