@@ -44,6 +44,15 @@ add_executable(point_cloud_merger src/point_cloud_merger.cpp)
 target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
 
 # Install
+
+foreach(module kinect_downsampler_node point_cloud_merger)
+  install(TARGETS ${module}
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+endforeach(dir)
+
 foreach(dir launch)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
