@@ -25,7 +25,7 @@
   <depend>pluginlib</depend>
 
   <exec_depend>motoman_description</exec_depend>
-  <exec_depend>motoman_moveit_config</exec_depend>
+  <exec_depend>motoman_sia5_moveit_config</exec_depend>
   
   <test_depend>roslaunch</test_depend>
 
