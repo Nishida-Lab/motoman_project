@@ -60,13 +60,14 @@ class HandringPlanner(object):
         # ========= Box Poses ======== #
         self.box_pose = [{}, {}]
         # Box 0 pose
-        self.box_pose[0]["joint_s"] = 0.33417996764183044
-        self.box_pose[0]["joint_l"] = 0.6119770288467407
-        self.box_pose[0]["joint_e"] = 0.0 
-        self.box_pose[0]["joint_u"] = 0.32670751214027405
+        self.box_pose[0]["joint_s"] = -0.6041074967384338
+        self.box_pose[0]["joint_l"] = 0.576959013938903
+        self.box_pose[0]["joint_e"] = 1.396013617515564
+        self.box_pose[0]["joint_u"] = -0.6198193430900574
         self.box_pose[0]["joint_r"] = 0.0 
-        self.box_pose[0]["joint_b"] = -0.6 
+        self.box_pose[0]["joint_b"] = -0.4 
         self.box_pose[0]["joint_t"] = 0.0
+ 
         # Box 1 pose
         self.box_pose[1]["joint_s"] = 0.6041074967384338
         self.box_pose[1]["joint_l"] = 0.5769590139389038

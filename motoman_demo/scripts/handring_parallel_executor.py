@@ -19,7 +19,7 @@ from moveit_msgs.msg import DisplayTrajectory
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
 # for D-Hand
-from dhand.msg import Servo_move
+from dhand_msgs.msg import Servo_move
 
 class HandringExecutor(object):
 
@@ -44,8 +44,13 @@ class HandringExecutor(object):
 
         # ======== Publisher ======== #
         self.display_hp_pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=6)
+<<<<<<< HEAD
         
         
+=======
+
+
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
         # Execution Speed
         self.exe_speed_rate = rospy.get_param('~exe_speed_rate', 2.075)
         print self.exe_speed_rate
@@ -53,7 +58,11 @@ class HandringExecutor(object):
         # task queue
         self.task_q = []
         self.grasp_ = [False, False]
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
         rospy.loginfo("(^O^) Ready (^O^)")
 
     # -------- Plannning & Execution -------- #
@@ -65,10 +74,17 @@ class HandringExecutor(object):
             self.grasp_msg.position = 7.0
         else:
             self.grasp_msg.position = 0.0
+<<<<<<< HEAD
             
         self.grasp_pub.publish(self.grasp_msg)
         rospy.sleep(0.3)
         
+=======
+
+        self.grasp_pub.publish(self.grasp_msg)
+        rospy.sleep(0.3)
+
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
     def execute(self):
         # Get latest task plan
         plan = self.task_q[0].trajectory
@@ -85,7 +101,11 @@ class HandringExecutor(object):
         start_state.name =  plan.joint_trajectory.joint_names[:]
         start_state.position = plan.joint_trajectory.points[-1].positions[:]
         moveit_start_state = RobotState()
+<<<<<<< HEAD
         moveit_start_state.joint_state = start_state 
+=======
+        moveit_start_state.joint_state = start_state
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
         pub_display_msg = DisplayTrajectory()
         pub_display_msg.model_id = "sia5"
         pub_display_msg.trajectory.append(plan)
@@ -116,8 +136,13 @@ class HandringExecutor(object):
         self.grasp_msg.position = 0.0
         rospy.sleep(2.0)
         rospy.logwarn("(xOx) Aborted (xOx)")
+<<<<<<< HEAD
     
                                     
+=======
+
+
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
 if __name__ == '__main__':
     rospy.init_node("handring_parallel_executor")
     rate = rospy.Rate(10)
@@ -125,5 +150,9 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         if handring_executor.isTask():
             handring_executor.execute()
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d95c7577c838d4cc104407dcb9fe5ba08262d4e9
     rospy.on_shutdown(handring_executor.shutdown)

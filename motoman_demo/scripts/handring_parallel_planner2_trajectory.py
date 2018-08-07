@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from time import sleep
 # Basic
 import sys
 import copy
 from math import *
+import numpy as np
 # ROS
 import rospy
 import rosparam
@@ -31,6 +33,10 @@ from motoman_viz_msgs.msg import BoundingBox
 # == Service ==
 # for cleaning the Octomap
 from std_srvs.srv import Empty
+
+
+moving_x = 0
+moving_y = 0
 
 class HandringPlanner(object):
 
@@ -89,7 +95,7 @@ class HandringPlanner(object):
         self.initial_box_num = len(message.boxes)
 
     # -------- Get TF -------- #
-    def get_tf_data(self, num):
+    def get_object_tf_data(self, num):
         tf_time = rospy.Time(0)
         target = "object_" + str(num)
         get_tf_flg = False
@@ -100,7 +106,13 @@ class HandringPlanner(object):
 
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) :
                 continue
-        return trans 
+        return trans
+
+    def get_goal_tf_data(self, object_trans, offset_x, offset_y):
+        goal_trans = copy.deepcopy(object_trans)
+        goal_trans.transform.translation.x = object_trans.transform.translation.x + offset_x
+        goal_trans.transform.translation.y = object_trans.transform.translation.y + offset_y
+        return goal_trans
 
     # -------- Clear Octomap -------- #
     def clear_octomap(self):
@@ -134,21 +146,69 @@ class HandringPlanner(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         # plan
-        plan = RobotTrajectory()
-        counter = 0
-        while len(plan.joint_trajectory.points) == 0 :
-            plan = self.arm.plan()
-            counter+=1
-            self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
-            if counter > 1 :
-                return (False, start_state)
-        self.arm.set_planning_time(self.planning_limitation_time)
-                
+        # for i in range(5):
+        #     print "plan: " +str(i)
+        #     plan = RobotTrajectory()
+        #     counter = 0
+        #     while len(plan.joint_trajectory.points) == 0 :
+        #         plan = self.arm.plan()
+        #         counter+=1
+        #         self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+        #         if counter > 1 :
+        #             return (False, start_state)
+        #         self.arm.set_planning_time(self.planning_limitation_time)
+        #     # sleep(1)
+        #     rospy.sleep(0.5)     
+
+        #plan
+        threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
+        threshold = 20
+        
+        while(1):
+            plan = RobotTrajectory()
+            counter = 0
+            while len(plan.joint_trajectory.points) == 0 :
+                plan = self.arm.plan()
+                counter+=1
+                self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+                if counter > 1 :
+                    return (False, start_state)
+            self.arm.set_planning_time(self.planning_limitation_time)
+            if grasp == 0:
+                break
+            if len(plan.joint_trajectory.points) < threshold:
+                # print("---------debug0--------{}".format(len(plan.joint_trajectory.points)))
+                break
+            # print "input key A to continue."
+            # key = raw_input('>>>  ')
+            # if key == "a":
+            #     break
+
+        # plan = RobotTrajectory()
+        # counter = 0
+        # print("---------debug1--------{}".format(len(plan.joint_trajectory.points)))
+        # while len(plan.joint_trajectory.points) == 0 :
+        #     plan = self.arm.plan()
+        #     counter+=1
+        #     self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+        #     if counter > 1 :
+        #         return (False, start_state)
+        # self.arm.set_planning_time(self.planning_limitation_time)
+        # print("------------debug------------{}".format(len(plan.joint_trajectory.points)))  
+        
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
+        # print("---------debug2--------{}".format(len(plan.joint_trajectory.points)))
         pub_msg.trajectory = plan
+
+        # print "input key A to continue."
+        # while(1):
+        #     key = raw_input('>>>  ')
+        #     if key == "a":
+        #         break
+
         self.hp_pub.publish(pub_msg)
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
@@ -309,13 +369,17 @@ class HandringPlanner(object):
         # do the planning depending on the order number
         if get_num_from_pepper == 99 :
             rospy.loginfo("Called order 99")
-            trans = []
+            rospy.loginfo("Currently this order is not working..")
+            object_trans = []
+            goal_trans = []
             box_num = self.initial_box_num
             rospy.loginfo("%d objects detected...", box_num)
             for x in xrange(1, box_num+1):
-                trans.append(self.get_tf_data(x))
+                trans = self.get_object_tf_data(x)
+                object_trans.append(trans)
+                goal_trans.append(self.get_goal_tf_data(trans, 0, 0.2)) #offset x, y
             for x in xrange(0, box_num):
-                state = self.run(1, (x+1)%2, start_state, trans[x])
+                state = self.run(1, (x+1)%2, start_state, object_trans[x], goal_trans[x])
                 if rospy.is_shutdown():
                     rospy.on_shutdown(self.shutdown)
                     break
@@ -326,8 +390,11 @@ class HandringPlanner(object):
         else :
             object_num = get_num_from_pepper / 10
             box_num = get_num_from_pepper % 10 - 1
-            trans = self.get_tf_data(object_num)
-            self.run(object_num, box_num, start_state, trans)
+            object_trans = self.get_object_tf_data(object_num)
+            moving_x = float(raw_input('axis:↓ offset_x[m] >>>  '))
+            moving_y = float(raw_input('axis:→ offset_y[m] >>>  '))
+            goal_trans = self.get_goal_tf_data(object_trans, moving_x, moving_y) #offset x, y
+            self.run(object_num, box_num, start_state,  object_trans, goal_trans)
             if rospy.is_shutdown():
                 rospy.on_shutdown(self.shutdown)
             rospy.loginfo("(^O^) All task finished (^O^)")
@@ -337,27 +404,40 @@ class HandringPlanner(object):
         rospy.logwarn("(xOx) Aborted (xOx)")
             
     # -------- Run the Program -------- #
-    def run(self, obj_num, box_num, start_state, trans):
+    def run(self, obj_num, box_num, start_state, object_trans, goal_trans):
+
         # Go to Grasp
-        (result, state) = self.get_plan(trans, self.offset, start_state, False)
+        (result, state) = self.get_plan(object_trans, self.offset, start_state, False)
         if rospy.is_shutdown():
             return
-        (result, state) = self.get_cartesian_plan(trans, 0.3 + self.diff, state, True)
+        (result, state) = self.get_cartesian_plan(object_trans, 0.3 + self.diff, state, True)
         if rospy.is_shutdown():
             return
         # Back to upper side
-        (result, state) = self.get_cartesian_plan(trans, self.offset + 0.05, state, True)
+        (result, state) = self.get_cartesian_plan(object_trans, self.offset + 0.05, state, True)
         if rospy.is_shutdown():
             return
+
+        # # Back to home
+        # (result, state) = self.get_home_plan(state, False)
+        # if rospy.is_shutdown():
+        #     return
+
+        # Go to Release
+        (result, state) = self.get_plan(goal_trans, self.offset, state, True)
+        if rospy.is_shutdown():
+            return
+        (result, state) = self.get_cartesian_plan(goal_trans, 0.3 + self.diff, state, False)
+        if rospy.is_shutdown():
+            return
+
+
+        # Back to upper side
+        (result, state) = self.get_cartesian_plan(goal_trans, self.offset + 0.05, state, False)
+        if rospy.is_shutdown():
+            return
+
         # Back to home
-        (result, state) = self.get_home_plan(state, True)
-        if rospy.is_shutdown():
-            return
-        # Go to Box
-        (result, state, plan) = self.get_box_plan(box_num, state, False)
-        if rospy.is_shutdown():
-            return
-        # Go to home
         (result, state) = self.get_home_plan(state, False)
         if rospy.is_shutdown():
             return

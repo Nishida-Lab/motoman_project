@@ -9,9 +9,12 @@
   <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
   
   <buildtool_depend>catkin</buildtool_depend>
+
   <depend>moveit_msgs</depend>
   <depend>std_msgs</depend>
+
   <build_depend>message_generation</build_depend>
+
   <exec_depend>message_runtime</exec_depend>
 
 </package>

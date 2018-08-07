@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from time import sleep
 # Basic
 import sys
 import copy
 from math import *
+import numpy as np
 # ROS
 import rospy
 import rosparam
@@ -16,6 +18,7 @@ import tf
 # == Messages ==
 # for Cartesian path
 from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Transform
 # for Pepper message
 from std_msgs.msg import String
 # for Start state
@@ -28,17 +31,27 @@ from std_msgs.msg import Header
 # for object bounding box
 from motoman_viz_msgs.msg import BoundingBoxArray
 from motoman_viz_msgs.msg import BoundingBox
+# for pick and place command
+from motoman_interaction_msgs.msg import PickingInteraction
+from motoman_interaction_msgs.msg import PoseArray
+
 # == Service ==
 # for cleaning the Octomap
 from std_srvs.srv import Empty
+
+
+moving_x = 0
+moving_y = 0
 
 class HandringPlanner(object):
 
     def __init__(self):
         # ========= Subscriber ======== #
         # self.speech_sub_topic = rospy.get_param('~speech')
-        self.speech_sub = rospy.Subscriber('/speech', String, self.speechCallback)
-
+        # self.speech_sub = rospy.Subscriber('/speech2', PickingInteraction, self.speechCallback)
+        self.speech_sub = rospy.Subscriber('/speech3', PoseArray, self.speechCallback)
+        
+        
         # ========== Moveit init ========== #
         # moveit_commander init
         self.robot = moveit_commander.RobotCommander()
@@ -89,18 +102,35 @@ class HandringPlanner(object):
         self.initial_box_num = len(message.boxes)
 
     # -------- Get TF -------- #
-    def get_tf_data(self, num):
-        tf_time = rospy.Time(0)
-        target = "object_" + str(num)
-        get_tf_flg = False
-        while not get_tf_flg :
-            try :
-                trans = self.tf_buffer.lookup_transform('world', target, tf_time, rospy.Duration(10))
-                get_tf_flg = True
+    def get_object_tf_data(self, initial_pose):
+        # tf_time = rospy.Time(0)
+        trans = Transform()
+        trans.translation = copy.deepcopy(initial_pose.position)
+        trans.translation.z = 0.105
+        trans.rotation = copy.deepcopy(initial_pose.orientation)
+        return trans
 
-            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) :
-                continue
-        return trans 
+    def get_goal_tf_data(self, object_trans, goal_pose):
+        margin = 0.02
+        dx = 0.08
+        workspace_width = 0.60
+        workspace_depth = 0.47 + dx
+
+        goal_trans = copy.deepcopy(object_trans)
+        # target_x = object_trans.translation.x + offset_x + dx
+        # target_y = object_trans.translation.y + offset_y
+        target_x = goal_pose.position.x + dx
+        target_y = goal_pose.position.y
+
+        print "target position (x, y): ("+str(round(target_x,3))+" ,"+str(round(target_y,3))+")"
+        if target_x < margin+dx or workspace_depth-margin < target_x or \
+           target_y < -(workspace_width/2.0)+margin or (workspace_width/2.0)-margin < target_y:
+            rospy.logwarn("the target position is out of workspace!")
+            return False
+        else:
+            goal_trans.translation.x = target_x
+            goal_trans.translation.y = target_y
+        return goal_trans
 
     # -------- Clear Octomap -------- #
     def clear_octomap(self):
@@ -118,13 +148,15 @@ class HandringPlanner(object):
         moveit_start_state.joint_state = start_state
         self.arm.set_start_state(moveit_start_state)
         # Calculate goal pose
-        self.target_pose.position.x = trans.transform.translation.x
-        self.target_pose.position.y = trans.transform.translation.y
-        self.target_pose.position.z = trans.transform.translation.z + z_offset
-        q = (trans.transform.rotation.x,
-             trans.transform.rotation.y,
-             trans.transform.rotation.z,
-             trans.transform.rotation.w)
+        self.target_pose.position.x = trans.translation.x
+        self.target_pose.position.y = trans.translation.y
+        self.target_pose.position.z = trans.translation.z + z_offset
+        # self.target_pose.position.z = 0.15 + z_offset
+
+        q = (trans.rotation.x,
+             trans.rotation.y,
+             trans.rotation.z,
+             trans.rotation.w)
         (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
         pitch += pi/2.0
         tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
@@ -134,21 +166,48 @@ class HandringPlanner(object):
         self.target_pose.orientation.w = tar_q[3]
         self.arm.set_pose_target(self.target_pose)
         # plan
-        plan = RobotTrajectory()
-        counter = 0
-        while len(plan.joint_trajectory.points) == 0 :
-            plan = self.arm.plan()
-            counter+=1
-            self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
-            if counter > 1 :
-                return (False, start_state)
-        self.arm.set_planning_time(self.planning_limitation_time)
-                
+        # for i in range(5):
+        #     print "plan: " +str(i)
+        #     plan = RobotTrajectory()
+        #     counter = 0
+        #     while len(plan.joint_trajectory.points) == 0 :
+        #         plan = self.arm.plan()
+        #         counter+=1
+        #         self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+        #         if counter > 1 :
+        #             return (False, start_state)
+        #         self.arm.set_planning_time(self.planning_limitation_time)
+        #     # sleep(1)
+        #     rospy.sleep(0.5)     
+
+        #plan
+        # threshold = np.sqrt((moving_x*100)^2 + (moving_y*100)^2)
+        threshold = 20
+        
+        while(1):
+            plan = RobotTrajectory()
+            counter = 0
+            while len(plan.joint_trajectory.points) == 0 :
+                plan = self.arm.plan()
+                counter+=1
+                self.arm.set_planning_time(self.planning_limitation_time+counter*5.0)
+                if counter > 1 :
+                    return (False, start_state)
+            self.arm.set_planning_time(self.planning_limitation_time)
+            if grasp == 0:
+                break
+            if len(plan.joint_trajectory.points) < threshold:
+                # print("---------debug0--------{}".format(len(plan.joint_trajectory.points)))
+                break
+        
         rospy.loginfo("!! Got a plan !!")
         # publish the plan
         pub_msg = HandringPlan()
         pub_msg.grasp = grasp
+        # print("---------debug2--------{}".format(len(plan.joint_trajectory.points)))
         pub_msg.trajectory = plan
+
+
         self.hp_pub.publish(pub_msg)
         self.arm.clear_pose_targets()
         # return goal state from generated trajectory
@@ -166,13 +225,13 @@ class HandringPlanner(object):
         self.arm.set_start_state(moveit_start_state)
         # set waypoints
         waypoints = []
-        self.target_pose.position.x = trans.transform.translation.x
-        self.target_pose.position.y = trans.transform.translation.y
-        self.target_pose.position.z = trans.transform.translation.z
-        q = (trans.transform.rotation.x,
-             trans.transform.rotation.y,
-             trans.transform.rotation.z,
-             trans.transform.rotation.w)
+        self.target_pose.position.x = trans.translation.x
+        self.target_pose.position.y = trans.translation.y
+        self.target_pose.position.z = trans.translation.z
+        q = (trans.rotation.x,
+             trans.rotation.y,
+             trans.rotation.z,
+             trans.rotation.w)
         (roll,pitch,yaw) = tf.transformations.euler_from_quaternion(q)
         pitch += pi/2.0
         tar_q = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
@@ -296,7 +355,7 @@ class HandringPlanner(object):
     # -------- Get message from pepper -------- #
     def speechCallback(self, message):
         rospy.loginfo("(-O-) Task start (-O-)")
-        # initialize
+        # # initialize
         start_state = JointState()
         start_state.header = Header()
         start_state.header.stamp = rospy.Time.now()
@@ -304,60 +363,69 @@ class HandringPlanner(object):
         # start_state.name = rosparam.get_param("/sia5_controller/joints")
         for i in range(len(start_state.name)):
             start_state.position.append(0.)
-        get_num_from_pepper = int(message.data)
 
-        # do the planning depending on the order number
-        if get_num_from_pepper == 99 :
-            rospy.loginfo("Called order 99")
-            trans = []
-            box_num = self.initial_box_num
-            rospy.loginfo("%d objects detected...", box_num)
-            for x in xrange(1, box_num+1):
-                trans.append(self.get_tf_data(x))
-            for x in xrange(0, box_num):
-                state = self.run(1, (x+1)%2, start_state, trans[x])
-                if rospy.is_shutdown():
-                    rospy.on_shutdown(self.shutdown)
-                    break
-                rospy.loginfo("No.%i task finished.", x+1)
-                start_state = state
-            rospy.loginfo("(^O^) All task finished (^O^)")
-            
-        else :
-            object_num = get_num_from_pepper / 10
-            box_num = get_num_from_pepper % 10 - 1
-            trans = self.get_tf_data(object_num)
-            self.run(object_num, box_num, start_state, trans)
-            if rospy.is_shutdown():
-                rospy.on_shutdown(self.shutdown)
-            rospy.loginfo("(^O^) All task finished (^O^)")
+        # # do the planning
+
+        task_N = len(message.goal_pose)
+        for i in range(task_N):
+            object_trans = self.get_object_tf_data(message.initial_pose[i])
+            goal_trans = self.get_goal_tf_data(object_trans, message.goal_pose[i])
+
+            if i == 0:
+                state = self.run(start_state,  object_trans, goal_trans)
+            else:
+                state = self.run(state, object_trans, goal_trans)
+
+        # # print "input key A to continue."
+        # # while(1):
+        # #     key = raw_input('>>>  ')
+        # #     if key == "a":
+        # #         break
+
+
+        if rospy.is_shutdown():
+            rospy.on_shutdown(self.shutdown)
+        rospy.loginfo("(^O^) All task finished (^O^)")
 
     # -------- Shutdown -------- #
     def shutdown(self):
         rospy.logwarn("(xOx) Aborted (xOx)")
             
     # -------- Run the Program -------- #
-    def run(self, obj_num, box_num, start_state, trans):
+    def run(self, start_state, object_trans, goal_trans):
+
         # Go to Grasp
-        (result, state) = self.get_plan(trans, self.offset, start_state, False)
+        (result, state) = self.get_plan(object_trans, self.offset, start_state, False)
         if rospy.is_shutdown():
             return
-        (result, state) = self.get_cartesian_plan(trans, 0.3 + self.diff, state, True)
+        (result, state) = self.get_cartesian_plan(object_trans, 0.3 + self.diff, state, True)
         if rospy.is_shutdown():
             return
         # Back to upper side
-        (result, state) = self.get_cartesian_plan(trans, self.offset + 0.05, state, True)
+        (result, state) = self.get_cartesian_plan(object_trans, self.offset + 0.05, state, True)
         if rospy.is_shutdown():
             return
+
+        # # Back to home
+        # (result, state) = self.get_home_plan(state, False)
+        # if rospy.is_shutdown():
+        #     return
+
+        # Go to Release
+        (result, state) = self.get_plan(goal_trans, self.offset, state, True)
+        if rospy.is_shutdown():
+            return
+        (result, state) = self.get_cartesian_plan(goal_trans, 0.3 + self.diff, state, False)
+        if rospy.is_shutdown():
+            return
+
+
+        # Back to upper side
+        (result, state) = self.get_cartesian_plan(goal_trans, self.offset + 0.05, state, False)
+        if rospy.is_shutdown():
+            return
+
         # Back to home
-        (result, state) = self.get_home_plan(state, True)
-        if rospy.is_shutdown():
-            return
-        # Go to Box
-        (result, state, plan) = self.get_box_plan(box_num, state, False)
-        if rospy.is_shutdown():
-            return
-        # Go to home
         (result, state) = self.get_home_plan(state, False)
         if rospy.is_shutdown():
             return
