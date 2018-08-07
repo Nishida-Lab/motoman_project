@@ -62,6 +62,18 @@ target_link_libraries(cable_point_cloud_removal_downsample_node
 )
 
 # Install
+foreach(modules 
+        cable_point_cloud_removal_node
+        cable_removal_draw_node
+        cable_point_cloud_removal_downsample_node
+        )
+  install(TARGETS ${modules}
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+endforeach(modules)
+
 foreach(dir launch)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})

@@ -46,7 +46,7 @@ target_link_libraries(point_cloud_merger ${catkin_LIBRARIES})
 
 # Install
 foreach(modules kinect_downsampler_node point_cloud_merger)
-  install(TARGETS ${module}
+  install(TARGETS ${modules}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
