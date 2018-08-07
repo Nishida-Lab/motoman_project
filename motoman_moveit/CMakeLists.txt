@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
-find_package(Eigen3 REQUIRED)
+find_package(Eigen REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS roscpp moveit_msgs

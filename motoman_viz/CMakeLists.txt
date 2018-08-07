@@ -16,7 +16,7 @@ catkin_package(
   )
 
 find_package(cmake_modules REQUIRED)
-find_package(Eigen3 REQUIRED)
+find_package(Eigen REQUIRED)
 add_definitions(-std=c++11)
 
 # Build

@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Boost REQUIRED system filesystem date_time thread)
 find_package(PCL REQUIRED QUIET COMPONENTS common)
-find_package(Eigen3 REQUIRED)
+find_package(Eigen REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS roscpp sensor_msgs std_msgs pcl_ros pcl_msgs tf tf_conversions
