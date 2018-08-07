@@ -1,4 +1,4 @@
-# Motoman Project [![build status](https://gitlab.com/MoriKen254/motoman_project/badges/gitlab-ci/kinetic-devel/build.svg)](https://gitlab.com/MoriKen254/motoman_project/commits/gitlab-ci/kinetic-devel) [![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
+# Motoman Project [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch)](https://travis-ci.org/Nishida-Lab/motoman_project) [![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
 
 ![SIA5](.image/sia5.png)
 ## Installation
