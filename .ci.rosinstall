@@ -17,4 +17,4 @@
 - git:
     local-name: libs/libfreenect2
     uri: https://github.com/OpenKinect/libfreenect2.git
-version: master
+    version: master
