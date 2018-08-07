@@ -12,7 +12,7 @@ pwd
 echo "***** ls -l *****"
 ls -l
 echo "***** cd src/libs/libfreenect2 *****"
-cd ./src/libs/libfreenect2
+cd /root/catkin_ws/src/libs/libfreenect2
 echo "***** pwd *****"
 pwd
 echo "***** ls -l *****"
