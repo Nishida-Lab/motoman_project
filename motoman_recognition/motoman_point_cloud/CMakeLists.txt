@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   pcl_conversions
   cmake_modules
-  motoman_moveit
   )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
