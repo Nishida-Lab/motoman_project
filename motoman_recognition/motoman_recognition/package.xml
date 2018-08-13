@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>motoman_recognition</name>
+  <version>0.1.0</version>
+  <description>motoman_recognition meta package</description>
+
+  <maintainer email="p595201m@mail.kyutech.jp">Masaru Morita</maintainer>
+  <maintainer email="k104073r@mail.kyutech.jp">Ryodo Tanaka</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>motoman_cable_removal</exec_depend>
+  <exec_depend>motoman_euclidean_cluster</exec_depend>
+  <exec_depend>motoman_point_cloud</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
