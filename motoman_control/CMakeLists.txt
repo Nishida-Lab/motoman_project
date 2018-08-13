@@ -35,7 +35,7 @@ target_link_libraries(motoman_control_node
 
 # Install
 foreach(modules motoman_control_node)
-  install(TARGETS ${module}
+  install(TARGETS ${modules}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

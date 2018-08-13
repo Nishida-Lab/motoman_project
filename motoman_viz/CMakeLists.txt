@@ -37,7 +37,7 @@ target_link_libraries(forward_kinematics_solver
 
 # Install
 foreach(modules forward_kinematics_solver)
-  install(TARGETS ${module}
+  install(TARGETS ${modules}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
