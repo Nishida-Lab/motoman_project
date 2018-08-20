@@ -8,6 +8,7 @@
   <arg name="kinematics_config" default="$(find motoman_moveit)/config/sia5/kinematics.yaml"/>
   <arg name="controllers_config" default="$(find motoman_moveit)/config/sia5/controllers.yaml"/>
   <arg name="moveit_controller_manager" default="sia5"/>
+  <arg name="moveit_sensor_manager" default="sia5"/>
   <arg name="use_depth_sensor" default="false"/>
   <arg name="sensor_config" default="$(find motoman_moveit)/config/sia5_with_kinectv2/kinect2.yaml"/>
   <arg name="octomap_frame_name" default="kinect2_link"/>
@@ -41,6 +42,7 @@
     <arg name="planning_config" value="$(arg planning_config)"/>
     <arg name="use_ompl" value="$(arg use_ompl)"/>
     <arg name="use_stomp" value="$(arg use_stomp)"/>
+    <arg name="moveit_sensor_manager" value="$(arg moveit_sensor_manager)"/>
   </include>
 
   <!-- The visualization component of MoveIt! -->

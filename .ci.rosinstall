@@ -8,8 +8,8 @@
     version: master
 - git:
     local-name: motoman_tools/ar_tools
-    uri: https://github.com/RyodoTanaka/ar_tools.git
-    version: master
+    uri: https://github.com/MoriKen254/ar_tools.git
+    version: w/o_artoolkit
 - git:
     local-name: motoman_tools/dhand_ros_pkg
     uri: https://github.com/Nishida-Lab/dhand_ros_pkg.git
