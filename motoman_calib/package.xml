@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <name>motoman_calib</name>
+  <version>0.0.0</version>
+  <description>The motoman_calib package</description>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <maintainer email="n104106y@mail.kyutech.jp">Yuji-Ninomiya</maintainer>
+  <maintainer email="k104009y@mail.kyutech.jp">Ariyu</maintainer>
+  <license>BSD</license>
+  <url type="repository">http://github.com/Nishida-Lab/motoman_project</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>pcl_conversions</build_depend>
+  <build_depend>tf_conversions</build_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>pcl_ros</run_depend>
+  <run_depend>pcl_conversions</run_depend>
+  <run_depend>tf_conversions</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>tf2</run_depend>
+
+</package>
