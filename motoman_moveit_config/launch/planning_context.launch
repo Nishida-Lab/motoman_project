@@ -1,0 +1,36 @@
+<launch>
+  <!-- By default we do not overwrite the URDF. Change the following to true to change the default behavior -->
+  <arg name="load_robot_description" default="false"/>
+
+  <!-- Model name. By default we do not set the URDF file.  -->
+  <arg name="urdf_model"/>
+
+  <!-- SRDF Model name. By default we do not set the SRDF file. -->
+  <arg name="srdf_model"/>
+
+  <!-- Joint Limits file.-->
+  <arg name="joint_limits_config"/>
+
+  <!-- Kinematics file. -->
+  <arg name="kinematics_config"/>
+
+  <!-- The name of the parameter under which the URDF is loaded -->
+  <arg name="robot_description" default="robot_description"/>
+
+  <!-- Load universal robot description format (URDF) -->
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="$(find xacro)/xacro.py '$(arg urdf_model)'"/>
+
+  <!-- The semantic description that corresponds to the URDF -->
+  <param name="$(arg robot_description)_semantic" textfile="$(arg srdf_model)" />
+
+  <!-- Load updated joint limits (override information from URDF) -->
+  <group ns="$(arg robot_description)_planning">
+    <rosparam command="load" file="$(arg joint_limits_config)"/>
+  </group>
+
+  <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
+  <group ns="$(arg robot_description)_kinematics">
+    <rosparam command="load" file="$(arg kinematics_config)"/>
+  </group>
+
+</launch>

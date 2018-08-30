@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: motoman_description
+    relative_path: robots/sia5/urdf/sia5_nishida_lab.urdf
+  SRDF:
+    relative_path: config/sia5.srdf
+  CONFIG:
+    generated_timestamp: 1452359250
