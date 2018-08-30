@@ -41,7 +41,7 @@
 
 	<!-- Planning Functionality -->
 	<include ns="move_group" file="$(find motoman_sia5_moveit_config)/launch/planning_pipeline.launch.xml">
-		<arg name="pipeline" value="chomp" />
+		<arg name="pipeline" value="ompl" />
 	</include>
 
 	<!-- Trajectory Execution Functionality -->
