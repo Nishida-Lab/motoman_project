@@ -6,11 +6,15 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
         - /TF1/Frames1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
+        - /PointCloud21
+        - /BoundingBoxArray1
+        - /PointCloud22
       Splitter Ratio: 0.5
-    Tree Height: 283
+    Tree Height: 270
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -29,7 +33,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -205,13 +209,17 @@ Visualization Manager:
           Value: false
         dhand_palm_link:
           Value: false
-        kinect_first_link:
+        kinect_center_link:
           Value: true
-        kinect_first_rgb_optical_frame:
+        kinect_center_rgb_optical_frame:
           Value: true
-        kinect_second_link:
+        kinect_left_link:
           Value: true
-        kinect_second_rgb_optical_frame:
+        kinect_left_rgb_optical_frame:
+          Value: true
+        kinect_right_link:
+          Value: true
+        kinect_right_rgb_optical_frame:
           Value: true
         link_b:
           Value: false
@@ -229,22 +237,6 @@ Visualization Manager:
           Value: false
         object_1:
           Value: true
-        object_2:
-          Value: true
-        object_3:
-          Value: true
-        object_4:
-          Value: true
-        object_5:
-          Value: true
-        object_6:
-          Value: true
-        object_7:
-          Value: true
-        object_8:
-          Value: true
-        object_9:
-          Value: true
         tool0:
           Value: false
         world:
@@ -257,11 +249,14 @@ Visualization Manager:
       Tree:
         world:
           base_link:
-            kinect_first_link:
-              kinect_first_rgb_optical_frame:
+            kinect_center_link:
+              kinect_center_rgb_optical_frame:
                 {}
-            kinect_second_link:
-              kinect_second_rgb_optical_frame:
+            kinect_left_link:
+              kinect_left_rgb_optical_frame:
+                {}
+            kinect_right_link:
+              kinect_right_rgb_optical_frame:
                 {}
             link_s:
               link_l:
@@ -288,22 +283,6 @@ Visualization Manager:
                                 dhand_palm_link:
                                   {}
           object_1:
-            {}
-          object_2:
-            {}
-          object_3:
-            {}
-          object_4:
-            {}
-          object_5:
-            {}
-          object_6:
-            {}
-          object_7:
-            {}
-          object_8:
-            {}
-          object_9:
             {}
       Update Interval: 0
       Value: true
@@ -605,18 +584,6 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: true
-    - Class: jsk_rviz_plugin/BoundingBoxArray
-      Enabled: true
-      Name: BoundingBoxArray
-      Topic: /clustering_result
-      Unreliable: false
-      Value: true
-      alpha: 0.8
-      color: 25; 255; 0
-      coloring: Auto
-      line width: 0.005
-      only edge: false
-      show coords: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -629,7 +596,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -642,11 +609,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /kinect_first/hd/points
-      Unreliable: false
+      Topic: /kinect_center/qhd/points
+      Unreliable: true
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: motoman_rviz_plugin/EuclideanLinkTrajectory
       Enabled: true
       Name: EuclideanLinkTrajectory1
@@ -717,6 +684,48 @@ Visualization Manager:
       color: 255; 0; 0
       line_width: 0.01
       link name: link_t
+    - Class: motoman_rviz_plugin/BoundingBoxArray
+      Enabled: true
+      Name: BoundingBoxArray
+      Topic: /clustering_result
+      Unreliable: false
+      Value: true
+      alpha: 0.8
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.005
+      only edge: false
+      show coords: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /kinect_center/qhd/points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -741,32 +750,32 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.98459
+      Distance: 2.16969
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.140364
-        Y: 0.239096
-        Z: 0.392613
+        X: 0.401247
+        Y: 0.0423675
+        Z: 0.34002
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.340399
+      Pitch: 0.4354
       Target Frame: world
       Value: Orbit (rviz)
-      Yaw: 5.89358
+      Yaw: 5.90357
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1056
+  Height: 1028
   Hide Left Dock: false
   Hide Right Dock: true
   MotionPlanning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002c100000396fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000028000001aa000000dd00fffffffa000000000100000002fb000000100044006900730070006c0061007900730100000000ffffffff0000016a00fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000000ffffffff0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001d8000001e6000001cc00ffffff000000010000010f000006e0fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000006e0000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000003efc0100000002fb0000000800540069006d0065010000000000000780000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000004b90000039600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002c10000037afc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc000000280000019d000000dd00fffffffa000000000100000002fb000000100044006900730070006c0061007900730100000000ffffffff0000016a00fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000000ffffffff0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001cb000001d7000001cc00ffffff000000010000010f000006e0fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000028000006e0000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074d0000003efc0100000002fb0000000800540069006d006501000000000000074d000002f600fffffffb0000000800540069006d00650100000000000004500000000000000000000004860000037a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -775,6 +784,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1920
-  X: 1910
-  Y: -14
+  Width: 1869
+  X: 1941
+  Y: 14

@@ -13,8 +13,8 @@
 
   <!-- Joint -->
   <joint name="joint_kinect_center" type="fixed">
-    <!-- <origin xyz="1.4784 0.0693 0.4383" rpy="-0.0031 0.4319 3.14" /> -->
-    <origin xyz="1.4784 0.0693 0.4358" rpy="0.046 0.4315 -3.1227"/>
+    <!-- <origin xyz="1.4784 0.0693 0.4358" rpy="0.046 0.4315 -3.1227"/> -->
+    <origin xyz="1.4505 0.1127 0.4244" rpy="0.0453 0.3982 -3.123"/>
     <parent link="base_link"/>
     <child link="kinect_center_link"/>
   </joint>
@@ -28,26 +28,6 @@
   <!-- Gazebo -->
   <xacro:kinect_gazebo name="kinect_center"/>
 
-  <!-- Kinect_hand -->
-  <!-- Link -->
-  <xacro:kinect2_link_box_v0 name="kinect_hand_link"/>
-  <link name="kinect_hand_rgb_optical_frame"/>
-
-  <!-- Joint -->
-  <joint name="joint_kinect_hand" type="fixed">
-	<origin xyz="0.09 0 -0.035" rpy="${M_PI} 0 0" />
-    <parent link="link_t"/>
-    <child link="kinect_hand_link"/>
-  </joint>
-
-  <joint name="joint_rgb_kinect_hand" type="fixed">
-    <origin rpy="${M_PI/2} ${M_PI} ${M_PI/2}"/>
-    <parent link="kinect_hand_link"/>
-    <child link="kinect_hand_rgb_optical_frame"/>
-  </joint>
-
-  <!-- Gazebo -->
-  <xacro:kinect_gazebo name="kinect_hand"/>
 
   <!-- Kinect_right -->
   <!-- Link -->

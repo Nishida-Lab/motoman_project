@@ -20,6 +20,4 @@
   <depend>pcl_ros</depend>
   <depend>pcl_msgs</depend>
 
-  <export>
-  </export>
 </package>
