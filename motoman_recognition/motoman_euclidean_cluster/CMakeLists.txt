@@ -38,6 +38,7 @@ include_directories(
 )
 
 link_directories(${PCL_LIBRARY_DIRS})
+link_directories(${OpenCV_LIBRARY_DIRS})
 
 add_executable(
   euclidean_cluster_node
