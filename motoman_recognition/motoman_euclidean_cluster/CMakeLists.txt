@@ -16,18 +16,18 @@ find_package(OpenCV REQUIRED)
 find_package(PCL REQUIRED)
 
 catkin_package(
-+  INCLUDE_DIRS include 
-+  LIBRARIES ${PROJECT_NAME} 
-+  CATKIN_DEPENDS 
-+    motoman_viz_msgs 
-+    pcl_conversions 
-+    pcl_ros 
-+    sensor_msgs 
-+    std_msgs 
-+    roscpp 
-+    rospy 
-+    tf 
-+  DEPENDS OpenCV PCL 
+  INCLUDE_DIRS include 
+  LIBRARIES ${PROJECT_NAME} 
+  CATKIN_DEPENDS 
+    motoman_viz_msgs 
+    pcl_conversions 
+    pcl_ros 
+    sensor_msgs 
+    std_msgs 
+    roscpp 
+    rospy 
+    tf 
+  DEPENDS OpenCV PCL 
 )
 
 include_directories(
