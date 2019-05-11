@@ -16,6 +16,18 @@ find_package(OpenCV REQUIRED)
 find_package(PCL REQUIRED)
 
 catkin_package(
++  INCLUDE_DIRS include 
++  LIBRARIES ${PROJECT_NAME} 
++  CATKIN_DEPENDS 
++    motoman_viz_msgs 
++    pcl_conversions 
++    pcl_ros 
++    sensor_msgs 
++    std_msgs 
++    roscpp 
++    rospy 
++    tf 
++  DEPENDS OpenCV PCL 
 )
 
 include_directories(
@@ -32,6 +44,8 @@ add_executable(
   src/euclidean_cluster.cpp
   src/euclidean_cluster_node.cpp
   )
+
+add_dependencies(euclidean_cluster_node motoman_viz_msgs_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(euclidean_cluster_node
   ${catkin_LIBRARIES}
