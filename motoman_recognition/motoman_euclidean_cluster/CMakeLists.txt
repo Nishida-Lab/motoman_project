@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 2.8.3)
 project(motoman_euclidean_cluster)
 
 find_package(catkin REQUIRED COMPONENTS
+  motoman_viz_msgs
+  pcl_conversions
+  pcl_ros
   roscpp
   rospy
   sensor_msgs
   std_msgs
-  pcl_ros
-  pcl_conversions
   tf
-  motoman_viz_msgs
 )
 
 find_package(OpenCV REQUIRED)
@@ -21,10 +21,10 @@ catkin_package(
     motoman_viz_msgs 
     pcl_conversions 
     pcl_ros 
-    sensor_msgs 
-    std_msgs 
     roscpp 
     rospy 
+    sensor_msgs 
+    std_msgs 
     tf
   DEPENDS OpenCV PCL 
 )
