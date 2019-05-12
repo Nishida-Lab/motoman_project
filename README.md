@@ -1,4 +1,4 @@
-# Motoman Project [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch)](https://travis-ci.org/Nishida-Lab/motoman_project) [![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
+# Motoman Project [![Build Status](https://travis-ci.org/Nishida-Lab/motoman_project.svg?branch=indigo-devel)](https://travis-ci.org/Nishida-Lab/motoman_project) [![Slack](https://img.shields.io/badge/slack-nishida--lab-dda0dd.svg)](http://nishida-lab.slack.com)
 
 ![SIA5](.image/sia5.png)
 ## Installation
