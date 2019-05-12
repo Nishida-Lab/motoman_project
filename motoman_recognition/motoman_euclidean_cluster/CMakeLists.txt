@@ -46,7 +46,7 @@ add_executable(
   src/euclidean_cluster_node.cpp
   )
 
-add_dependencies(euclidean_cluster_node motoman_viz_msgs_generate_mesages_cpp ${catkin_EXPORTED_TARGETS})
+add_dependencies(euclidean_cluster_node motoman_viz_msgs_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(euclidean_cluster_node
   ${catkin_LIBRARIES}
