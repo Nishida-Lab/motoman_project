@@ -1,4 +1,5 @@
 <launch>
+  <arg name="source_pc_topic_name" defaul="/filtered_cloud"/>
   <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
     <param name="loop_rate" value="5" />
     <!-- クラスタリングのしきい値 -->
@@ -16,7 +17,7 @@
     <param name="clustering_min_height" value="0.1" />
 
     <!--<param name="source_pc_topic_name" value="/kinect_center/qhd/points" />-->
-    <param name="source_pc_topic_name" value="/photoneo_center/sensor/points" />
+    <param name="source_pc_topic_name" value="$(arg source_pc_topic_name)" />
     <param name="box_name" value="/clustering_result" />
     <param name="clustering_frame_id" value="world" />
   </node>
