@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <launch>
-  <arg name="source_pc_topic_name" defaul="/filtered_cloud"/>
+  <arg name="source_pc_topic_name" default="/socket_pc"/>
   <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
     <param name="loop_rate" value="5" />
     <!-- クラスタリングのしきい値 -->
