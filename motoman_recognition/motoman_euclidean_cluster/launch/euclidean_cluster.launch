@@ -6,14 +6,14 @@
     <!-- クラスタリングのしきい値 -->
     <param name="clusterTolerance" value="0.02" />
     <param name="minSize" value="50" />
-    <param name="maxSize" value="25000" />
+    <param name="maxSize" value="2000" />
     <!-- クラスタリングを行うエリア -->
     <param name="crop_x_min" value="0.15" />
     <param name="crop_x_max" value="1.0" />
     <param name="crop_y_min" value="0.0" />
     <param name="crop_y_max" value="1.0" />
     <param name="crop_z_min" value="0.035" />
-    <param name="crop_z_max" value="0.7" />
+    <param name="crop_z_max" value="0.07" />
 
     <param name="clustering_min_height" value="0.1" />
 
