@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <launch>
-  <arg name="source_pc_topic_name" default="/filtered_cloud"/>
+  <arg name="source_pc_topic_name" default="/socket_pc"/>
   <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
     <param name="loop_rate" value="5" />
     <!-- クラスタリングのしきい値 -->
@@ -12,7 +13,7 @@
     <param name="crop_y_min" value="0.0" />
     <param name="crop_y_max" value="1.0" />
     <param name="crop_z_min" value="0.035" />
-    <param name="crop_z_max" value="0.5" />
+    <param name="crop_z_max" value="0.7" />
 
     <param name="clustering_min_height" value="0.1" />
 
