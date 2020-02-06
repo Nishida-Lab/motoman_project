@@ -13,7 +13,7 @@
     <param name="crop_y_min" value="0.0" />
     <param name="crop_y_max" value="1.0" />
     <param name="crop_z_min" value="0.035" />
-    <param name="crop_z_max" value="0.07" />
+    <param name="crop_z_max" value="0.09" />
 
     <param name="clustering_min_height" value="0.1" />
 
