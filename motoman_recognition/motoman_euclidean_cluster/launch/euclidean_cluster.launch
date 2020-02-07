@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="source_pc_topic_name" default="/socket_pc"/>
+  <arg name="robot2" default="false"/>
   <node name="euclidean_cluster" pkg="motoman_euclidean_cluster" type="euclidean_cluster_node" output="screen">
     <param name="loop_rate" value="5" />
     <!-- クラスタリングのしきい値 -->
@@ -21,5 +22,7 @@
     <param name="source_pc_topic_name" value="$(arg source_pc_topic_name)" />
     <param name="box_name" value="/clustering_result" />
     <param name="clustering_frame_id" value="world" />
+
+    <param name="robot2" value="$(arg robot2)" />
   </node>
 </launch>

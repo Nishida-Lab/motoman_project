@@ -1,5 +1,6 @@
 // #include <euclidean_cluster.hpp>
 #include "../include/euclidean_cluster.hpp"
+#include <eigen3/Eigen/Eigen>
 
 using namespace pcl;
 
@@ -64,15 +65,40 @@ void EuclideanCluster::EuclideanCallback(
   // 平面をしきい値で除去する→Cropboxで
   CropBox(pcl_source_ptr, crop_min_, crop_max_);
   std::cout << "afer crop" << ros::Time::now() << std::endl;
-  // 処理後の点群をpublish
+
+  //平行移動
+  bool robot2;
+  ros::param::param<bool>("~robot2", robot2, false);
+  std::cout << "robot2" << robot2 << ros::Time::now() << std::endl;
+
+  pcl::PointCloud<pcl::PointXYZ> cloud;
+  pcl::PointCloud<PointXYZ>::Ptr dist_cloud_ptr(new pcl::PointCloud<PointXYZ>);
   sensor_msgs::PointCloud2 filtered_pc2;
-  pcl::toROSMsg(*pcl_source_ptr, filtered_pc2);
+  if (robot2)
+  {
+    cloud = *pcl_source_ptr;
+    Eigen::Affine3f transform = Eigen::Affine3f::Identity();
+    transform.translation() << 0, -1.0, 0;
+    pcl::transformPointCloud(*pcl_source_ptr, *dist_cloud_ptr, transform);
+    pcl::toROSMsg(*dist_cloud_ptr, filtered_pc2);
+
+    Clustering(dist_cloud_ptr);
+  }
+  else
+  {
+    pcl::toROSMsg(*pcl_source_ptr, filtered_pc2);
+    Clustering(pcl_source_ptr);
+  }
+
+  // 処理後の点群をpublish
+  //sensor_msgs::PointCloud2 filtered_pc2;
+  //pcl::toROSMsg(*pcl_source_ptr, filtered_pc2);
   filtered_pc2.header.stamp = ros::Time::now();
   filtered_pc2.header.frame_id = "world";
   fileterd_cloud_pub_.publish(filtered_pc2);
   std::cout << "before claster" << ros::Time::now() << std::endl;
   // Creating the KdTree object for the search method of the extraction
-  Clustering(pcl_source_ptr);
+  //Clustering(pcl_source_ptr);
   std::cout << "after claster" << ros::Time::now() << std::endl;
 }
 
