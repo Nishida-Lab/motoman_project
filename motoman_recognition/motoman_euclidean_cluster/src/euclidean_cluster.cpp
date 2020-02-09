@@ -2,6 +2,9 @@
 #include "../include/euclidean_cluster.hpp"
 #include <eigen3/Eigen/Eigen>
 
+#include <math.h>
+#include <stdio.h>
+
 using namespace pcl;
 
 EuclideanCluster::EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n)
@@ -31,11 +34,11 @@ EuclideanCluster::EuclideanCluster(ros::NodeHandle nh, ros::NodeHandle n)
 void EuclideanCluster::EuclideanCallback(
     const sensor_msgs::PointCloud2::ConstPtr &source_pc)
 {
-  std::cout << "start callback" << ros::Time::now() << std::endl;
+  //std::cout << "start callback" << ros::Time::now() << std::endl;
   //点群をKinect座標系からWorld座標系に変換
   //変換されたデータはtrans_pcに格納される．
   sensor_msgs::PointCloud2 trans_pc;
-  std::cout << "before trans" << ros::Time::now() << std::endl;
+  //std::cout << "before trans" << ros::Time::now() << std::endl;
   try
   {
     pcl_ros::transformPointCloud(frame_id_, *source_pc, trans_pc, tf_);
@@ -44,13 +47,13 @@ void EuclideanCluster::EuclideanCallback(
   {
     ROS_ERROR("pcl_ros::transformPointCloud %s", e.what());
   }
-  std::cout << "after trans" << ros::Time::now() << std::endl;
+  //std::cout << "after trans" << ros::Time::now() << std::endl;
   // sensor_msgs::PointCloud2 → pcl::PointCloud
   pcl::PointCloud<PointXYZ> pcl_source;
   pcl::fromROSMsg(trans_pc, pcl_source);
-  std::cout << "befoer pc2 to pc" << ros::Time::now() << std::endl;
+  //std::cout << "befoer pc2 to pc" << ros::Time::now() << std::endl;
   pcl::PointCloud<PointXYZ>::Ptr pcl_source_ptr(new pcl::PointCloud<PointXYZ>(pcl_source));
-  std::cout << "after pc2 to pc" << ros::Time::now() << std::endl;
+  //std::cout << "after pc2 to pc" << ros::Time::now() << std::endl;
   // 点群の中からnanを消す
   // std::vector<int> dummy;
   // pcl::removeNaNFromPointCloud(*pcl_source_ptr, *pcl_source_ptr, dummy);
@@ -61,15 +64,15 @@ void EuclideanCluster::EuclideanCallback(
   sor.setMeanK(100);
   sor.setStddevMulThresh(0.1);
   sor.filter(*pcl_source_ptr);*/
-  std::cout << "before crop" << ros::Time::now() << std::endl;
+  //std::cout << "before crop" << ros::Time::now() << std::endl;
   // 平面をしきい値で除去する→Cropboxで
   CropBox(pcl_source_ptr, crop_min_, crop_max_);
-  std::cout << "afer crop" << ros::Time::now() << std::endl;
+  //std::cout << "afer crop" << ros::Time::now() << std::endl;
 
   //平行移動
   bool robot2;
   ros::param::param<bool>("~robot2", robot2, false);
-  std::cout << "robot2" << robot2 << ros::Time::now() << std::endl;
+  //std::cout << "robot2" << robot2 << ros::Time::now() << std::endl;
 
   pcl::PointCloud<pcl::PointXYZ> cloud;
   pcl::PointCloud<PointXYZ>::Ptr dist_cloud_ptr(new pcl::PointCloud<PointXYZ>);
@@ -96,10 +99,10 @@ void EuclideanCluster::EuclideanCallback(
   filtered_pc2.header.stamp = ros::Time::now();
   filtered_pc2.header.frame_id = "world";
   fileterd_cloud_pub_.publish(filtered_pc2);
-  std::cout << "before claster" << ros::Time::now() << std::endl;
+  //std::cout << "before claster" << ros::Time::now() << std::endl;
   // Creating the KdTree object for the search method of the extraction
   //Clustering(pcl_source_ptr);
-  std::cout << "after claster" << ros::Time::now() << std::endl;
+  //std::cout << "after claster" << ros::Time::now() << std::endl;
 }
 
 void EuclideanCluster::CropBox(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
@@ -206,6 +209,9 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
   feature_extractor.getEccentricity(eccentricity);
   feature_extractor.getAABB(min_point_AABB, max_point_AABB);
 
+  //std::cout << "object_" << cluster_cnt + 1 << std::endl;
+  //std::cout << "minpoint:" << min_point_AABB.x << ", " << min_point_AABB.y << ", " << min_point_AABB.z << std::endl;
+  //std::cout << "maxpoint:" << max_point_AABB.x << ", " << max_point_AABB.y << ", " << max_point_AABB.z << std::endl;
   if (min_point_AABB.z < min_height_)
   {
     // OpenCVで最小矩形を当てはめる
@@ -223,6 +229,12 @@ bool EuclideanCluster::MinAreaRect(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, in
     // ROS_INFO("Center of mass (x, y) = (%f, %f)", rrect.center.x, rrect.center.y);
     // ROS_INFO("Height = %f Width =  %f", rrect.size.height, rrect.size.width);
     // ROS_INFO("Angle = %f [deg]", rrect.angle);
+
+    //sugihara_demo
+    if (fabs(fabs(rrect.angle) - 90) < 5)
+    {
+      rrect.angle = 0.0;
+    }
 
     // motoman_viz_msgs::BoundingBoxの型に合わせて代入していく
     pose.position.x = rrect.center.x;
